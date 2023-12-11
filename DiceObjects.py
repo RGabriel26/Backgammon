@@ -9,12 +9,3 @@ def createDiceObject(urlImage) -> QLabel:
     dice.setScaledContents(True)
 
     return dice
-
-def createRollButton(urlImage) -> QPushButton:
-    pixmap = QPixmap(urlImage)
-    rollButton = QLabel()
-    rollButton.setPixmap(pixmap)
-    rollButton.setFixedSize(100,100)
-    rollButton.setScaledContents(True)
-
-    return rollButton

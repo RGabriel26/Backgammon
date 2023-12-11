@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QLabel, QWidget, QHBoxLayout, QGridLayout, QSizePolicy
 from PyQt6.QtGui import QPixmap, QIcon
-from PyQt6.QtCore import QPoint
+from PyQt6.QtCore import QPoint, QSize
 import sys
 
 from DiceObjects import *
@@ -31,9 +31,9 @@ class GameLogic(QMainWindow):
             # container pentru afisarea zarurilor
         diceContainer = QWidget()
         diceContainer.setObjectName("diceContainer")
-        diceLayout = QGridLayout()
-        diceLayout.setObjectName("diceLayout")
-        diceContainer.setLayout(diceLayout)
+        self.diceLayout = QGridLayout()
+        self.diceLayout.setObjectName("diceLayout")
+        diceContainer.setLayout(self.diceLayout)
 
         # containerul din mijlocul ferestrei
             # loc unde vor fi afisate piesele de joc si unde se va desfasura jocul
@@ -75,12 +75,12 @@ class GameLogic(QMainWindow):
         leftLayout.addWidget(QLabel("Player1", objectName = "labelPlayer1"))
 
         dice1 = "images/dice1.png"
-        diceLayout.addWidget(createDiceObject("%s" %dice1), 0, 0)
-        diceLayout.addWidget(createDiceObject("images/dice2.png"), 0, 1)
-        diceLayout.addWidget(createDiceObject("images/dice3.png"), 1, 0)
-        diceLayout.addWidget(createDiceObject("images/dice4.png"), 1, 1)
-        diceLayout.addWidget(createDiceObject("images/dice5.png"), 2, 0)
-        diceLayout.addWidget(createDiceObject("images/dice6.png"), 2, 1)
+        self.diceLayout.addWidget(createDiceObject("%s" %dice1), 0, 0)
+        self.diceLayout.addWidget(createDiceObject("images/dice2.png"), 0, 1)
+        self.diceLayout.addWidget(createDiceObject("images/dice3.png"), 1, 0)
+        self.diceLayout.addWidget(createDiceObject("images/dice4.png"), 1, 1)
+        self.diceLayout.addWidget(createDiceObject("images/dice5.png"), 2, 0)
+        self.diceLayout.addWidget(createDiceObject("images/dice6.png"), 2, 1)
 
         leftLayout.addWidget(diceContainer)
 
@@ -93,14 +93,14 @@ class GameLogic(QMainWindow):
         rightLayout.addWidget(whiteCheckersContainer)
         self.rollButton = QPushButton(self)
         self.rollButton.setObjectName("rollButton")
-        self.rollButton.setFixedSize(100,100)
+        self.rollButton.setFixedSize(QSize(90, 90))
         self.rollButton.clicked.connect(self.moveRollDice)
         rightLayout.addWidget(self.rollButton)
         rightLayout.addWidget(blackCheckersContainer)
 
     def moveRollDice(self):
         self.rollButton.move(0,50)
-
+        
 
 
 if __name__ == '__main__':

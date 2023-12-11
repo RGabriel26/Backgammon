@@ -1,5 +1,5 @@
 QMainWindow { 
-    image: url("images/gui_v2.jpg")
+    image: url("images/gui_v2.png")
 }
 
 #leftContainer{
@@ -10,7 +10,7 @@ QMainWindow {
 
 
 #labelPlayer1 {
-    /* background-color: rgba(233, 219, 219, 0.1); */
+    background-color: rgba(233, 219, 219, 0.1);
 
     border-radius: 5px;
     
@@ -28,7 +28,7 @@ QMainWindow {
 }
 
 #diceContainer{
-    /* background-color: rgba(230, 212, 212, 0.1);  */
+    background-color: rgba(230, 212, 212, 0.1); 
 
     margin-left: 25%;
     margin-right: 30%;
@@ -36,15 +36,8 @@ QMainWindow {
     margin-bottom: 12%;
 }
 
-#dice1{
-    background-color: red;
-    image: url(images/dice1.png);
-    width: 50px;
-    height: 50px;
-}
-
 #labelPlayer2 {
-    /* background-color: rgba(233, 219, 219, 0.1); */
+    background-color: rgba(233, 219, 219, 0.1);
 
     border-radius: 5px;
     
@@ -74,25 +67,27 @@ QMainWindow {
 #whiteCheckersContainer{
     background-color: rgba(255, 255, 255, 0.4);
 
-    /* margin-top: 12%;
-    margin-right: 9%;
-    margin-bottom: 60%; */
+    margin-top: 14%;
+    margin-right: 8%;
+    margin-bottom: 30%;
+    margin-left: 10%;
 }
 
 #rollButton{
-    background-color: rgba(255, 255, 255, 0);
-
-    image: url("D:/FACULTATE/An_3/PP/Proiect PPython/images/testRollButton.png");
+    image: url("D:/FACULTATE/An_3/PP/Proiect PPython/images/rollButton.png");
     background-position: center;
     background-repeat: no-repeat;
+
+    border-radius: 25%;
+    margin-left: 5%;
     
 } 
 
 #blackCheckersContainer{
     background-color: rgba(255, 255, 255, 0.4);
 
-    /* margin-top: 60%;
-    margin-right: 9%;
-
-    margin-bottom: 12%; */
+    margin-top: 35%;
+    margin-right: 8%;
+    margin-bottom: 10%;
+    margin-left: 10%;
 }
