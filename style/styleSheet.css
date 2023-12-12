@@ -32,8 +32,20 @@ QMainWindow {
   padding-left: 25%;
 }
 
-#middleContainer {
-  background-color: rgba(63, 208, 27, 0);
+#middleLayout {
+  background-color: rgba(255, 255, 255, 0.386);
+}
+
+#blackChecker {
+  background-color: white;
+  image: url("images/black-checker.png");
+  border-radius: 30%;
+}
+
+#whiteChecker {
+  background-color: white;
+  image: url("images/white-checker.png");
+  border-radius: 30%;
 }
 
 #rightContainer {

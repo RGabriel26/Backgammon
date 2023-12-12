@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QLabel
+from PyQt6.QtWidgets import QLabel, QPushButton
 from PyQt6.QtGui import QPixmap
 
 from random import randint
@@ -27,3 +27,4 @@ def roll(diceLayout):
         diceLayout.addWidget(createDiceObject(f"images/dice{getDice}.png"), 0, index)
 
     return dices
+
