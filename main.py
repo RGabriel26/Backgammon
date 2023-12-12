@@ -84,6 +84,9 @@ class UInterface(QMainWindow):
         leftLayout.addWidget(QLabel("Player2", objectName = "labelPlayer2"))
 
             # adaugarea elementelor din mijloc
+
+                # doar pentru a cauta pozitii
+
         bchecker1 = Checkers("black", middleContainer, 785, 17)
         bchecker2 = Checkers("black", middleContainer, 785, 77)
         bchecker3 = Checkers("black", middleContainer, 30, 17)
@@ -99,21 +102,24 @@ class UInterface(QMainWindow):
         bchecker13 = Checkers("black", middleContainer, 478, 555)
         bchecker14 = Checkers("black", middleContainer, 478, 495)
         bchecker15 = Checkers("black", middleContainer, 478, 435)
-        middleLayout.addWidget(bchecker1, 0, 0)
-        middleLayout.addWidget(bchecker2, 0, 0)
-        middleLayout.addWidget(bchecker3, 0, 0)
-        middleLayout.addWidget(bchecker4, 0, 0)
-        middleLayout.addWidget(bchecker5, 0, 0)
-        middleLayout.addWidget(bchecker6, 0, 0)
-        middleLayout.addWidget(bchecker7, 0, 0)
-        middleLayout.addWidget(bchecker8, 0, 0)
-        middleLayout.addWidget(bchecker9, 0, 0)
-        middleLayout.addWidget(bchecker10, 0, 0)
-        middleLayout.addWidget(bchecker11, 0, 0)
-        middleLayout.addWidget(bchecker12, 0, 0)
-        middleLayout.addWidget(bchecker13, 0, 0)
-        middleLayout.addWidget(bchecker14, 0, 0)
         middleLayout.addWidget(bchecker15, 0, 0)
+        middleLayout.addWidget(bchecker14, 0, 0)
+        middleLayout.addWidget(bchecker13, 0, 0)
+        middleLayout.addWidget(bchecker12, 0, 0)
+        middleLayout.addWidget(bchecker11, 0, 0)
+        middleLayout.addWidget(bchecker10, 0, 0)
+        middleLayout.addWidget(bchecker9, 0, 0)
+        middleLayout.addWidget(bchecker8, 0, 0)
+        middleLayout.addWidget(bchecker7, 0, 0)
+        middleLayout.addWidget(bchecker6, 0, 0)
+        middleLayout.addWidget(bchecker5, 0, 0)
+        middleLayout.addWidget(bchecker4, 0, 0)
+        middleLayout.addWidget(bchecker3, 0, 0)
+        middleLayout.addWidget(bchecker2, 0, 0)
+        middleLayout.addWidget(bchecker1, 0, 0)
+
+        # utilizat pentru cautarea manuala a pozitiilor absolute
+        # middleLayout.addWidget(Checkers("black", middleContainer, 407, 137), 0, 0)
 
         # middleLayout.addWidget(Checkers("black", middleContainer, 785, 17), 0, 0)
         # middleLayout.addWidget(Checkers("black", middleContainer, 785, 77), 0, 0)
