@@ -12,7 +12,6 @@ class UInterface(QMainWindow):
         super().__init__()
         self.setWindowTitle("BackGammon")
         self.setWindowIcon(QIcon("images/white-checker.png"))
-        # instanta a clasie GameLogic
         self.gameLogic = GameLogic()
         self.initGUI()
 
@@ -92,16 +91,11 @@ class UInterface(QMainWindow):
         self.rollButton = QPushButton(self)
         self.rollButton.setObjectName("rollButton")
         self.rollButton.setFixedSize(QSize(90, 90))
-        # self.rollButton.clicked.connect(self.show_andStoreDices)
-        # test
+                # functia roll care adauga widgetul in diceLayout si returneaza lista cu raruri, care sunt loate de clasa gamoLogic si stocate prin setDices
         self.rollButton.clicked.connect(lambda: self.gameLogic.setDices(dices=roll(self.diceLayout)))
         rightLayout.addWidget(self.rollButton)
                 # adaugarea containerului pentru piesele negre in containerul drept
         rightLayout.addWidget(blackCheckersContainer) 
-    
-    def show_andStoreDices(self):
-        # TODO: de cautat o modalitate de a sterge lavelul anterior, aici sau in functia roll
-        self.gameLogic.setDices(dices=roll(self.diceLayout))
 
 
 if __name__ == '__main__':
