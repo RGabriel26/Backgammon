@@ -3,14 +3,17 @@ from PyQt6.QtGui import QPixmap, QIcon
 from PyQt6.QtCore import QPoint, QSize
 import sys
 
-from DiceObjects import *
+from functions import *
+from gameLogic import *
 
 
-class GameLogic(QMainWindow):
+class UInterface(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("BackGammon")
         self.setWindowIcon(QIcon("images/white-checker.png"))
+        # instanta a clasie GameLogic
+        self.gameLogic = GameLogic()
         self.initGUI()
 
     def initGUI(self):
@@ -50,11 +53,12 @@ class GameLogic(QMainWindow):
         rightLayout = QVBoxLayout()
         rightContainer.setLayout(rightLayout)
             # setarea containerelor pentru piesele care vor fi scoase din joc
+            # crearea containerului pentru piesele ce vor fi scoase de jucatorul WHITE
         whiteCheckersContainer = QWidget()
         whiteCheckersContainer.setObjectName("whiteCheckersContainer")
         whiteCheckersLayout = QHBoxLayout()
         whiteCheckersContainer.setLayout(whiteCheckersLayout)
-
+            # crearea containerului pentru piesele ce vor fi scoase de jucatorul BLACK
         blackCheckersContainer = QWidget()
         blackCheckersContainer.setObjectName("blackCheckersContainer")
         blackCheckersLayout = QHBoxLayout()
@@ -65,6 +69,7 @@ class GameLogic(QMainWindow):
         parentLayout.addWidget(middleContainer, 68)
         parentLayout.addWidget(rightContainer, 9)
 
+        # centrarea layout ului parinte in centrul ferestrei
         self.centralWidget = QWidget()  
         self.centralWidget.setLayout(parentLayout)
         self.setCentralWidget(self.centralWidget)
@@ -73,34 +78,26 @@ class GameLogic(QMainWindow):
         # adaugarea de elemente in fiecare container
             # adaugarea elementelor din stanga
         leftLayout.addWidget(QLabel("Player1", objectName = "labelPlayer1"))
-
-        dice1 = "images/dice1.png"
-        self.diceLayout.addWidget(createDiceObject("%s" %dice1), 0, 0)
-        self.diceLayout.addWidget(createDiceObject("images/dice2.png"), 0, 1)
-        self.diceLayout.addWidget(createDiceObject("images/dice3.png"), 1, 0)
-        self.diceLayout.addWidget(createDiceObject("images/dice4.png"), 1, 1)
-        self.diceLayout.addWidget(createDiceObject("images/dice5.png"), 2, 0)
-        self.diceLayout.addWidget(createDiceObject("images/dice6.png"), 2, 1)
-
         leftLayout.addWidget(diceContainer)
-
         leftLayout.addWidget(QLabel("Player2", objectName = "labelPlayer2"))
 
             # adaugarea elementelor din mijloc
         middleLayout.addWidget(QLabel())
 
             # adaugarea elementelor din dreapta
+                # adaugarea containerului pentru piesele albe in containerul drept
         rightLayout.addWidget(whiteCheckersContainer)
+                # crearea butonului de Roll
         self.rollButton = QPushButton(self)
         self.rollButton.setObjectName("rollButton")
         self.rollButton.setFixedSize(QSize(90, 90))
-        self.rollButton.clicked.connect(self.moveRollDice)
+        self.rollButton.clicked.connect(self.show_andStoreDices)
         rightLayout.addWidget(self.rollButton)
-        rightLayout.addWidget(blackCheckersContainer)
-
-    def moveRollDice(self):
-        self.rollButton.move(0,50)
-        
+                # adaugarea containerului pentru piesele negre in containerul drept
+        rightLayout.addWidget(blackCheckersContainer) 
+    
+    def show_andStoreDices(self):
+        self.gameLogic.setDices(dices=roll(self.diceLayout))
 
 
 if __name__ == '__main__':
@@ -109,7 +106,7 @@ if __name__ == '__main__':
         stylesheet = file.read()
     app.setStyleSheet(stylesheet)
 
-    game = GameLogic()
+    game = UInterface()
     game.show()
 
     sys.exit(app.exec())
