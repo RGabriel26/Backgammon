@@ -74,7 +74,7 @@ QMainWindow {
 }
 
 #rollButton{
-    image: url("D:/FACULTATE/An_3/PP/Proiect PPython/images/rollButton.png");
+    image: url("images/rollButton.png");
     background-position: center;
     background-repeat: no-repeat;
 

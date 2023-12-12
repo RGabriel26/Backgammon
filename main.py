@@ -21,6 +21,7 @@ class UInterface(QMainWindow):
         # self.showFullScreen()
         self.setFixedSize(1366, 768)
 
+        # folosit pentru a grupa cele trei containere principala ale ferestrei intr-un mod de afisare orizolntala
         parentLayout = QHBoxLayout()
 
         #container pentru elementele din stanga
@@ -91,12 +92,15 @@ class UInterface(QMainWindow):
         self.rollButton = QPushButton(self)
         self.rollButton.setObjectName("rollButton")
         self.rollButton.setFixedSize(QSize(90, 90))
-        self.rollButton.clicked.connect(self.show_andStoreDices)
+        # self.rollButton.clicked.connect(self.show_andStoreDices)
+        # test
+        self.rollButton.clicked.connect(lambda: self.gameLogic.setDices(dices=roll(self.diceLayout)))
         rightLayout.addWidget(self.rollButton)
                 # adaugarea containerului pentru piesele negre in containerul drept
         rightLayout.addWidget(blackCheckersContainer) 
     
     def show_andStoreDices(self):
+        # TODO: de cautat o modalitate de a sterge lavelul anterior, aici sau in functia roll
         self.gameLogic.setDices(dices=roll(self.diceLayout))
 
 
