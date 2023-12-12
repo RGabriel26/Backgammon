@@ -1,6 +1,7 @@
 $mainContainerBColor: rgba(63, 208, 27, 0);
 $labelPlayerBColor: rgba(233, 219, 219, 0);
 $checkerContainerBColor: rgba(255, 255, 255, 0);
+$playersTextColor: rgb(255, 255, 255);
 
 $background-image: "images/gui_v2.png";
 $rollButton-image: "images/rollButton.png";
@@ -14,47 +15,28 @@ QMainWindow {
     background-color: $mainContainerBColor;
 }
 
-
-
 #labelPlayer1 {
     background-color: $labelPlayerBColor;
-
-    border-radius: 5px;
-    
-    margin-left: 25%;
-    margin-right: 30%;
-    margin-top: 70%;
-    margin-bottom: 12%;
+    margin: 70% 30% 12% 25%;
 
     /*text edit*/
-    color: rgb(255, 255, 255);
+    color: $playersTextColor;
     font-weight: bold;
     font-size: 25px;
-
     padding-left: 25%;
 }
 
 #diceContainer{
     background-color: $labelPlayerBColor; 
-
-    margin-left: 25%;
-    margin-right: 30%;
-    margin-top: 15%;
-    margin-bottom: 12%;
+    margin: 15% 30% 12% 25%;
 }
 
 #labelPlayer2 {
     background-color: $labelPlayerBColor;
-
-    border-radius: 5px;
-    
-    margin-left: 25%;
-    margin-right: 30%;
-    margin-top: 12%;
-    margin-bottom: 70%;
+    margin: 12% 30% 70% 25%;
 
     /*text edit*/
-    color: rgb(255, 255, 255);
+    color: $playersTextColor;
     font-weight: bold;
     font-size: 25px;
     padding-left: 25%;
@@ -72,11 +54,8 @@ QMainWindow {
 
 #whiteCheckersContainer{
     background-color: $checkerContainerBColor;
+    margin: 14% 8% 30% 10%;
 
-    margin-top: 14%;
-    margin-right: 8%;
-    margin-bottom: 30%;
-    margin-left: 10%;
 }
 
 #rollButton{
@@ -91,9 +70,6 @@ QMainWindow {
 
 #blackCheckersContainer{
     background-color: $checkerContainerBColor;
+    margin: 25% 8% 10% 10%;
 
-    margin-top: 35%;
-    margin-right: 8%;
-    margin-bottom: 10%;
-    margin-left: 10%;
 }
