@@ -36,6 +36,7 @@ class UInterface(QMainWindow):
         diceContainer = QWidget()
         diceContainer.setObjectName("diceContainer")
         self.diceLayout = QGridLayout()
+        
         self.diceLayout.setObjectName("diceLayout")
         diceContainer.setLayout(self.diceLayout)
 
@@ -44,6 +45,7 @@ class UInterface(QMainWindow):
         middleContainer = QWidget()
         middleContainer.setObjectName("middleContainer")
         middleLayout = QGridLayout()
+        middleLayout.setObjectName("middleLayout")
         middleLayout.setSpacing(0)
         middleContainer.setLayout(middleLayout)
 
@@ -84,7 +86,6 @@ class UInterface(QMainWindow):
         leftLayout.addWidget(QLabel("Player2", objectName = "labelPlayer2"))
 
             # adaugarea elementelor din mijloc
-
                 # doar pentru a cauta pozitii
 
         bchecker1 = Checkers("black", middleContainer, 785, 17)

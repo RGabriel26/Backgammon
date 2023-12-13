@@ -4,7 +4,7 @@ QMainWindow {
 
 #leftContainer {
   /* culoare data doar pentru test */
-  background-color: rgba(63, 208, 27, 0);
+  background-color: rgba(63, 208, 27, 0.367);
 }
 
 #labelPlayer1 {
@@ -32,8 +32,9 @@ QMainWindow {
   padding-left: 25%;
 }
 
-#middleLayout {
-  background-color: rgba(255, 255, 255, 0.386);
+#middleContainer {
+  /* culoare data doar pentru test */
+  background-color: rgba(63, 208, 27, 0.367);
 }
 
 #blackChecker {
@@ -49,7 +50,7 @@ QMainWindow {
 }
 
 #rightContainer {
-  background-color: rgba(63, 208, 27, 0);
+  background-color: rgba(63, 208, 27, 0.367);
 }
 
 #whiteCheckersContainer {

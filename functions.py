@@ -26,5 +26,9 @@ def roll(diceLayout):
 
         diceLayout.addWidget(createDiceObject(f"images/dice{getDice}.png"), 0, index)
 
+    # incercare de a elimina spatiile dintre elemente
+        # NU FUNCTIONEAZA
+    diceLayout.setContentsMargins(0,0,0,0)
+
     return dices
 
