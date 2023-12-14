@@ -1,8 +1,8 @@
-$mainContainerBColor: rgba(63, 208, 27, 0);
-$labelPlayerBColor: rgba(233, 219, 219, 0);
+$mainContainerBColor: rgba(63, 208, 27, 0.301);
+$labelPlayerBColor: rgba(233, 219, 219, 0.267);
 $checkerOUTContainerBColor: rgba(255, 255, 255, 0);
 $playersTextColor: rgb(255, 255, 255);
-$layoutCheckersBColor: rgba(109, 229, 79, 0);
+$layoutCheckersBColor: rgba(109, 229, 79, 0.476);
 
 $background-image: "images/gui_v2.png";
 $rollButton-image: "images/rollButton.png";
@@ -141,13 +141,13 @@ QMainWindow {
 #blackChecker{
     background-color: white;
     image: url($blackChecker-image);
-    border-radius: 30%;
+    border-radius: 25%;
 }
 
 #whiteChecker{
     background-color: white;
     image: url($whiteChecker-image);
-    border-radius: 30%;
+    border-radius: 25%;
 }
 
 ////////////// DREAPTA FERESTREI /////////////////

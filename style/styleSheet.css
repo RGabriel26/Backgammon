@@ -6,11 +6,11 @@ QMainWindow {
 
 #leftContainer {
   /* culoare data doar pentru test */
-  background-color: rgba(63, 208, 27, 0);
+  background-color: rgba(63, 208, 27, 0.301);
 }
 
 #labelPlayer1 {
-  background-color: rgba(233, 219, 219, 0);
+  background-color: rgba(233, 219, 219, 0.267);
   margin: 70% 30% 12% 25%;
   /*text edit*/
   color: rgb(255, 255, 255);
@@ -20,12 +20,12 @@ QMainWindow {
 }
 
 #diceContainer {
-  background-color: rgba(233, 219, 219, 0);
+  background-color: rgba(233, 219, 219, 0.267);
   margin: 15% 30% 12% 25%;
 }
 
 #labelPlayer2 {
-  background-color: rgba(233, 219, 219, 0);
+  background-color: rgba(233, 219, 219, 0.267);
   margin: 12% 30% 70% 25%;
   /*text edit*/
   color: rgb(255, 255, 255);
@@ -36,131 +36,131 @@ QMainWindow {
 
 #middleContainer {
   /* culoare data doar pentru test */
-  background-color: rgba(63, 208, 27, 0);
+  background-color: rgba(63, 208, 27, 0.301);
 }
 
 #middleSecundarGridContainer_left {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #positionTopLeftContainer {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos11Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos12Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos13Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos14Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos15Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #positionButtonLeftContainer {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos6Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos7Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos8Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos9Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos10Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #middleSecundarGridContainer_middle {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #middleSecundarGridContainer_right {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #positionTopRightContainer {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos16Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos17Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos18Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos19Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos20Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #positionButtonRightContainer {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos1Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos2Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos3Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos4Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #pos5Container {
-  background-color: rgba(109, 229, 79, 0);
+  background-color: rgba(109, 229, 79, 0.476);
 }
 
 #blackChecker {
   background-color: white;
   image: url("images/black-checker.png");
-  border-radius: 30%;
+  border-radius: 25%;
 }
 
 #whiteChecker {
   background-color: white;
   image: url("images/white-checker.png");
-  border-radius: 30%;
+  border-radius: 25%;
 }
 
 #rightContainer {
-  background-color: rgba(63, 208, 27, 0);
+  background-color: rgba(63, 208, 27, 0.301);
 }
 
 #whiteCheckersContainer {
