@@ -1,10 +1,12 @@
 QMainWindow {
   image: url("images/gui_v2.png");
+  margin: 0;
+  padding: 0;
 }
 
 #leftContainer {
   /* culoare data doar pentru test */
-  background-color: rgba(63, 208, 27, 0.367);
+  background-color: rgba(63, 208, 27, 0);
 }
 
 #labelPlayer1 {
@@ -34,7 +36,115 @@ QMainWindow {
 
 #middleContainer {
   /* culoare data doar pentru test */
-  background-color: rgba(63, 208, 27, 0.367);
+  background-color: rgba(63, 208, 27, 0);
+}
+
+#middleSecundarGridContainer_left {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#positionTopLeftContainer {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos11Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos12Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos13Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos14Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos15Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#positionButtonLeftContainer {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos6Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos7Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos8Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos9Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos10Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#middleSecundarGridContainer_middle {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#middleSecundarGridContainer_right {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#positionTopRightContainer {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos16Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos17Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos18Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos19Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos20Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#positionButtonRightContainer {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos1Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos2Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos3Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos4Container {
+  background-color: rgba(109, 229, 79, 0);
+}
+
+#pos5Container {
+  background-color: rgba(109, 229, 79, 0);
 }
 
 #blackChecker {
@@ -50,7 +160,7 @@ QMainWindow {
 }
 
 #rightContainer {
-  background-color: rgba(63, 208, 27, 0.367);
+  background-color: rgba(63, 208, 27, 0);
 }
 
 #whiteCheckersContainer {

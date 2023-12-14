@@ -1,7 +1,8 @@
-$mainContainerBColor: rgba(63, 208, 27, 0.367);
+$mainContainerBColor: rgba(63, 208, 27, 0);
 $labelPlayerBColor: rgba(233, 219, 219, 0);
-$checkerContainerBColor: rgba(255, 255, 255, 0);
+$checkerOUTContainerBColor: rgba(255, 255, 255, 0);
 $playersTextColor: rgb(255, 255, 255);
+$layoutCheckersBColor: rgba(109, 229, 79, 0);
 
 $background-image: "images/gui_v2.png";
 $rollButton-image: "images/rollButton.png";
@@ -9,9 +10,12 @@ $blackChecker-image: "images/black-checker.png";
 $whiteChecker-image: "images/white-checker.png";
 
 QMainWindow { 
-    image: url($background-image)
+    image: url($background-image);
+    margin:0;
+    padding:0;
 }
 
+/////////////// STANGA FERESTREI /////////////////
 #leftContainer{
     /* culoare data doar pentru test */
     background-color: $mainContainerBColor;
@@ -44,9 +48,94 @@ QMainWindow {
     padding-left: 25%;
 }
 
+////////////// MIJLOUL FERESTREI /////////////////
 #middleContainer{
     /* culoare data doar pentru test */
     background-color: $mainContainerBColor;
+}
+// ----- zona din stanga a tablei -----
+#middleSecundarGridContainer_left{
+    background-color: $layoutCheckersBColor;
+}
+#positionTopLeftContainer{
+    background-color: $layoutCheckersBColor;
+}
+#pos11Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos12Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos13Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos14Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos15Container{
+    background-color: $layoutCheckersBColor;
+}
+#positionButtonLeftContainer{
+    background-color: $layoutCheckersBColor;
+}
+#pos6Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos7Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos8Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos9Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos10Container{
+    background-color: $layoutCheckersBColor;
+}
+// ----- zona din dreapta a tablei -----
+#middleSecundarGridContainer_middle{
+    background-color: $layoutCheckersBColor;
+}
+// ----- zona din dreapta a tablei -----
+#middleSecundarGridContainer_right{
+    background-color: $layoutCheckersBColor;
+}
+#positionTopRightContainer{
+    background-color: $layoutCheckersBColor;
+}
+#pos16Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos17Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos18Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos19Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos20Container{
+    background-color: $layoutCheckersBColor;
+}
+#positionButtonRightContainer{
+    background-color: $layoutCheckersBColor;
+}
+#pos1Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos2Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos3Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos4Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos5Container{
+    background-color: $layoutCheckersBColor;
 }
 
 #blackChecker{
@@ -61,13 +150,14 @@ QMainWindow {
     border-radius: 30%;
 }
 
+////////////// DREAPTA FERESTREI /////////////////
 #rightContainer{
     background-color: $mainContainerBColor;
 
 }
 
 #whiteCheckersContainer{
-    background-color: $checkerContainerBColor;
+    background-color: $checkerOUTContainerBColor;
     margin: 14% 8% 30% 10%;
 
 }
@@ -83,7 +173,7 @@ QMainWindow {
 } 
 
 #blackCheckersContainer{
-    background-color: $checkerContainerBColor;
+    background-color: $checkerOUTContainerBColor;
     margin: 25% 8% 10% 10%;
 
 }
