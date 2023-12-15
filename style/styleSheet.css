@@ -1,158 +1,177 @@
 QMainWindow {
-  image: url("images/gui_v2.png");
+  background-color: #221616;
   margin: 0;
   padding: 0;
 }
 
 #leftContainer {
   /* culoare data doar pentru test */
-  background-color: rgba(63, 208, 27, 0.301);
+  background-color: rgba(63, 208, 27, 0);
+  image: url("images/leftBackground.png");
 }
 
 #labelPlayer1 {
-  background-color: rgba(233, 219, 219, 0.267);
-  margin: 70% 30% 12% 25%;
+  background-color: rgba(233, 219, 219, 0.454);
+  image: url("images/playerNameLayout.png");
   /*text edit*/
   color: rgb(255, 255, 255);
   font-weight: bold;
   font-size: 25px;
-  padding-left: 25%;
 }
 
 #diceContainer {
-  background-color: rgba(233, 219, 219, 0.267);
-  margin: 15% 30% 12% 25%;
+  background-color: rgba(233, 219, 219, 0.454);
+  image: url("images/diceLayoutBackground.png");
 }
 
 #labelPlayer2 {
-  background-color: rgba(233, 219, 219, 0.267);
-  margin: 12% 30% 70% 25%;
+  background-color: rgba(233, 219, 219, 0.454);
+  image: url("images/playerNameLayout.png");
   /*text edit*/
   color: rgb(255, 255, 255);
   font-weight: bold;
   font-size: 25px;
-  padding-left: 25%;
 }
 
 #middleContainer {
   /* culoare data doar pentru test */
-  background-color: rgba(63, 208, 27, 0.301);
+  background-color: rgba(63, 208, 27, 0);
+  background-image: url("images/boardBackground.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 #middleSecundarGridContainer_left {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #positionTopLeftContainer {
-  background-color: rgba(51, 255, 0, 0.332);
-}
-
-#pos11Container {
-  background-color: rgba(51, 255, 0, 0.332);
-}
-
-#pos12Container {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #pos13Container {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #pos14Container {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #pos15Container {
-  background-color: rgba(51, 255, 0, 0.332);
-}
-
-#positionButtonLeftContainer {
-  background-color: rgba(51, 255, 0, 0.332);
-}
-
-#pos6Container {
-  background-color: rgba(51, 255, 0, 0.332);
-}
-
-#pos7Container {
-  background-color: rgba(51, 255, 0, 0.332);
-}
-
-#pos8Container {
-  background-color: rgba(51, 255, 0, 0.332);
-}
-
-#pos9Container {
-  background-color: rgba(51, 255, 0, 0.332);
-}
-
-#pos10Container {
-  background-color: rgba(51, 255, 0, 0.332);
-}
-
-#middleSecundarContainer_middle {
-  background-color: rgba(51, 255, 0, 0.332);
-}
-
-#fenceWhiteCheckersContainer {
-  background-color: rgba(51, 255, 0, 0.332);
-}
-
-#fenceBlackCheckersContainer {
-  background-color: rgba(51, 255, 0, 0.332);
-}
-
-#middleSecundarGridContainer_right {
-  background-color: rgba(51, 255, 0, 0.332);
-}
-
-#positionTopRightContainer {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #pos16Container {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #pos17Container {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #pos18Container {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#positionButtonLeftContainer {
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#pos7Container {
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#pos8Container {
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#pos9Container {
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#pos10Container {
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#pos11Container {
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#pos12Container {
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#middleSecundarContainer_middle {
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#fenceWhiteCheckersContainer {
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#fenceBlackCheckersContainer {
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#middleSecundarGridContainer_right {
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#positionTopRightContainer {
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #pos19Container {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #pos20Container {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#pos21Container {
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#pos22Container {
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#pos23Container {
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#pos24Container {
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #positionButtonRightContainer {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #pos1Container {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #pos2Container {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #pos3Container {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #pos4Container {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #pos5Container {
-  background-color: rgba(51, 255, 0, 0.332);
+  background-color: rgba(51, 255, 0, 0);
+}
+
+#pos6Container {
+  background-color: rgba(51, 255, 0, 0);
 }
 
 #blackChecker {
@@ -168,12 +187,13 @@ QMainWindow {
 }
 
 #rightContainer {
-  background-color: rgba(63, 208, 27, 0.301);
+  background-color: rgba(63, 208, 27, 0);
+  image: url("images/rightBackgroud.png");
 }
 
 #whiteCheckersContainer {
-  background-color: rgba(255, 255, 255, 0.341);
-  margin: 14% 0% 30% 0%;
+  background-color: rgba(255, 255, 255, 0.453);
+  image: url("images/outCheckersBackground.png");
 }
 
 #rollButton {
@@ -184,6 +204,6 @@ QMainWindow {
 }
 
 #blackCheckersContainer {
-  background-color: rgba(255, 255, 255, 0.341);
-  margin: 30% 0% 10% 0%;
+  background-color: rgba(255, 255, 255, 0.453);
+  image: url("images/outCheckersBackground.png");
 }/*# sourceMappingURL=styleSheet.css.map */

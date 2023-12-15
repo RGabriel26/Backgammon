@@ -1,16 +1,22 @@
-$mainContainerBColor: rgba(63, 208, 27, 0.301);
-$labelPlayerBColor: rgba(233, 219, 219, 0.267);
-$checkerOUTContainerBColor: rgba(255, 255, 255, 0.341);
+$mainContainerBColor: rgba(63, 208, 27, 0);
+$labelPlayerBColor: rgba(233, 219, 219, 0.454);
+$checkerOUTContainerBColor: rgba(255, 255, 255, 0.453);
 $playersTextColor: rgb(255, 255, 255);
-$layoutCheckersBColor: rgba(51, 255, 0, 0.332);
+$layoutCheckersBColor: rgba(51, 255, 0, 0);
 
-$background-image: "images/gui_v2.png";
 $rollButton-image: "images/rollButton.png";
 $blackChecker-image: "images/black-checker.png";
 $whiteChecker-image: "images/white-checker.png";
+$backgroundPlayer-image: "images/playerNameLayout.png";
+$backgroundBoard-image: "images/boardBackground.png";
+$backgroundLeft-image: "images/leftBackground.png";
+$backgroundRight-image: "images/rightBackgroud.png";
+$backgroundDice-image: "images/diceLayoutBackground.png";
+$backgroundOutCheckers-image: "images/outCheckersBackground.png";
 
 QMainWindow { 
-    image: url($background-image);
+    // image: url($background-image);
+    background-color: #221616;
     margin:0;
     padding:0;
 }
@@ -19,51 +25,54 @@ QMainWindow {
 #leftContainer{
     /* culoare data doar pentru test */
     background-color: $mainContainerBColor;
+    image: url($backgroundLeft-image)
 }
 
 #labelPlayer1 {
     background-color: $labelPlayerBColor;
-    margin: 70% 30% 12% 25%;
+    image: url($backgroundPlayer-image);
+    // margin: 70% 30% 12% 25%;
 
     /*text edit*/
     color: $playersTextColor;
     font-weight: bold;
     font-size: 25px;
-    padding-left: 25%;
+    // padding-left: 25%;
 }
 
 #diceContainer{
-    background-color: $labelPlayerBColor; 
-    margin: 15% 30% 12% 25%;
+    background-color: $labelPlayerBColor;
+    image: url($backgroundDice-image)
+
+    // margin: 15% 30% 12% 25%;
 }
 
 #labelPlayer2 {
     background-color: $labelPlayerBColor;
-    margin: 12% 30% 70% 25%;
+    image: url($backgroundPlayer-image);
+    // margin: 70% 30% 12% 25%;
 
     /*text edit*/
     color: $playersTextColor;
     font-weight: bold;
     font-size: 25px;
-    padding-left: 25%;
+    // padding-left: 25%;
 }
 
 ////////////// MIJLOUL FERESTREI /////////////////
 #middleContainer{
     /* culoare data doar pentru test */
     background-color: $mainContainerBColor;
+    background-image: url($backgroundBoard-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 // ----- zona din stanga a tablei -----
 #middleSecundarGridContainer_left{
     background-color: $layoutCheckersBColor;
 }
 #positionTopLeftContainer{
-    background-color: $layoutCheckersBColor;
-}
-#pos11Container{
-    background-color: $layoutCheckersBColor;
-}
-#pos12Container{
     background-color: $layoutCheckersBColor;
 }
 #pos13Container{
@@ -75,10 +84,16 @@ QMainWindow {
 #pos15Container{
     background-color: $layoutCheckersBColor;
 }
-#positionButtonLeftContainer{
+#pos16Container{
     background-color: $layoutCheckersBColor;
 }
-#pos6Container{
+#pos17Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos18Container{
+    background-color: $layoutCheckersBColor;
+}
+#positionButtonLeftContainer{
     background-color: $layoutCheckersBColor;
 }
 #pos7Container{
@@ -93,6 +108,12 @@ QMainWindow {
 #pos10Container{
     background-color: $layoutCheckersBColor;
 }
+#pos11Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos12Container{
+    background-color: $layoutCheckersBColor;
+}
 // ----- zona din mijloc a tablei -----
 #middleSecundarContainer_middle{
     background-color: $layoutCheckersBColor;
@@ -100,11 +121,9 @@ QMainWindow {
 #fenceWhiteCheckersContainer{
     background-color: $layoutCheckersBColor;
 }
-
 #fenceBlackCheckersContainer{
     background-color: $layoutCheckersBColor;
 }
-
 // ----- zona din dreapta a tablei -----
 #middleSecundarGridContainer_right{
     background-color: $layoutCheckersBColor;
@@ -112,19 +131,22 @@ QMainWindow {
 #positionTopRightContainer{
     background-color: $layoutCheckersBColor;
 }
-#pos16Container{
-    background-color: $layoutCheckersBColor;
-}
-#pos17Container{
-    background-color: $layoutCheckersBColor;
-}
-#pos18Container{
-    background-color: $layoutCheckersBColor;
-}
 #pos19Container{
     background-color: $layoutCheckersBColor;
 }
 #pos20Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos21Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos22Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos23Container{
+    background-color: $layoutCheckersBColor;
+}
+#pos24Container{
     background-color: $layoutCheckersBColor;
 }
 #positionButtonRightContainer{
@@ -145,6 +167,9 @@ QMainWindow {
 #pos5Container{
     background-color: $layoutCheckersBColor;
 }
+#pos6Container{
+    background-color: $layoutCheckersBColor;
+}
 
 #blackChecker{
     background-color: white;
@@ -161,12 +186,14 @@ QMainWindow {
 ////////////// DREAPTA FERESTREI /////////////////
 #rightContainer{
     background-color: $mainContainerBColor;
+    image: url($backgroundRight-image)
 
 }
 
 #whiteCheckersContainer{
     background-color: $checkerOUTContainerBColor;
-    margin: 14% 0% 30% 0%;
+    image: url($backgroundOutCheckers-image);
+    // margin: 14% 0% 30% 0%;
 
 }
 
@@ -182,6 +209,7 @@ QMainWindow {
 
 #blackCheckersContainer{
     background-color: $checkerOUTContainerBColor;
-    margin: 30% 0% 10% 0%;
+    image: url($backgroundOutCheckers-image);
+    // margin: 30% 0% 10% 0%;
 
 }

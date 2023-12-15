@@ -39,9 +39,9 @@ class UInterface(QMainWindow):
         rightLayoutContainer = self.layouts.rightContainer(self.gameLogic)
 
         # folosit pentru a aduna containerele intr un singur loc pentru a putea fi gestionate
-        parentLayout.addWidget(leftLayoutContainer, 28)
-        parentLayout.addWidget(middleLayoutContainer, 68)
-        parentLayout.addWidget(rightLayoutContainer, 9)
+        parentLayout.addWidget(leftLayoutContainer, 20)
+        parentLayout.addWidget(middleLayoutContainer, 70)
+        parentLayout.addWidget(rightLayoutContainer, 10)
 
         # centrarea layout ului parinte in centrul ferestrei
         centralWidget = QWidget()  
