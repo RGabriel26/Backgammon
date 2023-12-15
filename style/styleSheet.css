@@ -91,7 +91,15 @@ QMainWindow {
   background-color: rgba(109, 229, 79, 0.476);
 }
 
-#middleSecundarGridContainer_middle {
+#middleSecundarContainer_middle {
+  background-color: rgba(109, 229, 79, 0.476);
+}
+
+#fenceWhiteCheckersContainer {
+  background-color: rgba(109, 229, 79, 0.476);
+}
+
+#fenceBlackCheckersContainer {
   background-color: rgba(109, 229, 79, 0.476);
 }
 
@@ -164,8 +172,8 @@ QMainWindow {
 }
 
 #whiteCheckersContainer {
-  background-color: rgba(255, 255, 255, 0);
-  margin: 14% 8% 30% 10%;
+  background-color: rgba(255, 255, 255, 0.341);
+  margin: 14% 0% 30% 0%;
 }
 
 #rollButton {
@@ -173,10 +181,9 @@ QMainWindow {
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 25%;
-  margin-left: 5%;
 }
 
 #blackCheckersContainer {
-  background-color: rgba(255, 255, 255, 0);
-  margin: 25% 8% 10% 10%;
+  background-color: rgba(255, 255, 255, 0.341);
+  margin: 30% 0% 10% 0%;
 }/*# sourceMappingURL=styleSheet.css.map */

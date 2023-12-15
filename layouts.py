@@ -41,15 +41,10 @@ class UILayouts():
         pos14 = QVBoxLayout()
         pos15 = QVBoxLayout()
         pos11Container.setLayout(pos11)
-        # pos11Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         pos12Container.setLayout(pos12)
-        # pos12Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         pos13Container.setLayout(pos13)
-        # pos13Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         pos14Container.setLayout(pos14)
-        # pos14Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         pos15Container.setLayout(pos15)
-        # pos15Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         positionTopLeft.addWidget(pos11Container)
         positionTopLeft.addWidget(pos12Container)
         positionTopLeft.addWidget(pos13Container)
@@ -59,7 +54,6 @@ class UILayouts():
         middleSecundarGrid_left.addWidget(positionTopLeftContainer,0,0)
 
         positionButtonLeftContainer = QWidget()
-
         positionButtonLeftContainer.setObjectName("positionButtonLeftContainer")
         positionButtonLeft = QHBoxLayout()
         pos6Container = QWidget()
@@ -78,15 +72,10 @@ class UILayouts():
         pos9 = QVBoxLayout()
         pos10 = QVBoxLayout()
         pos6Container.setLayout(pos6)
-        # pos6Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         pos7Container.setLayout(pos7)
-        # pos7Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         pos8Container.setLayout(pos8)
-        # pos8Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         pos9Container.setLayout(pos9)
-        # pos9Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         pos10Container.setLayout(pos10)
-        # pos10Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         positionButtonLeft.addWidget(pos10Container)
         positionButtonLeft.addWidget(pos9Container)
         positionButtonLeft.addWidget(pos8Container)
@@ -99,21 +88,35 @@ class UILayouts():
         middleSecundarGridContainer_left.setLayout(middleSecundarGrid_left)
 
         ####################################### zona din MIJLOC ############################################
-        middleSecundarGridContainer_middle = QWidget()
-        middleSecundarGridContainer_middle.setObjectName("middleSecundarGridContainer_middle")
+        middleSecundarContainer_middle = QWidget()
+        middleSecundarContainer_middle.setObjectName("middleSecundarContainer_middle")
 
-        middleSecundarGrid_middle = QGridLayout()
+        middleSecundarLayout = QVBoxLayout()
 
-        middleSecundarGridContainer_middle.setLayout(middleSecundarGrid_middle)
+        fenceWhiteCheckersContainer = QWidget()
+        fenceWhiteCheckersContainer.setObjectName("fenceWhiteCheckersContainer")
+        fenceWhiteCheckers = QHBoxLayout()
+        fenceWhiteCheckers.setObjectName("fenceWhiteCheckers")
+        fenceWhiteCheckers.addWidget(Checkers("white", fenceWhiteCheckers))
+        fenceWhiteCheckersContainer.setLayout(fenceWhiteCheckers)
+
+        fenceBlackCheckersContainer = QWidget()
+        fenceBlackCheckersContainer.setObjectName("fenceBlackCheckersContainer")
+        fenceBlackCheckers = QHBoxLayout()
+        fenceBlackCheckers.setObjectName("fenceBlackCheckers")
+        fenceBlackCheckers.addWidget(Checkers("black", fenceBlackCheckers))
+        fenceBlackCheckersContainer.setLayout(fenceBlackCheckers)
+
+        middleSecundarLayout.addWidget(fenceWhiteCheckersContainer)
+        middleSecundarLayout.addWidget(fenceBlackCheckersContainer)
+
+        middleSecundarContainer_middle.setLayout(middleSecundarLayout)
 
         ####################################### zona din DREAPTA ###########################################
         middleSecundarGridContainer_right = QWidget()
-        # middleSecundarGridContainer_right.setSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed,QtWidgets.QSizePolicy.Policy.Fixed)
         middleSecundarGridContainer_right.setObjectName("middleSecundarGridContainer_right")
         middleSecundarGrid_right = QGridLayout()
-        # middleSecundarGrid_right.setVerticalSpacing(330)
         positionTopRightContainer = QWidget()
-        # positionTopRightContainer.setSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed,QtWidgets.QSizePolicy.Policy.Fixed)
         positionTopRightContainer.setObjectName("positionTopRightContainer")
         positionTopRight = QHBoxLayout()
         pos16Container = QWidget()
@@ -132,15 +135,10 @@ class UILayouts():
         pos19 = QVBoxLayout()
         pos20 = QVBoxLayout()
         pos16Container.setLayout(pos16)
-        # pos16Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         pos17Container.setLayout(pos17)
-        # pos17Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         pos18Container.setLayout(pos18)
-        # pos18Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         pos19Container.setLayout(pos19)
-        # pos19Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         pos20Container.setLayout(pos20)
-        # pos20Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         positionTopRight.addWidget(pos16Container)
         positionTopRight.addWidget(pos17Container)
         positionTopRight.addWidget(pos18Container)
@@ -168,16 +166,10 @@ class UILayouts():
         pos4 = QVBoxLayout()
         pos5 = QVBoxLayout()
         pos1Container.setLayout(pos5)
-        # pos1Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
-
         pos2Container.setLayout(pos4)
-        # pos2Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         pos3Container.setLayout(pos3)
-        # pos3Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         pos4Container.setLayout(pos2)
-        # pos4Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         pos5Container.setLayout(pos1)
-        # pos5Container.setFixedSize(widhtPositionContainer,heightPositionContainer)
         positionButtonRight.addWidget(pos1Container)
         positionButtonRight.addWidget(pos2Container)
         positionButtonRight.addWidget(pos3Container)
@@ -189,7 +181,7 @@ class UILayouts():
 
         # grid uri secundare(cele trei pe coloane)
         middlePrincipalGrid.addWidget(middleSecundarGridContainer_left, 0, 0)
-        middlePrincipalGrid.addWidget(middleSecundarGridContainer_middle, 0, 1)
+        middlePrincipalGrid.addWidget(middleSecundarContainer_middle, 0, 1)
         middlePrincipalGrid.addWidget(middleSecundarGridContainer_right, 0, 2)
         middleContainer.setLayout(middlePrincipalGrid)
 
@@ -242,9 +234,20 @@ class UILayouts():
                 positions[i].setAlignment(Qt.AlignmentFlag.AlignTop)
                 positions[i].setContentsMargins(0, 0, 0, 0)
 
+        # QTimer.singleShot(0, lambda: rollButton.setFixedSize(whiteCheckersContainer.width(), whiteCheckersContainer.width()))
+
+        
+        fenceWhiteCheckers.setSpacing(0)
+        fenceWhiteCheckers.setAlignment(Qt.AlignmentFlag.AlignTop)
+        fenceWhiteCheckers.setContentsMargins(0, 0, 0, 0)
+
+        fenceBlackCheckers.setSpacing(0)
+        fenceBlackCheckers.setAlignment(Qt.AlignmentFlag.AlignBottom)
+        fenceBlackCheckers.setContentsMargins(0, 0, 0, 0)
         #creara pieselor in locurile default
                 #piesele negre
                         #pisele de pe pozitia 5 si 11
+        #TODO: foloseste un tuple pentru stocarea pozitiilor defaul ale pieselor
         for elem in range(5):
                 pos5.addWidget(Checkers("black", pos5))
                 pos11.addWidget(Checkers("black", pos11))
@@ -254,7 +257,6 @@ class UILayouts():
                         #piesele de pe pozita 20
         for elem in range(2):
                 pos20.addWidget(Checkers("black", pos20))
-
                         #pisele de pe pozitia 10 si 16
         for elem in range(5):
                 pos10.addWidget(Checkers("white", pos10))
@@ -317,14 +319,13 @@ class UILayouts():
                 # crearea butonului de Roll
         rollButton = QPushButton()
         rollButton.setObjectName("rollButton")
-        rollButton.setFixedSize(QSize(50, 50))
-                    # functia roll care adauga widgetul in diceLayout si returneaza lista cu raruri, care sunt loate de clasa gamoLogic si stocate prin setDices
+        #PENTRU A PUTEA OBTINE MARIMEA REALA A  WIDGET ULUI
+        QTimer.singleShot(0, lambda: rollButton.setFixedSize(whiteCheckersContainer.width(), whiteCheckersContainer.width()))
+                # functia roll care adauga widgetul in diceLayout si returneaza lista cu raruri, care sunt loate de clasa gamoLogic si stocate prin setDices
         rollButton.clicked.connect(lambda: gameLogic.setDices(dices=roll(self.diceLayout)))
         rightLayout.addWidget(rollButton)
                 # adaugarea containerului pentru piesele negre in containerul drept
         rightLayout.addWidget(blackCheckersContainer)
 
-
         QTimer.singleShot(0, lambda: print(f"rightContainer: {rightContainer.width()}"))
-
         return rightContainer

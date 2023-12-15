@@ -1,6 +1,6 @@
 $mainContainerBColor: rgba(63, 208, 27, 0.301);
 $labelPlayerBColor: rgba(233, 219, 219, 0.267);
-$checkerOUTContainerBColor: rgba(255, 255, 255, 0);
+$checkerOUTContainerBColor: rgba(255, 255, 255, 0.341);
 $playersTextColor: rgb(255, 255, 255);
 $layoutCheckersBColor: rgba(109, 229, 79, 0.476);
 
@@ -93,10 +93,18 @@ QMainWindow {
 #pos10Container{
     background-color: $layoutCheckersBColor;
 }
-// ----- zona din dreapta a tablei -----
-#middleSecundarGridContainer_middle{
+// ----- zona din mijloc a tablei -----
+#middleSecundarContainer_middle{
     background-color: $layoutCheckersBColor;
 }
+#fenceWhiteCheckersContainer{
+    background-color: $layoutCheckersBColor;
+}
+
+#fenceBlackCheckersContainer{
+    background-color: $layoutCheckersBColor;
+}
+
 // ----- zona din dreapta a tablei -----
 #middleSecundarGridContainer_right{
     background-color: $layoutCheckersBColor;
@@ -158,7 +166,7 @@ QMainWindow {
 
 #whiteCheckersContainer{
     background-color: $checkerOUTContainerBColor;
-    margin: 14% 8% 30% 10%;
+    margin: 14% 0% 30% 0%;
 
 }
 
@@ -168,12 +176,12 @@ QMainWindow {
     background-repeat: no-repeat;
 
     border-radius: 25%;
-    margin-left: 5%;
+    // margin-left: 5%;
     
 } 
 
 #blackCheckersContainer{
     background-color: $checkerOUTContainerBColor;
-    margin: 25% 8% 10% 10%;
+    margin: 30% 0% 10% 0%;
 
 }
