@@ -17,8 +17,12 @@ class UILayouts():
 
         # container pentru grid principal
         # middlePrincipalGridContainer = QWidget()
-        middlePrincipalGrid = QGridLayout()
+        middlePrincipalGrid = QHBoxLayout()
         ############################################ zona din STANGA ###############################################################
+        #TODO: De regandit layout ul pentru pos, poate ne mai folosind grid
+        # incearca sa faci ca in cazul layout ului di centru pentru piesele 
+        # pentru gard, acolo ele sunt puse la mijloc by defaul, poate daca
+        # in loc de grid pentru containerele pozitiilor ai folosi QHBoxLayout
         middleSecundarGridContainer_left = QWidget()
         middleSecundarGridContainer_left.setObjectName("middleSecundarGridContainer_left")
         middleSecundarGrid_left = QGridLayout()
@@ -95,18 +99,18 @@ class UILayouts():
 
         fenceWhiteCheckersContainer = QWidget()
         fenceWhiteCheckersContainer.setObjectName("fenceWhiteCheckersContainer")
-        fenceWhiteCheckers = QHBoxLayout()
+        fenceWhiteCheckers = QVBoxLayout()
         fenceWhiteCheckers.setObjectName("fenceWhiteCheckers")
         fenceWhiteCheckers.addWidget(Checkers("white", fenceWhiteCheckers))
         fenceWhiteCheckersContainer.setLayout(fenceWhiteCheckers)
 
         fenceBlackCheckersContainer = QWidget()
         fenceBlackCheckersContainer.setObjectName("fenceBlackCheckersContainer")
-        fenceBlackCheckers = QHBoxLayout()
+        fenceBlackCheckers = QVBoxLayout()
         fenceBlackCheckers.setObjectName("fenceBlackCheckers")
         fenceBlackCheckers.addWidget(Checkers("black", fenceBlackCheckers))
-        fenceBlackCheckersContainer.setLayout(fenceBlackCheckers)
 
+        fenceBlackCheckersContainer.setLayout(fenceBlackCheckers)
         middleSecundarLayout.addWidget(fenceWhiteCheckersContainer)
         middleSecundarLayout.addWidget(fenceBlackCheckersContainer)
 
@@ -180,9 +184,9 @@ class UILayouts():
         middleSecundarGridContainer_right.setLayout(middleSecundarGrid_right)
 
         # grid uri secundare(cele trei pe coloane)
-        middlePrincipalGrid.addWidget(middleSecundarGridContainer_left, 0, 0)
-        middlePrincipalGrid.addWidget(middleSecundarContainer_middle, 0, 1)
-        middlePrincipalGrid.addWidget(middleSecundarGridContainer_right, 0, 2)
+        middlePrincipalGrid.addWidget(middleSecundarGridContainer_left,45)
+        middlePrincipalGrid.addWidget(middleSecundarContainer_middle,10)
+        middlePrincipalGrid.addWidget(middleSecundarGridContainer_right,45)
         middleContainer.setLayout(middlePrincipalGrid)
 
         #setup containerelor
@@ -238,11 +242,11 @@ class UILayouts():
 
         
         fenceWhiteCheckers.setSpacing(0)
-        fenceWhiteCheckers.setAlignment(Qt.AlignmentFlag.AlignTop)
+        fenceWhiteCheckers.setAlignment(Qt.AlignmentFlag.AlignCenter)
         fenceWhiteCheckers.setContentsMargins(0, 0, 0, 0)
 
         fenceBlackCheckers.setSpacing(0)
-        fenceBlackCheckers.setAlignment(Qt.AlignmentFlag.AlignBottom)
+        fenceBlackCheckers.setAlignment(Qt.AlignmentFlag.AlignCenter)
         fenceBlackCheckers.setContentsMargins(0, 0, 0, 0)
         #creara pieselor in locurile default
                 #piesele negre

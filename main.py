@@ -29,7 +29,7 @@ class UInterface(QMainWindow):
         # folosit pentru a grupa cele trei containere principala ale ferestrei intr-un mod de afisare orizolntala
         parentLayout = QHBoxLayout()
 
-        # #container pentru elementele din stanga
+        # #contaier pentru elementele din stanga
         leftLayoutContainer = self.layouts.leftContainer()
 
         # containerul din mijlocul ferestrei
