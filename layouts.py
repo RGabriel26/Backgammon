@@ -25,7 +25,7 @@ class UILayouts():
         # in loc de grid pentru containerele pozitiilor ai folosi QHBoxLayout
         middleSecundarGridContainer_left = QWidget()
         middleSecundarGridContainer_left.setObjectName("middleSecundarGridContainer_left")
-        middleSecundarGrid_left = QGridLayout()
+        middleSecundarLayout_left = QVBoxLayout()
         positionTopLeftContainer = QWidget()
         positionTopLeftContainer.setObjectName("positionTopLeftContainer")
         positionTopLeft = QHBoxLayout()
@@ -55,7 +55,7 @@ class UILayouts():
         positionTopLeft.addWidget(pos14Container)
         positionTopLeft.addWidget(pos15Container)
         positionTopLeftContainer.setLayout(positionTopLeft)
-        middleSecundarGrid_left.addWidget(positionTopLeftContainer,0,0)
+        middleSecundarLayout_left.addWidget(positionTopLeftContainer)
 
         positionButtonLeftContainer = QWidget()
         positionButtonLeftContainer.setObjectName("positionButtonLeftContainer")
@@ -88,8 +88,8 @@ class UILayouts():
         positionButtonLeftContainer.setLayout(positionButtonLeft) 
                 
 
-        middleSecundarGrid_left.addWidget(positionButtonLeftContainer, 1, 0)
-        middleSecundarGridContainer_left.setLayout(middleSecundarGrid_left)
+        middleSecundarLayout_left.addWidget(positionButtonLeftContainer)
+        middleSecundarGridContainer_left.setLayout(middleSecundarLayout_left)
 
         ####################################### zona din MIJLOC ############################################
         middleSecundarContainer_middle = QWidget()
@@ -119,7 +119,7 @@ class UILayouts():
         ####################################### zona din DREAPTA ###########################################
         middleSecundarGridContainer_right = QWidget()
         middleSecundarGridContainer_right.setObjectName("middleSecundarGridContainer_right")
-        middleSecundarGrid_right = QGridLayout()
+        middleSecundarLayout_right = QVBoxLayout()
         positionTopRightContainer = QWidget()
         positionTopRightContainer.setObjectName("positionTopRightContainer")
         positionTopRight = QHBoxLayout()
@@ -149,7 +149,7 @@ class UILayouts():
         positionTopRight.addWidget(pos19Container)
         positionTopRight.addWidget(pos20Container)
         positionTopRightContainer.setLayout(positionTopRight)
-        middleSecundarGrid_right.addWidget(positionTopRightContainer,0,0)
+        middleSecundarLayout_right.addWidget(positionTopRightContainer)
 
         positionButtonRightContainer = QWidget()
         positionButtonRightContainer.setObjectName("positionButtonRightContainer")
@@ -180,8 +180,8 @@ class UILayouts():
         positionButtonRight.addWidget(pos4Container)
         positionButtonRight.addWidget(pos5Container)
         positionButtonRightContainer.setLayout(positionButtonRight) 
-        middleSecundarGrid_right.addWidget(positionButtonRightContainer, 1, 0)
-        middleSecundarGridContainer_right.setLayout(middleSecundarGrid_right)
+        middleSecundarLayout_right.addWidget(positionButtonRightContainer)
+        middleSecundarGridContainer_right.setLayout(middleSecundarLayout_right)
 
         # grid uri secundare(cele trei pe coloane)
         middlePrincipalGrid.addWidget(middleSecundarGridContainer_left,45)
@@ -190,8 +190,8 @@ class UILayouts():
         middleContainer.setLayout(middlePrincipalGrid)
 
         #setup containerelor
-        middleSecundarGrid_left.setContentsMargins(0,8,0,8)
-        middleSecundarGrid_right.setContentsMargins(0,8,0,8)
+        middleSecundarLayout_left.setContentsMargins(0,8,0,8)
+        middleSecundarLayout_right.setContentsMargins(0,8,0,8)
 
         positionTopLeftContainer.setContentsMargins(0,0,0,0)
         positionTopRightContainer.setContentsMargins(0,0,0,0)
@@ -230,12 +230,12 @@ class UILayouts():
 
         for i in range(10):
                 positions[i].setSpacing(0)
-                positions[i].setAlignment(Qt.AlignmentFlag.AlignBottom)
+                positions[i].setAlignment(Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignCenter)
                 positions[i].setContentsMargins(0, 0, 0, 0)
 
         for i in range(10, 20):
                 positions[i].setSpacing(0)
-                positions[i].setAlignment(Qt.AlignmentFlag.AlignTop)
+                positions[i].setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignCenter)
                 positions[i].setContentsMargins(0, 0, 0, 0)
 
         # QTimer.singleShot(0, lambda: rollButton.setFixedSize(whiteCheckersContainer.width(), whiteCheckersContainer.width()))
