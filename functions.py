@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QLabel, QPushButton
+from PyQt6.QtWidgets import QLabel, QPushButton, QWidget
 from PyQt6.QtGui import QPixmap
 
 from random import randint

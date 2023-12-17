@@ -33,7 +33,7 @@ class UInterface(QMainWindow):
         leftLayoutContainer = self.layouts.leftContainer()
 
         # containerul din mijlocul ferestrei
-        middleLayoutContainer = self.layouts.middleLayout(int(self.height/4 + 180))
+        middleLayoutContainer = self.layouts.middleLayout()
         
         # containerul elementelor din stanga
         rightLayoutContainer = self.layouts.rightContainer(self.gameLogic)
