@@ -175,13 +175,11 @@ QMainWindow {
 }
 
 #blackChecker {
-  background-color: white;
   image: url("images/black-checker.png");
   border-radius: 25%;
 }
 
 #whiteChecker {
-  background-color: white;
   image: url("images/white-checker.png");
   border-radius: 25%;
 }
@@ -206,4 +204,16 @@ QMainWindow {
 #blackCheckersContainer {
   background-color: rgba(255, 255, 255, 0);
   image: url("images/outCheckersBackground.png");
+}
+
+#outWhiteChecker {
+  image: url("images/outWhiteChecker.png");
+}
+
+#outBlackChecker {
+  image: url("images/outBlackChecker.png");
+}
+
+QLabel {
+  background-color: rgba(255, 255, 255, 0);
 }/*# sourceMappingURL=styleSheet.css.map */

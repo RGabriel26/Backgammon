@@ -8,5 +8,5 @@ class GameLogic():
         self.dices = dices
         print(self.dices)
 
-    # cand este randul unui jucator, piesele celiolalt ar trebui dezactivate cu .setEnabled()
+    #TODO:  cand este randul unui jucator, piesele celiolalt ar trebui dezactivate cu .setEnabled()
 

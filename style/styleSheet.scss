@@ -13,6 +13,9 @@ $backgroundLeft-image: "images/leftBackground.png";
 $backgroundRight-image: "images/rightBackgroud.png";
 $backgroundDice-image: "images/diceLayoutBackground.png";
 $backgroundOutCheckers-image: "images/outCheckersBackground.png";
+$outWhiteCheckers-image: "images/outWhiteChecker.png";
+$outBlackCheckers-image: "images/outBlackChecker.png";
+
 
 QMainWindow { 
     // image: url($background-image);
@@ -172,13 +175,11 @@ QMainWindow {
 }
 
 #blackChecker{
-    background-color: white;
     image: url($blackChecker-image);
     border-radius: 25%;
 }
 
 #whiteChecker{
-    background-color: white;
     image: url($whiteChecker-image);
     border-radius: 25%;
 }
@@ -187,29 +188,33 @@ QMainWindow {
 #rightContainer{
     background-color: $mainContainerBColor;
     image: url($backgroundRight-image)
-
 }
 
 #whiteCheckersContainer{
     background-color: $checkerOUTContainerBColor;
     image: url($backgroundOutCheckers-image);
-    // margin: 14% 0% 30% 0%;
-
 }
 
 #rollButton{
     image: url($rollButton-image);
     background-position: center;
     background-repeat: no-repeat;
-
     border-radius: 25%;
-    // margin-left: 5%;
     
 } 
 
 #blackCheckersContainer{
     background-color: $checkerOUTContainerBColor;
     image: url($backgroundOutCheckers-image);
-    // margin: 30% 0% 10% 0%;
+}
 
+#outWhiteChecker{
+    image: url($outWhiteCheckers-image);
+}
+#outBlackChecker{
+    image: url($outBlackCheckers-image);
+}
+
+QLabel { 
+    background-color: $checkerOUTContainerBColor;
 }

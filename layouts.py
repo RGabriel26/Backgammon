@@ -262,14 +262,13 @@ class UILayouts():
                 # crearea containerului pentru piesele ce vor fi scoase de jucatorul WHITE
         whiteCheckersContainer = QWidget()
         whiteCheckersContainer.setObjectName("whiteCheckersContainer")
-        whiteCheckersLayout = QHBoxLayout()
-        whiteCheckersContainer.setLayout(whiteCheckersLayout)
+        self.whiteCheckersLayout = QVBoxLayout()
+        whiteCheckersContainer.setLayout(self.whiteCheckersLayout)
                 # crearea containerului pentru piesele ce vor fi scoase de jucatorul BLACK
         blackCheckersContainer = QWidget()
         blackCheckersContainer.setObjectName("blackCheckersContainer")
-        blackCheckersLayout = QHBoxLayout()
-        blackCheckersContainer.setLayout(blackCheckersLayout)
-
+        self.blackCheckersLayout = QVBoxLayout()
+        blackCheckersContainer.setLayout(self.blackCheckersLayout)
                 # crearea butonului de Roll
         rollButton = QPushButton()
         rollButton.setObjectName("rollButton")
@@ -283,5 +282,24 @@ class UILayouts():
         rightLayout.addWidget(rollButton)
         rightLayout.addWidget(blackCheckersContainer)
 
-        # QTimer.singleShot(0, lambda: print(f"blackCheckersContainer: {blackCheckersContainer.size()}"))
+        self.whiteCheckersLayout.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self.whiteCheckersLayout.setContentsMargins(0, 5, 0, 5)
+
+        self.blackCheckersLayout.setAlignment(Qt.AlignmentFlag.AlignBottom)
+        self.blackCheckersLayout.setContentsMargins(0, 5, 0, 5)
+
+        # adaugarea de test a pieselor scoase
+        for i in range(6):
+            outCheker  = QLabel(objectName = "outWhiteChecker")
+            self.whiteCheckersLayout.addWidget(outCheker)
+
+        for i in range(6):
+            outCheker  = QLabel(objectName = "outBlackChecker")
+            self.blackCheckersLayout.addWidget(outCheker)
+
+        QTimer.singleShot(0, lambda: print(f"blackCheckersContainer: {outCheker.size()}"))
         return rightContainer
+    
+    # TODO: De creat functii care sa afauge elemente in partea grafica
+            #aici ma refer pe toate layoutuirle, atat pe pozitii, pe gard cat si in exterior, cand 
+            #acestea sunt scoase le finalul jocului
