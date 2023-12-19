@@ -7,15 +7,7 @@ from functions import *
 class UILayouts():
     def __init__(self) -> None:
         super().__init__()
-
-    def setDefaultPosition(self) -> None:
-        defaulPosition = {"black" : [(self.pos6, 5), (self.pos13, 5), (self.pos8, 3), (self.pos24, 2)],
-                        "white" : [(self.pos12, 5),(self.pos19, 5),(self.pos17, 3),(self.pos1, 2)]}
-        for team, posAndCaunt in defaulPosition.items():
-            for position, numberOfPieces in posAndCaunt:
-                print(position.objectName())
-                for i in range(numberOfPieces):
-                    position.addWidget(Checkers(team, position))
+        print("initializare layouts...")
 
     def middleLayout(self): 
         middleContainer = QWidget(objectName = "middleContainer")
@@ -211,11 +203,11 @@ class UILayouts():
                 positions[i].setContentsMargins(0, 0, 0, 0)
 
         #pozitionarea pe locurile default ale pieselor
-        self.setDefaultPosition()
+        # self.setDefaultPosition()
         
         # adaugare de test a pieselor pe gard
-        self.fenceWhiteCheckersLayout.addWidget(Checkers("white", self.fenceWhiteCheckersLayout))
-        self.fenceBlackCheckersLayout.addWidget(Checkers("black", self.fenceBlackCheckersLayout))
+        # self.fenceWhiteCheckersLayout.addWidget(Checkers("white", self.fenceWhiteCheckersLayout))
+        # self.fenceBlackCheckersLayout.addWidget(Checkers("black", self.fenceBlackCheckersLayout))
              
         
         # pentru a testa incadrarea -> afisarea a n piese de joc pe fiecare pozitie
@@ -289,17 +281,44 @@ class UILayouts():
         self.blackCheckersLayout.setContentsMargins(0, 5, 0, 5)
 
         # adaugarea de test a pieselor scoase
-        for i in range(6):
-            outCheker  = QLabel(objectName = "outWhiteChecker")
-            self.whiteCheckersLayout.addWidget(outCheker)
+        # for i in range(6):
+        #     outCheker  = QLabel(objectName = "outWhiteChecker")
+        #     self.whiteCheckersLayout.addWidget(outCheker)
 
-        for i in range(6):
-            outCheker  = QLabel(objectName = "outBlackChecker")
-            self.blackCheckersLayout.addWidget(outCheker)
+        # for i in range(6):
+        #     outCheker  = QLabel(objectName = "outBlackChecker")
+        #     self.blackCheckersLayout.addWidget(outCheker)
 
-        QTimer.singleShot(0, lambda: print(f"blackCheckersContainer: {outCheker.size()}"))
+        # QTimer.singleShot(0, lambda: print(f"blackCheckersContainer: {outCheker.size()}"))
         return rightContainer
     
     # TODO: De creat functii care sa afauge elemente in partea grafica
             #aici ma refer pe toate layoutuirle, atat pe pozitii, pe gard cat si in exterior, cand 
             #acestea sunt scoase le finalul jocului
+    
+    def testAddWidgetPos20(self):
+         self.pos20.addWidget(Checkers("black", self.pos20))
+
+    def setDefaultPosition(self) -> None:
+        defaulPosition = {"black" : [(self.pos6, 5), (self.pos13, 5), (self.pos8, 3), (self.pos24, 2)],
+                        "white" : [(self.pos12, 5),(self.pos19, 5),(self.pos17, 3),(self.pos1, 2)]}
+        for team, posAndCaunt in defaulPosition.items():
+            for position, numberOfPieces in posAndCaunt:
+                for i in range(numberOfPieces):
+                    position.addWidget(Checkers(team, position))
+    
+    def addOutWhiteCheker(self):
+         self.whiteCheckersLayout.addWidget(QLabel(objectName = "outWhiteChecker"))
+    
+    def addOutBlackCheker(self):
+         self.blackCheckersLayout.addWidget(QLabel(objectName = "outBlackChecker"))
+
+    def addFenceWhiteChecker(self):
+         self.fenceWhiteCheckersLayout.addWidget(Checkers("white", self.fenceWhiteCheckersLayout))
+
+    def addFenceBlackChecker(self):
+         self.fenceBlackCheckersLayout.addWidget(Checkers("black", self.fenceBlackCheckersLayout))
+
+    def addCheckerToPosition(self, newPos, team):
+        newPos.addWidget(Checkers(team, newPos))
+         

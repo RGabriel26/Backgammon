@@ -4,6 +4,10 @@ QMainWindow {
   padding: 0;
 }
 
+QLabel {
+  background-color: rgba(255, 255, 255, 0);
+}
+
 #leftContainer {
   /* culoare data doar pentru test */
   background-color: rgba(63, 208, 27, 0);
@@ -37,7 +41,6 @@ QMainWindow {
   /* culoare data doar pentru test */
   background-color: rgba(63, 208, 27, 0);
   background-image: url("images/boardBackground.png");
-  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -212,8 +215,4 @@ QMainWindow {
 
 #outBlackChecker {
   image: url("images/outBlackChecker.png");
-}
-
-QLabel {
-  background-color: rgba(255, 255, 255, 0);
 }/*# sourceMappingURL=styleSheet.css.map */

@@ -24,6 +24,10 @@ QMainWindow {
     padding:0;
 }
 
+QLabel { 
+    background-color: $checkerOUTContainerBColor;
+}
+
 /////////////// STANGA FERESTREI /////////////////
 #leftContainer{
     /* culoare data doar pentru test */
@@ -67,7 +71,6 @@ QMainWindow {
     /* culoare data doar pentru test */
     background-color: $mainContainerBColor;
     background-image: url($backgroundBoard-image);
-    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -213,8 +216,4 @@ QMainWindow {
 }
 #outBlackChecker{
     image: url($outBlackCheckers-image);
-}
-
-QLabel { 
-    background-color: $checkerOUTContainerBColor;
 }
