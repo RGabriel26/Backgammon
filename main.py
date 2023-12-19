@@ -15,7 +15,8 @@ class UInterface(QMainWindow):
         super().__init__()
         self.setWindowTitle("BackGammon")
         self.setWindowIcon(QIcon("images/white-checker.png"))
-        self.layouts = UILayouts()
+        # self.layouts = UILayouts()
+        # self.gameLogic = GameLogic(self.layouts)
         self.gameLogic = GameLogic()
         self.initGUI()
 
@@ -29,19 +30,19 @@ class UInterface(QMainWindow):
         # folosit pentru a grupa cele trei containere principala ale ferestrei intr-un mod de afisare orizolntala
         parentLayout = QHBoxLayout()
 
-        # #container pentru elementele din stanga
-        leftLayoutContainer = self.layouts.leftContainer()
+        # #contaier pentru elementele din stanga
+        leftLayoutContainer = self.gameLogic.layouts.leftContainer()
 
         # containerul din mijlocul ferestrei
-        middleLayoutContainer = self.layouts.middleLayout(int(self.height/4 + 180))
+        middleLayoutContainer = self.gameLogic.layouts.middleLayout()
         
         # containerul elementelor din stanga
-        rightLayoutContainer = self.layouts.rightContainer(self.gameLogic)
+        rightLayoutContainer = self.gameLogic.layouts.rightContainer(self.gameLogic)
 
         # folosit pentru a aduna containerele intr un singur loc pentru a putea fi gestionate
-        parentLayout.addWidget(leftLayoutContainer, 28)
-        parentLayout.addWidget(middleLayoutContainer, 68)
-        parentLayout.addWidget(rightLayoutContainer, 9)
+        parentLayout.addWidget(leftLayoutContainer, 20)
+        parentLayout.addWidget(middleLayoutContainer, 70)
+        parentLayout.addWidget(rightLayoutContainer, 10)
 
         # centrarea layout ului parinte in centrul ferestrei
         centralWidget = QWidget()  
