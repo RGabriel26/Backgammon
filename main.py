@@ -29,13 +29,13 @@ class UInterface(QMainWindow):
         parentLayout = QHBoxLayout()
 
         # #contaier pentru elementele din stanga
-        leftLayoutContainer = self.gameLogic.layouts.leftContainer(self.gameLogic)
+        leftLayoutContainer = self.gameLogic.layouts.leftContainer()
 
         # containerul din mijlocul ferestrei
         middleLayoutContainer = self.gameLogic.layouts.middleLayout()
         
         # containerul elementelor din stanga
-        rightLayoutContainer = self.gameLogic.layouts.rightContainer(self.gameLogic)
+        rightLayoutContainer = self.gameLogic.layouts.rightContainer()
 
         # folosit pentru a aduna containerele intr un singur loc pentru a putea fi gestionate
         parentLayout.addWidget(leftLayoutContainer, 20)

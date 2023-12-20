@@ -15,7 +15,7 @@ $backgroundDice-image: "images/diceLayoutBackground.png";
 $backgroundOutCheckers-image: "images/outCheckersBackground.png";
 $outWhiteCheckers-image: "images/outWhiteChecker.png";
 $outBlackCheckers-image: "images/outBlackChecker.png";
-
+$gostChecker-image: "images/gostChecker.png";
 
 QMainWindow { 
     // image: url($background-image);
@@ -185,6 +185,10 @@ QLabel {
 #whiteChecker{
     image: url($whiteChecker-image);
     border-radius: 25%;
+}
+#gostChecker{
+    image: url($gostChecker-image);
+    background-color: rgba(0, 0, 0, 0);
 }
 
 ////////////// DREAPTA FERESTREI /////////////////
