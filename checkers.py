@@ -12,7 +12,8 @@ class Checkers(QPushButton):
         self.layout = layout
         self.setObjectName(f'{team}Checker')
         self.setFixedSize(50,50)
-        self.setMouseTracking(True)
+        self.isHoverEnable = True
+        
         self.hovered.connect(self.testHover)
         self.clicked.connect(self.testClick)
     
@@ -23,11 +24,17 @@ class Checkers(QPushButton):
         self.hovered.emit(False)
 
     def testHover(self, is_hovered):
-        if is_hovered:
+        if is_hovered and self.isHoverEnable:
             print(f"Piesa {self.team} a fost selectata prin hover event: {self.layout.objectName()}")
 
     def testClick(self):
         print(f"Piesa {self.team} a fost selectata prin clicked event: {self.layout.objectName()}")
+
+    def setHover(self, bool) -> None:
+        self.isHoverEnable = bool
+
+    def getTeam(self) -> str:
+        return self.team
 
 
 

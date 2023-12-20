@@ -15,8 +15,6 @@ class UInterface(QMainWindow):
         super().__init__()
         self.setWindowTitle("BackGammon")
         self.setWindowIcon(QIcon("images/white-checker.png"))
-        # self.layouts = UILayouts()
-        # self.gameLogic = GameLogic(self.layouts)
         self.gameLogic = GameLogic()
         self.initGUI()
 
@@ -31,7 +29,7 @@ class UInterface(QMainWindow):
         parentLayout = QHBoxLayout()
 
         # #contaier pentru elementele din stanga
-        leftLayoutContainer = self.gameLogic.layouts.leftContainer()
+        leftLayoutContainer = self.gameLogic.layouts.leftContainer(self.gameLogic)
 
         # containerul din mijlocul ferestrei
         middleLayoutContainer = self.gameLogic.layouts.middleLayout()
@@ -48,7 +46,6 @@ class UInterface(QMainWindow):
         centralWidget = QWidget()  
         centralWidget.setLayout(parentLayout)
         self.setCentralWidget(centralWidget)
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
