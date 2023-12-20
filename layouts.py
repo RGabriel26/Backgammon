@@ -318,7 +318,7 @@ class UILayouts():
         self.startButton.hide()
         gameLogic.logic()
 
-    def disableCheckers(self,team):
+    def checkersDisponibility(self, team, disponibility):
         positions = [self.pos1, self.pos2,self.pos3, self.pos4, self.pos5,self.pos6, self.pos7, self.pos8,self.pos9,
                      self.pos10,self.pos11,self.pos12,self.pos13,self.pos14,self.pos15,self.pos16,self.pos17,self.pos18,
                      self.pos19,self.pos20,self.pos21,self.pos21,self.pos22,self.pos23,self.pos24,
@@ -329,8 +329,8 @@ class UILayouts():
                 for index in range(count):
                     checker = pos.itemAt(index).widget()
                     if checker.getTeam() == team:
-                        checker.setEnabled(False)
-                        checker.setHover(False)
+                        checker.setEnabled(disponibility)
+                        checker.setHover(disponibility)
                         index -= 1
                 
 

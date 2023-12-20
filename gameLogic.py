@@ -19,7 +19,7 @@ class GameLogic():
     def logic(self) -> None:
         print("Start game!")
 
-        self.layouts.disableCheckers("black")
+        self.layouts.checkersDisponibility(team = "black", disponibility = False)
 
         #prima persoana da cu zarul
         self.layouts.enableRollButton()
