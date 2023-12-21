@@ -208,10 +208,12 @@ class UILayouts():
 
         self.positions = [self.pos1, self.pos2,self.pos3, self.pos4, self.pos5,self.pos6, self.pos7, self.pos8,self.pos9,
                      self.pos10,self.pos11,self.pos12,self.pos13,self.pos14,self.pos15,self.pos16,self.pos17,self.pos18,
-                     self.pos19,self.pos20,self.pos21,self.pos21,self.pos22,self.pos23,self.pos24,
+                     self.pos19,self.pos20,self.pos21,self.pos22,self.pos23,self.pos24,
                      self.fenceWhiteCheckersLayout, self.fenceBlackCheckersLayout]
 
         # QTimer.singleShot(0, lambda: print(f"pos10Container: {pos10Container.size()}"))
+
+        self.pos21.addWidget(Checkers(team="black", parentLayout=self.pos21, gameLogic = self.gameLogic))
         return middleContainer
 
     def leftContainer(self):
@@ -290,10 +292,11 @@ class UILayouts():
          self.whiteCheckersLayout.addWidget(QLabel(objectName = "outWhiteChecker"))
     def addOutBlackCheker(self):
          self.blackCheckersLayout.addWidget(QLabel(objectName = "outBlackChecker"))
-    def addFenceWhiteChecker(self):
-         self.fenceWhiteCheckersLayout.addWidget(Checkers(team="white", parentLayout=self.fenceWhiteCheckersLayout, gameLogic = self.gameLogic))
-    def addFenceBlackChecker(self):
-         self.fenceBlackCheckersLayout.addWidget(Checkers(team="black", parentLayout=self.fenceBlackCheckersLayout, gameLogic=self.gameLogic))
+    def addCheckersToFence(self, team):
+        if team == "white":
+            self.fenceWhiteCheckersLayout.addWidget(Checkers(team="gostFenceWhite", parentLayout=self.fenceWhiteCheckersLayout, gameLogic = self.gameLogic))
+        else:
+         self.fenceBlackCheckersLayout.addWidget(Checkers(team="gostFenceBlack", parentLayout=self.fenceBlackCheckersLayout, gameLogic=self.gameLogic))
     def addCheckerToPosition(self, toPos_name, team):
         for pos in self.positions:
              if toPos_name == pos.objectName():
@@ -327,6 +330,11 @@ class UILayouts():
                         checker.setEnabled(disponibility)
                         checker.setHover(disponibility)
                         index -= 1
+
+    def deleteOponentCheker(self, numberOfPos):
+        checker = getattr(self, f"pos{numberOfPos}").itemAt(0).widget()
+        getattr(self, f"pos{numberOfPos}").removeWidget(checker)
+        print(f"piesa {checker.getTeam()} a fost scoasa de pe pozitia {numberOfPos}")
     
     # functie pentru stergerea pieselor de pe tabla
     def deleteGostCheckers(self):
@@ -335,7 +343,7 @@ class UILayouts():
             if count > 0:
                 for index in range(count):
                     checker = pos.itemAt(index).widget()
-                    if checker.getTeam() == "gost":
+                    if checker.getTeam() in ["gost", "gostFenceWhite", "gostFenceBlack"]:
                         checker.hide()
                         index -= 1
 

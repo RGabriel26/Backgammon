@@ -45,7 +45,7 @@ class GameLogic():
             # NU FUNCTIONEAZA
         diceLayout.setContentsMargins(0,0,0,0)
         # se dezactiveaza butonul
-        self.layouts.enableRollButton(False)
+        # self.layouts.enableRollButton(False)
         return dices
 
     #TODO:  cand este randul unui jucator, piesele celiolalt ar trebui dezactivate cu .setEnabled()
@@ -70,7 +70,7 @@ class GameLogic():
     # TOTO: functia nu este gata, ar trebui sa verifice daca pozitiil unde urmeaza sa puna puesele sunt disponibile
         # disponibile inseamna ca pe acea pozitie sa nu existe o alta piesa a celuilalt jucator sau sa existe maxim una
             # in acest caz, piesa adversarului este scoasa pe gard
-    def showPosibleMove(self, posName):
+    def showPosibleMove(self, posName, oponentTeam = "black"):
         # obtinerea numarului pozitiei
         posID = 0
         tempStr = ''
@@ -78,10 +78,40 @@ class GameLogic():
             if char.isdigit():
                 tempStr = tempStr + char
         posID = int(tempStr)
-        
         if self.dices:
-            self.layouts.addCheckerToPosition(f'pos{posID + self.dices[0]}', "gost")
-            # a doua mutare posibila 
-            self.layouts.addCheckerToPosition(f'pos{posID + self.dices[1]}', "gost")
+            # prima mutare posibila
+            firtMove = posID + self.dices[0]
+            # a doua mutare posibila
+            secondMove = posID + self.dices[1]
             # mutare posibila realizata prin combinarea pieselor
-            self.layouts.addCheckerToPosition(f'pos{posID + self.dices[0] + self.dices[1]}', "gost")
+            combinedMove = posID + self.dices[0] + self.dices[1]
+            possibleMove = [firtMove, secondMove, combinedMove]
+
+            for move in possibleMove:
+                if move < 24:
+                    print(move)
+                # cazul in care pe pozitia posibila exista alte piese
+                    if getattr(self.layouts, f'pos{move}').count() > 0:
+                        # verificare daca adversarul are cel putin o piesa pe pozitia posibila 
+                            # veificam ca pe pozitia respectica sa existe doar o piesa
+                        if getattr(self.layouts, f'pos{move}').count() == 1:
+                            print("exista o piesa")
+                            # daca exista doar o piesa, atunci se verifica daca acesta este a adversarului
+                            if getattr(self.layouts, f'pos{move}').itemAt(0).widget().objectName() == f'{oponentTeam}Checker':
+                                print("piesa adversarului")
+                                # daca piesa este a adversarului, atunci se poate muta pe pozitia respectiva
+                                    # aici, piesa gost ar trebui sa inlocuiasca piesa adversarului si
+                                    # piesa adversarului ar trebui sa fie aruncata pe gard
+                                self.layouts.deleteOponentCheker(move)
+                                self.layouts.addCheckerToPosition(f'pos{move}', "gost")
+                                self.layouts.addCheckersToFence(oponentTeam)
+                                # TODO: Trebuie apelata finctia care la momentul selectarii pozitiei, piesa adversarului sa fie aruncata pe gard
+                        # # excluderea pozitiilor unde exista piese ale opentului
+                        if getattr(self.layouts, f'pos{move}').itemAt(0).widget().objectName() != f'{oponentTeam}Checker':
+                            self.layouts.addCheckerToPosition(f'pos{move}', "gost")
+                    else:
+                        # cazul in cere pe pozitia posibila nu exista alte piese
+                        self.layouts.addCheckerToPosition(f'pos{move}', "gost")
+
+                # TODO: Trebuie creata o functia care sa verifica ca jucatorul are toate piesele in casa
+                        # pentru ca sa poate scoate piesele din casa, astfel castigand jocul

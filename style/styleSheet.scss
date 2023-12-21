@@ -190,7 +190,14 @@ QLabel {
     image: url($gostChecker-image);
     background-color: rgba(0, 0, 0, 0);
 }
-
+#gostFenceWhiteChecker{
+    image: url($whiteChecker-image);
+    background-color: rgba(0, 0, 0, 0);
+}
+#gostFenceBlackChecker{
+    image: url($blackChecker-image);
+    background-color: rgba(0, 0, 0, 0);
+}
 ////////////// DREAPTA FERESTREI /////////////////
 #rightContainer{
     background-color: $mainContainerBColor;

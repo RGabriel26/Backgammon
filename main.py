@@ -4,7 +4,6 @@ from PyQt6.QtCore import QPoint, QSize, Qt
 from PyQt6 import QtWidgets
 import sys
 
-from functions import *
 from gameLogic import *
 from checkers import *
 from layouts import *
@@ -30,7 +29,6 @@ class UInterface(QMainWindow):
 
         # #contaier pentru elementele din stanga
         leftLayoutContainer = self.gameLogic.layouts.leftContainer()
-
         # containerul din mijlocul ferestrei
         middleLayoutContainer = self.gameLogic.layouts.middleLayout()
         
