@@ -204,7 +204,7 @@ class UILayouts():
                 positions[i].setContentsMargins(0, 0, 0, 0)
 
         #pozitionarea pe locurile default ale pieselor
-        self.setDefaultPosition()
+        self.gameLogic.setDefaultPosition()
 
         self.positions = [self.pos1, self.pos2,self.pos3, self.pos4, self.pos5,self.pos6, self.pos7, self.pos8,self.pos9,
                      self.pos10,self.pos11,self.pos12,self.pos13,self.pos14,self.pos15,self.pos16,self.pos17,self.pos18,
@@ -233,7 +233,7 @@ class UILayouts():
         #butonul de start
         self.startButton = QPushButton("START", objectName = "startButton")
         self.startButton.setFixedSize(50,50)
-        self.startButton.clicked.connect(lambda: self.funcStartButton())
+        self.startButton.clicked.connect(lambda: self.gameLogic.funcStartButton())
 
         self.diceLayout.addWidget(self.startButton)
 
@@ -271,7 +271,7 @@ class UILayouts():
         QTimer.singleShot(0, lambda: self.rollButton.setFixedSize(whiteCheckersContainer.width(), whiteCheckersContainer.width()))
                 # functia roll care adauga widgetul in diceLayout si returneaza lista cu raruri, care sunt salvate in clasa gamoLogic si stocate prin setDices
         self.rollButton.clicked.connect(lambda: self.gameLogic.saveDices(self.gameLogic.roll(self.diceLayout)))
-        self.enableRollButton(False)
+        self.gameLogic.enableRollButton(False)
 
             # adaugarea elementelor din dreapta
         rightLayout.addWidget(whiteCheckersContainer)
@@ -286,67 +286,3 @@ class UILayouts():
 
         # QTimer.singleShot(0, lambda: print(f"blackCheckersContainer: {outCheker.size()}"))
         return rightContainer
-    
-    # functii pentru adaugarea de piese in layout-uri
-    def addOutWhiteCheker(self):
-         self.whiteCheckersLayout.addWidget(QLabel(objectName = "outWhiteChecker"))
-    def addOutBlackCheker(self):
-         self.blackCheckersLayout.addWidget(QLabel(objectName = "outBlackChecker"))
-    def addCheckersToFence(self, team):
-        if team == "white":
-            self.fenceWhiteCheckersLayout.addWidget(Checkers(team="gostFenceWhite", parentLayout=self.fenceWhiteCheckersLayout, gameLogic = self.gameLogic))
-        else:
-         self.fenceBlackCheckersLayout.addWidget(Checkers(team="gostFenceBlack", parentLayout=self.fenceBlackCheckersLayout, gameLogic=self.gameLogic))
-    def addCheckerToPosition(self, toPos_name, team):
-        for pos in self.positions:
-             if toPos_name == pos.objectName():
-                  pos.addWidget(Checkers(team = team, parentLayout = pos, gameLogic=self.gameLogic))
-    # functie pentru setarea pozitiei default a pieselor
-    def setDefaultPosition(self) -> None:
-        defaulPosition = {"black" : [(self.pos6, 5), (self.pos13, 5), (self.pos8, 3), (self.pos24, 2)],
-                        "white" : [(self.pos12, 5),(self.pos19, 5),(self.pos17, 3),(self.pos1, 2)]}
-        for team, posAndCaunt in defaulPosition.items():
-            for position, numberOfPieces in posAndCaunt:
-                for i in range(numberOfPieces):
-                    position.addWidget(Checkers(team = team, parentLayout= position, gameLogic = self.gameLogic))
-
-    # functie apelata de butonul Start
-    def funcStartButton(self):
-        self.startButton.hide()
-        self.gameLogic.logic()
-
-    # dunctie pentru activarea/dezactivarea butonului de roll
-    def enableRollButton(self, isEnable):
-        self.rollButton.setEnabled(isEnable)
-
-    # functie pentru activarea/dezactivarea pieselor
-    def checkersDisponibility(self, team, disponibility):
-        for pos in self.positions:   
-            count = pos.count()
-            if count > 0:
-                for index in range(count):
-                    checker = pos.itemAt(index).widget()
-                    if checker.getTeam() == team:
-                        checker.setEnabled(disponibility)
-                        checker.setHover(disponibility)
-                        index -= 1
-
-    def deleteOponentCheker(self, numberOfPos):
-        checker = getattr(self, f"pos{numberOfPos}").itemAt(0).widget()
-        getattr(self, f"pos{numberOfPos}").removeWidget(checker)
-        print(f"piesa {checker.getTeam()} a fost scoasa de pe pozitia {numberOfPos}")
-    
-    # functie pentru stergerea pieselor de pe tabla
-    def deleteGostCheckers(self):
-        for pos in self.positions:
-            count = pos.count()
-            if count > 0:
-                for index in range(count):
-                    checker = pos.itemAt(index).widget()
-                    if checker.getTeam() in ["gost", "gostFenceWhite", "gostFenceBlack"]:
-                        checker.hide()
-                        index -= 1
-
-                
-
-         

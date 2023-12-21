@@ -59,11 +59,11 @@ class GameLogic():
     def logic(self) -> None:
         print("Start game!")
         # initial butonul de dice este dezactivat, dar devine activ dupa apasare btonului de start
-        self.layouts.enableRollButton(True) # si se ve dezactiva dupa apasarea butonului de rollDice
+        self.enableRollButton(True) # si se ve dezactiva dupa apasarea butonului de rollDice
 
         # de test pentru a verifica disponibilitatea butoanelor
         # aceasta functie trebuie utilizatat la diferentierea jucatorilor
-        self.layouts.checkersDisponibility(team = "black", disponibility = False)
+        self.checkersDisponibility(team = "black", disponibility = False)
         
         print("A iesit din functia logic")
 
@@ -71,7 +71,7 @@ class GameLogic():
         # disponibile inseamna ca pe acea pozitie sa nu existe o alta piesa a celuilalt jucator sau sa existe maxim una
             # in acest caz, piesa adversarului este scoasa pe gard
     def showPosibleMove(self, posName, oponentTeam = "black"):
-        # obtinerea numarului pozitiei
+        # obtinerea numarului pozitiei din numele layout-ului
         posID = 0
         tempStr = ''
         for char in posName:
@@ -79,11 +79,8 @@ class GameLogic():
                 tempStr = tempStr + char
         posID = int(tempStr)
         if self.dices:
-            # prima mutare posibila
             firtMove = posID + self.dices[0]
-            # a doua mutare posibila
             secondMove = posID + self.dices[1]
-            # mutare posibila realizata prin combinarea pieselor
             combinedMove = posID + self.dices[0] + self.dices[1]
             possibleMove = [firtMove, secondMove, combinedMove]
 
@@ -95,23 +92,100 @@ class GameLogic():
                         # verificare daca adversarul are cel putin o piesa pe pozitia posibila 
                             # veificam ca pe pozitia respectica sa existe doar o piesa
                         if getattr(self.layouts, f'pos{move}').count() == 1:
-                            print("exista o piesa")
                             # daca exista doar o piesa, atunci se verifica daca acesta este a adversarului
                             if getattr(self.layouts, f'pos{move}').itemAt(0).widget().objectName() == f'{oponentTeam}Checker':
-                                print("piesa adversarului")
                                 # daca piesa este a adversarului, atunci se poate muta pe pozitia respectiva
                                     # aici, piesa gost ar trebui sa inlocuiasca piesa adversarului si
                                     # piesa adversarului ar trebui sa fie aruncata pe gard
-                                self.layouts.deleteOponentCheker(move)
-                                self.layouts.addCheckerToPosition(f'pos{move}', "gost")
-                                self.layouts.addCheckersToFence(oponentTeam)
+                                self.oponentChekerVisibility(visibility = False,numberOfPos=move)
+                                self.addCheckerToPosition(f'pos{move}', "gost")
+                                self.addCheckersToFence(oponentTeam)
+                                # TODO: Trebuie readaugata piesa care a fost pusa pe gard, inapoi pe lozitia sa initiala
                                 # TODO: Trebuie apelata finctia care la momentul selectarii pozitiei, piesa adversarului sa fie aruncata pe gard
                         # # excluderea pozitiilor unde exista piese ale opentului
                         if getattr(self.layouts, f'pos{move}').itemAt(0).widget().objectName() != f'{oponentTeam}Checker':
-                            self.layouts.addCheckerToPosition(f'pos{move}', "gost")
+                            self.addCheckerToPosition(f'pos{move}', "gost")
                     else:
                         # cazul in cere pe pozitia posibila nu exista alte piese
-                        self.layouts.addCheckerToPosition(f'pos{move}', "gost")
+                        self.addCheckerToPosition(f'pos{move}', "gost")
 
                 # TODO: Trebuie creata o functia care sa verifica ca jucatorul are toate piesele in casa
                         # pentru ca sa poate scoate piesele din casa, astfel castigand jocul
+
+    # functie pentru stergerea pieselor de pe tabla
+    def deleteGostCheckers(self):
+        for pos in self.layouts.positions:
+            count = pos.count()
+            if count > 0:
+                for index in range(count):
+                    checker = pos.itemAt(index).widget()
+                    if checker.getTeam() in ["gost", "gostFenceWhite", "gostFenceBlack"]:
+                        checker.hide()
+                        index -= 1
+    # functie pemntru stergerea pieselor adversarului
+    def oponentChekerVisibility(self, visibility, numberOfPos):
+        if visibility:
+            checker = getattr(self.layouts, f"pos{numberOfPos}").itemAt(0).widget()
+            checker.show()
+        else:
+            checker = getattr(self.layouts, f"pos{numberOfPos}").itemAt(0).widget()
+            checker.hide()
+
+    # functie pentru activarea/dezactivarea pieselor
+    def checkersDisponibility(self, team, disponibility):
+        for pos in self.layouts.positions:   
+            count = pos.count()
+            if count > 0:
+                for index in range(count):
+                    checker = pos.itemAt(index).widget()
+                    if checker.getTeam() == team:
+                        checker.setEnabled(disponibility)
+                        checker.setHover(disponibility)
+                        index -= 1
+
+    # functie pentru activarea/dezactivarea pieselor
+    def checkersDisponibility(self, team, disponibility):
+        for pos in self.layouts.positions:   
+            count = pos.count()
+            if count > 0:
+                for index in range(count):
+                    checker = pos.itemAt(index).widget()
+                    if checker.getTeam() == team:
+                        checker.setEnabled(disponibility)
+                        checker.setHover(disponibility)
+                        index -= 1
+
+    # functie apelata de butonul Start
+    def funcStartButton(self):
+        self.layouts.startButton.hide()
+        self.logic()
+
+    # dunctie pentru activarea/dezactivarea butonului de roll
+    def enableRollButton(self, isEnable):
+        self.layouts.rollButton.setEnabled(isEnable)
+
+    # functie pentru setarea pozitiei default a pieselor
+    def setDefaultPosition(self) -> None:
+        defaulPosition = {"black" : [(self.layouts.pos6, 5), (self.layouts.pos13, 5), (self.layouts.pos8, 3), (self.layouts.pos24, 2)],
+                          "white" : [(self.layouts.pos12, 5),(self.layouts.pos19, 5),(self.layouts.pos17, 3),(self.layouts.pos1, 2)]}
+        for team, posAndCaunt in defaulPosition.items():
+            for position, numberOfPieces in posAndCaunt:
+                for i in range(numberOfPieces):
+                    position.addWidget(Checkers(team = team, parentLayout= position, gameLogic = self))
+
+    # functii pentru adaugarea de piese in layout-uri
+    def addOutWhiteCheker(self):
+         self.layouts.whiteCheckersLayout.addWidget(QLabel(objectName = "outWhiteChecker"))
+    def addOutBlackCheker(self):
+         self.layouts.blackCheckersLayout.addWidget(QLabel(objectName = "outBlackChecker"))
+    def addCheckersToFence(self, team):
+        if team == "white":
+            layout = self.layouts.fenceWhiteCheckersLayout
+            layout.addWidget(Checkers(team="gostFenceWhite", parentLayout=layout, gameLogic = self))
+        else:
+            layout = self.layouts.fenceBlackCheckersLayout
+            layout.addWidget(Checkers(team="gostFenceBlack", parentLayout=layout, gameLogic = self))
+    def addCheckerToPosition(self, toPos_name, team):
+        for pos in self.layouts.positions:
+             if toPos_name == pos.objectName():
+                  pos.addWidget(Checkers(team = team, parentLayout = pos, gameLogic=self))

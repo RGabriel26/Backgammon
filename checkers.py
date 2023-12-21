@@ -39,8 +39,10 @@ class Checkers(QPushButton):
             self.gameLogic.showPosibleMove(self.parentLayout.objectName())
             print(f"Piesa {self.team} a fost selectata prin hover event: {self.parentLayout.objectName()}")
         else:
-            self.gameLogic.layouts.deleteGostCheckers()
+            self.gameLogic.deleteGostCheckers()
             # TODO: Trebuie readaugata piesa de pe pozitia de unde a fost mutata
+                # de cautat o solutie de a salva pozitia de unde a fost mutata piesa
+            self.gameLogic.oponentChekerVisibility(True, 21)
 
     def click(self):
         print(f"Piesa {self.team} a fost selectata prin clicked event: {self.parentLayout.objectName()}")
