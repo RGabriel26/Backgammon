@@ -14,7 +14,7 @@ class GameLogic():
         - addOutCheker(team)
         - addCheckersToFence(team)
         - addCheckerToPosition(toPos_name, team)
-        - showPosibleMove(posName, oponentTeam = "black")
+        - showPossibleMove(posName, oponentTeam = "black")
         - oponentChekerVisibility(visibility, numberOfPos)
         - checkersDisponibility(team, disponibility)
         - deleteGhostCheckers()
@@ -125,7 +125,7 @@ class GameLogic():
                   pos.addWidget(Checkers(team = team, positionName = pos.objectName(), gameLogic = self))
 
     # functie pentru afisarea pozitiilor posibile
-    def showPosibleMove(self, posName, oponentTeam) -> None:
+    def showPossibleMove(self, posName, oponentTeam) -> None:
         """Functia este responsabila de informarea jucatorilor cu privire la pozitiile posibile pe care se pot folosi.\n
         Pozitiile posibile sunt calculate in functie de zarurile generate.\n
         Pentru a informa jucatorii, pozitiile posibile sunt marcate cu piese ghost, care apar cand una din piesele jucatorului este selectata
@@ -147,7 +147,6 @@ class GameLogic():
 
             placedGhostCheckers = 0
             for move in possibleMove:
-                print(placedGhostCheckers)
                 if move < 24:
                     # verificare daca se poate afisa pozitia rezultata prin adunarea zarurilor
                     # pentru ca piesa sa poata fi afisata pe pozitia rezultata prin adunarea zarurilor
