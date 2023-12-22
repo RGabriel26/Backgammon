@@ -23,18 +23,15 @@ QMainWindow {
     margin:0;
     padding:0;
 }
-
 QLabel { 
     background-color: $checkerOUTContainerBColor;
 }
-
 /////////////// STANGA FERESTREI /////////////////
 #leftContainer{
     /* culoare data doar pentru test */
     background-color: $mainContainerBColor;
     image: url($backgroundLeft-image)
 }
-
 #labelPlayer1 {
     background-color: $labelPlayerBColor;
     image: url($backgroundPlayer-image);
@@ -46,14 +43,12 @@ QLabel {
     font-size: 25px;
     // padding-left: 25%;
 }
-
 #diceContainer{
     background-color: $labelPlayerBColor;
     image: url($backgroundDice-image)
 
     // margin: 15% 30% 12% 25%;
 }
-
 #labelPlayer2 {
     background-color: $labelPlayerBColor;
     image: url($backgroundPlayer-image);
@@ -65,7 +60,6 @@ QLabel {
     font-size: 25px;
     // padding-left: 25%;
 }
-
 ////////////// MIJLOUL FERESTREI /////////////////
 #middleContainer{
     /* culoare data doar pentru test */
@@ -176,12 +170,11 @@ QLabel {
 #pos6Container{
     background-color: $layoutCheckersBColor;
 }
-
+////////////////// CHECKERS ////////////////////
 #blackChecker{
     image: url($blackChecker-image);
     border-radius: 25%;
 }
-
 #whiteChecker{
     image: url($whiteChecker-image);
     border-radius: 25%;
@@ -203,12 +196,21 @@ QLabel {
     background-color: $mainContainerBColor;
     image: url($backgroundRight-image)
 }
-
 #whiteCheckersContainer{
     background-color: $checkerOUTContainerBColor;
     image: url($backgroundOutCheckers-image);
 }
-
+#blackCheckersContainer{
+    background-color: $checkerOUTContainerBColor;
+    image: url($backgroundOutCheckers-image);
+}
+#outWhiteChecker{
+    image: url($outWhiteCheckers-image);
+}
+#outBlackChecker{
+    image: url($outBlackCheckers-image);
+}
+////////////// BUTONUL DE ROLL /////////////////
 #rollButton{
     image: url($rollButton-image);
     background-position: center;
@@ -216,15 +218,3 @@ QLabel {
     border-radius: 25%;
     
 } 
-
-#blackCheckersContainer{
-    background-color: $checkerOUTContainerBColor;
-    image: url($backgroundOutCheckers-image);
-}
-
-#outWhiteChecker{
-    image: url($outWhiteCheckers-image);
-}
-#outBlackChecker{
-    image: url($outBlackCheckers-image);
-}

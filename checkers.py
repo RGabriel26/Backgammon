@@ -77,7 +77,10 @@ class Checkers(QPushButton):
                     self.gameLogic.oponentChekerVisibility(True, position)
 
     def click(self):
-
+        # TODO: Trebuie creata o functia care sa verifica ca jucatorul are toate piesele in casa
+        # pentru ca sa poate scoate piesele din casa, astfel astigand jocul
+        # TODO: Trebuie apelata finctia care la momentul selectarii pozitiei, piesa adversarului sa fie aruncata pe gard
+        
         # Doar de test
         print(f"Piesa {self.team} a fost selectata prin clicked event: {self.positionName}")
 

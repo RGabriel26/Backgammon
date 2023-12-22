@@ -212,13 +212,6 @@ QLabel {
   image: url("images/outCheckersBackground.png");
 }
 
-#rollButton {
-  image: url("images/rollButton.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 25%;
-}
-
 #blackCheckersContainer {
   background-color: rgba(255, 255, 255, 0);
   image: url("images/outCheckersBackground.png");
@@ -230,4 +223,11 @@ QLabel {
 
 #outBlackChecker {
   image: url("images/outBlackChecker.png");
+}
+
+#rollButton {
+  image: url("images/rollButton.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 25%;
 }/*# sourceMappingURL=styleSheet.css.map */
