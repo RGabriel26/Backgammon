@@ -213,7 +213,8 @@ class UILayouts():
 
         # QTimer.singleShot(0, lambda: print(f"pos10Container: {pos10Container.size()}"))
 
-        self.pos21.addWidget(Checkers(team="black", parentLayout=self.pos21, gameLogic = self.gameLogic))
+        self.pos21.addWidget(Checkers(team="black", positionName=self.pos21.objectName(), gameLogic = self.gameLogic))
+        self.pos20.addWidget(Checkers(team="black", positionName=self.pos20.objectName(), gameLogic = self.gameLogic))
         return middleContainer
 
     def leftContainer(self):

@@ -1,12 +1,8 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QLabel, QWidget, QHBoxLayout, QGridLayout, QLayout, QSpacerItem
-from PyQt6.QtGui import QPixmap, QIcon
-from PyQt6.QtCore import QPoint, QSize, Qt
-from PyQt6 import QtWidgets
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout
+from PyQt6.QtGui import QIcon
 import sys
 
 from gameLogic import *
-from checkers import *
-from layouts import *
 
 
 class UInterface(QMainWindow):

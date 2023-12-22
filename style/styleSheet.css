@@ -187,17 +187,17 @@ QLabel {
   border-radius: 25%;
 }
 
-#gostChecker {
-  image: url("images/gostChecker.png");
+#ghostChecker {
+  image: url("images/ghostChecker.png");
   background-color: rgba(0, 0, 0, 0);
 }
 
-#gostFenceWhiteChecker {
+#ghostFenceWhiteChecker {
   image: url("images/white-checker.png");
   background-color: rgba(0, 0, 0, 0);
 }
 
-#gostFenceBlackChecker {
+#ghostFenceBlackChecker {
   image: url("images/black-checker.png");
   background-color: rgba(0, 0, 0, 0);
 }

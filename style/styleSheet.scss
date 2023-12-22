@@ -15,7 +15,7 @@ $backgroundDice-image: "images/diceLayoutBackground.png";
 $backgroundOutCheckers-image: "images/outCheckersBackground.png";
 $outWhiteCheckers-image: "images/outWhiteChecker.png";
 $outBlackCheckers-image: "images/outBlackChecker.png";
-$gostChecker-image: "images/gostChecker.png";
+$ghostChecker-image: "images/ghostChecker.png";
 
 QMainWindow { 
     // image: url($background-image);
@@ -186,15 +186,15 @@ QLabel {
     image: url($whiteChecker-image);
     border-radius: 25%;
 }
-#gostChecker{
-    image: url($gostChecker-image);
+#ghostChecker{
+    image: url($ghostChecker-image);
     background-color: rgba(0, 0, 0, 0);
 }
-#gostFenceWhiteChecker{
+#ghostFenceWhiteChecker{
     image: url($whiteChecker-image);
     background-color: rgba(0, 0, 0, 0);
 }
-#gostFenceBlackChecker{
+#ghostFenceBlackChecker{
     image: url($blackChecker-image);
     background-color: rgba(0, 0, 0, 0);
 }
