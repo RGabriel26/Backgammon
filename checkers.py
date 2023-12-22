@@ -48,7 +48,7 @@ class Checkers(QPushButton):
         apeleaza functia de afisare a pieselor gost pe pozitiile posibile
         in functie de zaruri.\n
         Apeleaza functiile: 
-            - showPosibleMove(positionName) din gameLogic.py
+            - showPossibleMove(positionName) din gameLogic.py
             - deleteGostCheckers() din gameLogic.py
             - oponentChekerVisibility(isVisible, position) din gameLogic.py\n
         Cand piesa nu mai este in focusul mouse-ului se sterg piesele gost 
@@ -59,9 +59,9 @@ class Checkers(QPushButton):
             # cand piesa este in focusul mouse-ului se apeleaza functia care afiseaza 
             # pe pozitiile posibile dictate de ce zar a picat si adauga piesele gost
             if self.team == "white":
-                self.gameLogic.showPosibleMove(posName = self.positionName, oponentTeam = "black")
+                self.gameLogic.showPossibleMove(posName = self.positionName, oponentTeam = "black")
             else:
-                self.gameLogic.showPosibleMove(posName = self.positionName, oponentTeam = "white")
+                self.gameLogic.showPossibleMove(posName = self.positionName, oponentTeam = "white")
 
             # Doar de test
             print(f"Piesa {self.team} a fost selectata prin hover event: {self.positionName}")
@@ -77,7 +77,10 @@ class Checkers(QPushButton):
                     self.gameLogic.oponentChekerVisibility(True, position)
 
     def click(self):
-
+        # TODO: Trebuie creata o functia care sa verifica ca jucatorul are toate piesele in casa
+        # pentru ca sa poate scoate piesele din casa, astfel astigand jocul
+        # TODO: Trebuie apelata finctia care la momentul selectarii pozitiei, piesa adversarului sa fie aruncata pe gard
+        
         # Doar de test
         print(f"Piesa {self.team} a fost selectata prin clicked event: {self.positionName}")
 

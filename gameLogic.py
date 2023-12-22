@@ -14,13 +14,16 @@ class GameLogic():
         - addOutCheker(team)
         - addCheckersToFence(team)
         - addCheckerToPosition(toPos_name, team)
-        - showPosibleMove(posName, oponentTeam = "black")
+        - showPossibleMove(posName, oponentTeam = "black")
         - oponentChekerVisibility(visibility, numberOfPos)
         - checkersDisponibility(team, disponibility)
         - deleteGhostCheckers()
         - funcStartButton()
         - enableRollButton(isEnable)
         - setDefaultPosition()
+
+        Logica jocului:
+
         """
     def __init__(self):
         print("initializare gameLogic...")
@@ -122,7 +125,7 @@ class GameLogic():
                   pos.addWidget(Checkers(team = team, positionName = pos.objectName(), gameLogic = self))
 
     # functie pentru afisarea pozitiilor posibile
-    def showPosibleMove(self, posName, oponentTeam) -> None:
+    def showPossibleMove(self, posName, oponentTeam) -> None:
         """Functia este responsabila de informarea jucatorilor cu privire la pozitiile posibile pe care se pot folosi.\n
         Pozitiile posibile sunt calculate in functie de zarurile generate.\n
         Pentru a informa jucatorii, pozitiile posibile sunt marcate cu piese ghost, care apar cand una din piesele jucatorului este selectata
@@ -142,9 +145,14 @@ class GameLogic():
             combinedMove = posID + self.dices[0] + self.dices[1]
             possibleMove = [firtMove, secondMove, combinedMove]
 
+            placedGhostCheckers = 0
             for move in possibleMove:
                 if move < 24:
-                    print(move)
+                    # verificare daca se poate afisa pozitia rezultata prin adunarea zarurilor
+                    # pentru ca piesa sa poata fi afisata pe pozitia rezultata prin adunarea zarurilor
+                    # trebuie ca macar unul din zaruri sa fie folosit pentru a ajunge pe pozitia respectiva
+                    if placedGhostCheckers == 0 and move == possibleMove[2]:
+                        break
                 # cazul in care pe pozitia posibila exista alte piese
                     if getattr(self.layouts, f'pos{move}').count() > 0:
                         # verificare daca adversarul are cel putin o piesa pe pozitia posibila 
@@ -159,17 +167,17 @@ class GameLogic():
                                 self.fencedCheckers.append(move)
                                 self.addCheckerToPosition(f'pos{move}', "ghost")
                                 self.addCheckersToFence(oponentTeam)
+                                placedGhostCheckers += 1
                                 # piesa adversarului devine din nou vizibila prin apelarea functiei oponentChekerVisibility in functia hover
-                                # TODO: Trebuie apelata finctia care la momentul selectarii pozitiei, piesa adversarului sa fie aruncata pe gard
                         # excluderea pozitiilor unde exista piese ale opentului si sunt mai mult de 1 piese
-                        if getattr(self.layouts, f'pos{move}').itemAt(0).widget().objectName() != f'{oponentTeam}Checker':
+                        lastChecker = getattr(self.layouts, f'pos{move}').count() - 1
+                        if getattr(self.layouts, f'pos{move}').itemAt(lastChecker).widget().objectName() not in [f'{oponentTeam}Checker', 'ghostChecker']:
                             self.addCheckerToPosition(f'pos{move}', "ghost")
+                            placedGhostCheckers += 1
                     else:
                         # cazul in cere pe pozitia posibila nu exista alte piese
                         self.addCheckerToPosition(f'pos{move}', "ghost")
-
-                # TODO: Trebuie creata o functia care sa verifica ca jucatorul are toate piesele in casa
-                        # pentru ca sa poate scoate piesele din casa, astfel castigand jocul
+                        placedGhostCheckers += 1
 
     # functie pemntru stergerea pieselor adversarului
     def oponentChekerVisibility(self, visibility, numberOfPos) -> None:
