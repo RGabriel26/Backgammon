@@ -15,7 +15,7 @@ $backgroundDice-image: "images/diceLayoutBackground.png";
 $backgroundOutCheckers-image: "images/outCheckersBackground.png";
 $outWhiteCheckers-image: "images/outWhiteChecker.png";
 $outBlackCheckers-image: "images/outBlackChecker.png";
-
+$ghostChecker-image: "images/ghostChecker.png";
 
 QMainWindow { 
     // image: url($background-image);
@@ -186,7 +186,18 @@ QLabel {
     image: url($whiteChecker-image);
     border-radius: 25%;
 }
-
+#ghostChecker{
+    image: url($ghostChecker-image);
+    background-color: rgba(0, 0, 0, 0);
+}
+#ghostFenceWhiteChecker{
+    image: url($whiteChecker-image);
+    background-color: rgba(0, 0, 0, 0);
+}
+#ghostFenceBlackChecker{
+    image: url($blackChecker-image);
+    background-color: rgba(0, 0, 0, 0);
+}
 ////////////// DREAPTA FERESTREI /////////////////
 #rightContainer{
     background-color: $mainContainerBColor;

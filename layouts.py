@@ -1,15 +1,16 @@
-from PyQt6.QtWidgets import QWidget, QGridLayout, QVBoxLayout, QHBoxLayout, QLabel
+from PyQt6.QtWidgets import QWidget, QGridLayout, QVBoxLayout, QHBoxLayout, QLabel, QDialog
 from PyQt6.QtCore import Qt, QTimer
 
 from checkers import *
-from functions import *
 
+# clasa este apelata de clasa gameLogic
 class UILayouts():
-    def __init__(self) -> None:
+    def __init__(self, gameLogic_instance) -> None:
         super().__init__()
+        self.gameLogic = gameLogic_instance
         print("initializare layouts...")
 
-    def middleLayout(self): 
+    def middleLayout(self):
         middleContainer = QWidget(objectName = "middleContainer")
         middlePrincipalLayout = QHBoxLayout()
         ############################################ zona din STANGA ###############################################################
@@ -203,21 +204,17 @@ class UILayouts():
                 positions[i].setContentsMargins(0, 0, 0, 0)
 
         #pozitionarea pe locurile default ale pieselor
-        # self.setDefaultPosition()
-        
-        # adaugare de test a pieselor pe gard
-        # self.fenceWhiteCheckersLayout.addWidget(Checkers("white", self.fenceWhiteCheckersLayout))
-        # self.fenceBlackCheckersLayout.addWidget(Checkers("black", self.fenceBlackCheckersLayout))
-             
-        
-        # pentru a testa incadrarea -> afisarea a n piese de joc pe fiecare pozitie
+        self.gameLogic.setDefaultPosition()
 
-        # positions = [pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9, pos10, pos11, pos12, pos13, pos14, pos15, pos16, pos17, pos18, pos19, pos20, pos21, pos22, pos23, pos24]
-        # for pos in positions:
-        #         for i in range(5):
-        #                 pos.addWidget(Checkers("black", pos))      
+        self.positions = [self.pos1, self.pos2,self.pos3, self.pos4, self.pos5,self.pos6, self.pos7, self.pos8,self.pos9,
+                     self.pos10,self.pos11,self.pos12,self.pos13,self.pos14,self.pos15,self.pos16,self.pos17,self.pos18,
+                     self.pos19,self.pos20,self.pos21,self.pos22,self.pos23,self.pos24,
+                     self.fenceWhiteCheckersLayout, self.fenceBlackCheckersLayout]
 
         # QTimer.singleShot(0, lambda: print(f"pos10Container: {pos10Container.size()}"))
+
+        self.pos21.addWidget(Checkers(team="black", positionName=self.pos21.objectName(), gameLogic = self.gameLogic))
+        self.pos20.addWidget(Checkers(team="black", positionName=self.pos20.objectName(), gameLogic = self.gameLogic))
         return middleContainer
 
     def leftContainer(self):
@@ -234,6 +231,13 @@ class UILayouts():
         self.diceLayout.setObjectName("diceLayout")
         diceContainer.setLayout(self.diceLayout)
 
+        #butonul de start
+        self.startButton = QPushButton("START", objectName = "startButton")
+        self.startButton.setFixedSize(50,50)
+        self.startButton.clicked.connect(lambda: self.gameLogic.funcStartButton())
+
+        self.diceLayout.addWidget(self.startButton)
+
         # adaugarea de elemente in fiecare container
         # adaugarea elementelor din stanga
         leftLayout.addWidget(QLabel("Player1", objectName = "labelPlayer1"))
@@ -243,7 +247,7 @@ class UILayouts():
         # QTimer.singleShot(0, lambda: print(f"leftContainer: {leftContainer.size()}"))
         return leftContainer
 
-    def rightContainer(self, gameLogic):
+    def rightContainer(self):
         # piesele scoase de jucatori
             #creara containerului in care se fa crea layout-ul din partea dreapta
         rightContainer = QWidget()
@@ -262,16 +266,17 @@ class UILayouts():
         self.blackCheckersLayout = QVBoxLayout()
         blackCheckersContainer.setLayout(self.blackCheckersLayout)
                 # crearea butonului de Roll
-        rollButton = QPushButton()
-        rollButton.setObjectName("rollButton")
-        #PENTRU A PUTEA OBTINE MARIMEA REALA A WIDGET ULUI 
-        QTimer.singleShot(0, lambda: rollButton.setFixedSize(whiteCheckersContainer.width(), whiteCheckersContainer.width()))
+        self.rollButton = QPushButton()
+        self.rollButton.setObjectName("rollButton")
+        #QTime.singleShot(0) asteapta ca interfata grafica sa se termine de randat, dupa care executa comanda
+        QTimer.singleShot(0, lambda: self.rollButton.setFixedSize(whiteCheckersContainer.width(), whiteCheckersContainer.width()))
                 # functia roll care adauga widgetul in diceLayout si returneaza lista cu raruri, care sunt salvate in clasa gamoLogic si stocate prin setDices
-        rollButton.clicked.connect(lambda: gameLogic.setDices(roll(self.diceLayout)))
+        self.rollButton.clicked.connect(lambda: self.gameLogic.saveDices(self.gameLogic.roll(self.diceLayout)))
+        self.gameLogic.enableRollButton(False)
 
             # adaugarea elementelor din dreapta
         rightLayout.addWidget(whiteCheckersContainer)
-        rightLayout.addWidget(rollButton)
+        rightLayout.addWidget(self.rollButton)
         rightLayout.addWidget(blackCheckersContainer)
 
         self.whiteCheckersLayout.setAlignment(Qt.AlignmentFlag.AlignTop)
@@ -280,45 +285,5 @@ class UILayouts():
         self.blackCheckersLayout.setAlignment(Qt.AlignmentFlag.AlignBottom)
         self.blackCheckersLayout.setContentsMargins(0, 5, 0, 5)
 
-        # adaugarea de test a pieselor scoase
-        # for i in range(6):
-        #     outCheker  = QLabel(objectName = "outWhiteChecker")
-        #     self.whiteCheckersLayout.addWidget(outCheker)
-
-        # for i in range(6):
-        #     outCheker  = QLabel(objectName = "outBlackChecker")
-        #     self.blackCheckersLayout.addWidget(outCheker)
-
         # QTimer.singleShot(0, lambda: print(f"blackCheckersContainer: {outCheker.size()}"))
         return rightContainer
-    
-    # TODO: De creat functii care sa afauge elemente in partea grafica
-            #aici ma refer pe toate layoutuirle, atat pe pozitii, pe gard cat si in exterior, cand 
-            #acestea sunt scoase le finalul jocului
-    
-    def testAddWidgetPos20(self):
-         self.pos20.addWidget(Checkers("black", self.pos20))
-
-    def setDefaultPosition(self) -> None:
-        defaulPosition = {"black" : [(self.pos6, 5), (self.pos13, 5), (self.pos8, 3), (self.pos24, 2)],
-                        "white" : [(self.pos12, 5),(self.pos19, 5),(self.pos17, 3),(self.pos1, 2)]}
-        for team, posAndCaunt in defaulPosition.items():
-            for position, numberOfPieces in posAndCaunt:
-                for i in range(numberOfPieces):
-                    position.addWidget(Checkers(team, position))
-    
-    def addOutWhiteCheker(self):
-         self.whiteCheckersLayout.addWidget(QLabel(objectName = "outWhiteChecker"))
-    
-    def addOutBlackCheker(self):
-         self.blackCheckersLayout.addWidget(QLabel(objectName = "outBlackChecker"))
-
-    def addFenceWhiteChecker(self):
-         self.fenceWhiteCheckersLayout.addWidget(Checkers("white", self.fenceWhiteCheckersLayout))
-
-    def addFenceBlackChecker(self):
-         self.fenceBlackCheckersLayout.addWidget(Checkers("black", self.fenceBlackCheckersLayout))
-
-    def addCheckerToPosition(self, newPos, team):
-        newPos.addWidget(Checkers(team, newPos))
-         

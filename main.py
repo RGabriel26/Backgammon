@@ -1,13 +1,8 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QLabel, QWidget, QHBoxLayout, QGridLayout, QLayout, QSpacerItem
-from PyQt6.QtGui import QPixmap, QIcon
-from PyQt6.QtCore import QPoint, QSize, Qt
-from PyQt6 import QtWidgets
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout
+from PyQt6.QtGui import QIcon
 import sys
 
-from functions import *
 from gameLogic import *
-from checkers import *
-from layouts import *
 
 
 class UInterface(QMainWindow):
@@ -15,8 +10,6 @@ class UInterface(QMainWindow):
         super().__init__()
         self.setWindowTitle("BackGammon")
         self.setWindowIcon(QIcon("images/white-checker.png"))
-        # self.layouts = UILayouts()
-        # self.gameLogic = GameLogic(self.layouts)
         self.gameLogic = GameLogic()
         self.initGUI()
 
@@ -32,12 +25,11 @@ class UInterface(QMainWindow):
 
         # #contaier pentru elementele din stanga
         leftLayoutContainer = self.gameLogic.layouts.leftContainer()
-
         # containerul din mijlocul ferestrei
         middleLayoutContainer = self.gameLogic.layouts.middleLayout()
         
         # containerul elementelor din stanga
-        rightLayoutContainer = self.gameLogic.layouts.rightContainer(self.gameLogic)
+        rightLayoutContainer = self.gameLogic.layouts.rightContainer()
 
         # folosit pentru a aduna containerele intr un singur loc pentru a putea fi gestionate
         parentLayout.addWidget(leftLayoutContainer, 20)
@@ -48,7 +40,6 @@ class UInterface(QMainWindow):
         centralWidget = QWidget()  
         centralWidget.setLayout(parentLayout)
         self.setCentralWidget(centralWidget)
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

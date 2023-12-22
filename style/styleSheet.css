@@ -187,6 +187,21 @@ QLabel {
   border-radius: 25%;
 }
 
+#ghostChecker {
+  image: url("images/ghostChecker.png");
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#ghostFenceWhiteChecker {
+  image: url("images/white-checker.png");
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#ghostFenceBlackChecker {
+  image: url("images/black-checker.png");
+  background-color: rgba(0, 0, 0, 0);
+}
+
 #rightContainer {
   background-color: rgba(63, 208, 27, 0);
   image: url("images/rightBackgroud.png");
