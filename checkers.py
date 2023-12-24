@@ -21,7 +21,7 @@ class Checkers(QPushButton):
             # - 1 pentru primul zar
             # - 2 pentru al doilea zar
             # - 3 pentru ambele zaruri
-    def __init__(self, team, positionName, gameLogic, sourceCheckers):
+    def __init__(self, team, positionName, gameLogic, sourceCheckers = 0):
         super().__init__()
         self.team = team
         self.positionName = positionName
@@ -63,7 +63,10 @@ class Checkers(QPushButton):
         de pe pozitiile posibile.\n
         Daca o piesa sunt piese gost pe gard, se vor reafisa piesele adversarului
         pe pozitiile anterioare de unde au fost luate."""
-        if self.gameLogic.isGlobalHoverEnable:
+        if not self.gameLogic.isGlobalCheckerInteractiv:
+            # se asteapta apasarea butonului de start pentru a indica inceperea jocului, implicit si interactiunea cu piesele
+            return
+        if self.gameLogic.isGlobalHoverEnable and self.team not in ['ghostFenceWhite', 'ghostFenceBlack']:
             if is_hovered and self.isHoverEnable and self.team != 'ghost':
                 # cand piesa este in focusul mouse-ului se apeleaza functia care afiseaza 
                 # pe pozitiile posibile dictate de ce zar a picat si adauga piesele gost
@@ -113,31 +116,40 @@ class Checkers(QPushButton):
                     # urmatorul jucator
         # - Daca nu se mai pot face mutari, jocul trece la urmatorul jucator
 
-        # Event de click pentru piesele ghost
-        if self.team == "ghost":
-            # Aici trebuie sa se inlocuiasca piesa ghost pe care s-a dat click cu o piesa a jucatorului curent
-            # Iar de pe pozitia de unde s-a facut anterior click pe o piesa reala, sa se elimine piesa
-            
-            print(f'Zarul folosit pentru acest checkers ghost: {self.sourceCheckers}')
+        if not self.gameLogic.isGlobalCheckerInteractiv:
+            # se asteapta apasarea butonului de start pentru a indica inceperea jocului, implicit si interactiunea cu piesele
+            return
+
+        # Excluderea pieselor ghost de pe gard
+        if self.team not in ['ghostFenceWhite', 'ghostFenceBlack']:
+            # Event de click pentru piesele ghost
+            if self.team == "ghost":
+                # Aici trebuie sa se inlocuiasca piesa ghost pe care s-a dat click cu o piesa a jucatorului curent
+                # Iar de pe pozitia de unde s-a facut anterior click pe o piesa reala, sa se elimine piesa
             
 
-           
-        # Event de click pentru piesele reale ale jucatorilo
-        if self.team != "ghost":
-            oponentTeam = "black" if self.team == "white" else "white"
-            self.gameLogic.showPossibleMove(posName = self.positionName, oponentTeam = oponentTeam) 
+                
+                print(f'Zarul folosit pentru acest checkers ghost: {self.sourceCheckers}')
+                
 
-            if self.gameLogic.clickCounter % 2 != 0:
-                self.gameLogic.isGlobalHoverEnable = True
-                self.gameLogic.canDeleteGhostCheckers = True
-                self.gameLogic.deleteGhostCheckers(True)
-            else:
-                self.gameLogic.isGlobalHoverEnable = False
-                self.gameLogic.canDeleteGhostCheckers = False
             
-            print(f'counter click: {self.gameLogic.clickCounter}')
+            # Event de click pentru piesele reale ale jucatorilo
+            if self.team != "ghost":
+                # TODO: Este o problema, ar trebui evitat spamul inutil de click pe pise deoarece poate influenta eventul click datorita incrementarii variabilei self.gameLogic.clickCounter
+                oponentTeam = "black" if self.team == "white" else "white"
+                self.gameLogic.showPossibleMove(posName = self.positionName, oponentTeam = oponentTeam) 
 
-            self.gameLogic.clickCounter += 1
+                if self.gameLogic.clickCounter % 2 != 0:
+                    self.gameLogic.isGlobalHoverEnable = True
+                    self.gameLogic.canDeleteGhostCheckers = True
+                    self.gameLogic.deleteGhostCheckers(True)
+                else:
+                    self.gameLogic.isGlobalHoverEnable = False
+                    self.gameLogic.canDeleteGhostCheckers = False
+                
+                print(f'counter click: {self.gameLogic.clickCounter}')
+
+                self.gameLogic.clickCounter += 1
 
     
         # Trebuie apelata functia logic din gameLogic, pentru a gestiona logica jocului acolo

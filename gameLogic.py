@@ -32,6 +32,7 @@ class GameLogic():
         self.layouts = UILayouts(self)
         self.fencedCheckers = []
         self.clickCounter = 0
+        self.isGlobalCheckerInteractiv = False
         self.isGlobalHoverEnable = True
         self.canDeleteGhostCheckers = True
         self.possibleMove = []
@@ -93,6 +94,7 @@ class GameLogic():
         print("Start game!")
         # initial butonul de dice este dezactivat, dar devine activ dupa apasare btonului de start
         self.enableRollButton(True) # si se ve dezactiva dupa apasarea butonului de rollDice
+        self.isGlobalCheckerInteractiv = True # variabila care va activa/dezactiva piesele de pe tabla
 
         # de test pentru a verifica disponibilitatea butoanelor
         # aceasta functie trebuie utilizatat la diferentierea jucatorilor
