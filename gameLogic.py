@@ -12,7 +12,7 @@ class GameLogic():
         - roll(diceLayout)
         - logic()
         - addOutCheker(team) 
-        - addCheckersToFence(team)
+        - addCheckerToFence(team)
         - addCheckerToPosition(toPos_name, team)
         - showPossibleMove(posName, oponentTeam = "black")
         - oponentChekerVisibility(visibility, numberOfPos)
@@ -21,10 +21,9 @@ class GameLogic():
         - funcStartButton()
         - enableRollButton(isEnable)
         - setDefaultPosition()
-
-        Logica jocului:
-
         """
+    # TODO: TASK:
+    # - imlementarea jogicii jocului, astfel ca jucatorii sa poata accesa piesele pe rand
     def __init__(self):
         print("initializare gameLogic...")
         # folosit pentru a stoca zarurile generate in functia roll din RollFunctionalities
@@ -36,9 +35,15 @@ class GameLogic():
         self.isGlobalHoverEnable = True
         self.canDeleteGhostCheckers = True
         self.possibleMove = []
+        
+        self.teamTurn = "white"
     
     def saveDices(self,dices) -> QLabel:
-        self.dices = dices
+        if dices[0] == dices[1]:
+            self.dices = [dices[0] for i in range(4)]
+            print(self.dices)
+        else:
+            self.dices = dices
 
     def getDices(self) -> list:
         """Functie care returneaza zarurile salvate in cadrul instantei gameLogic.\n
@@ -111,7 +116,7 @@ class GameLogic():
         else:
             self.layouts.blackCheckersLayout.addWidget(QLabel(objectName = "outBlackChecker"))
 
-    def addCheckersToFence(self, team) -> None:
+    def addGhostCheckerToFence(self, team) -> None:
         """Adauga piesele aruncate pe gard in layout-urile corespunzatoare in functie de variabila team data ca parametru.\n
         Apelata in functia:
             - showPosibleMove(posName, oponentTeam = "black") din gameLogic.py"""
@@ -122,14 +127,32 @@ class GameLogic():
             layout = self.layouts.fenceBlackCheckersLayout
             layout.addWidget(Checkers(team="ghostFenceBlack", positionName = layout.objectName(), gameLogic = self))
 
-    def addCheckerToPosition(self, toPos_name, team, useDice = 0) -> None:
+    def addCheckerToFence(self, team) -> None:
+        """Adauga piesele aruncate pe gard in layout-urile corespunzatoare in functie de variabila team data ca parametru.\n
+        Apelata in functia:
+            - showPosibleMove(posName, oponentTeam = "black") din gameLogic.py"""
+        if team == "white":
+            layout = self.layouts.fenceWhiteCheckersLayout
+            layout.addWidget(Checkers(team="white", positionName = layout.objectName(), gameLogic = self))
+        else:
+            layout = self.layouts.fenceBlackCheckersLayout
+            layout.addWidget(Checkers(team="black", positionName = layout.objectName(), gameLogic = self))
+
+    def addCheckerToPosition(self, toPos_name, team, useDice = 0, replaceCheckers = False) -> None:
         """Adauga piesele pe pozitiile corespunzatoare in functie de variabila team data ca parametru.\n
         Pozitionarea pieselor se face in functie de variabila toPos_name data ca parametru.\n
         Apelata in functia:
             - showPosibleMove(posName, oponentTeam = "black") din gameLogic.py"""
         for pos in self.layouts.positions:
              if toPos_name == pos.objectName():
-                  pos.addWidget(Checkers(team = team, positionName = pos.objectName(), gameLogic = self, sourceCheckers= useDice))
+                  pos.addWidget(Checkers(team = team, positionName = pos.objectName(), gameLogic = self, usedDice= useDice, replaceCheckers = replaceCheckers))
+   
+    def getPosID(self, posName) -> int:
+        tempStr = ''
+        for char in posName:
+            if char.isdigit():
+                tempStr = tempStr + char
+        return int(tempStr)
 
     # functie pentru afisarea pozitiilor posibile
     def showPossibleMove(self, posName, oponentTeam) -> None:
@@ -140,17 +163,16 @@ class GameLogic():
         Apelata in functia:
             - hover(is_hovered) din checkers.py"""
         # obtinerea numarului pozitiei din numele layout-ului
-        posID = 0
-        tempStr = ''
-        for char in posName:
-            if char.isdigit():
-                tempStr = tempStr + char
-        posID = int(tempStr)
-        if self.dices:
-            firtMove = posID + self.dices[0]
-            secondMove = posID + self.dices[1]
-            combinedMove = posID + self.dices[0] + self.dices[1]
-            self.possibleMove = [firtMove, secondMove, combinedMove]
+       
+        if self.possibleMove or self.dices:
+            posID = self.getPosID(posName)
+            self.possibleMove.clear() 
+            
+            # TODO: Ar trebui implementat un sistem care sa calculeze toate pozitiile posibile inclusiv cele prin adunarea zarurilor intre ele
+            for dice in self.getDices():
+                self.possibleMove.append(posID + dice)
+
+            print(f"Posibile mutari: {self.possibleMove}")
 
             placedGhostCheckers = 0
             for move in self.possibleMove:
@@ -160,8 +182,9 @@ class GameLogic():
                     # verificare daca se poate afisa pozitia rezultata prin adunarea zarurilor
                     # pentru ca piesa sa poata fi afisata pe pozitia rezultata prin adunarea zarurilor
                     # trebuie ca macar unul din zaruri sa fie folosit pentru a ajunge pe pozitia respectiva
-                    if placedGhostCheckers == 0 and move == self.possibleMove[2]:
-                        break
+                   
+                    # if placedGhostCheckers == 0 and move == self.possibleMove[2]:
+                    #     break
                 # cazul in care pe pozitia posibila exista alte piese
                     if getattr(self.layouts, f'pos{move}').count() > 0:
                         # verificare daca adversarul are cel putin o piesa pe pozitia posibila 
@@ -172,10 +195,12 @@ class GameLogic():
                                 # daca piesa este a adversarului, atunci se poate muta pe pozitia respectiva
                                     # aici, piesa ghost ar trebui sa inlocuiasca piesa adversarului si
                                     # piesa adversarului ar trebui sa fie aruncata pe gard
-                                self.oponentChekerVisibility(visibility = False,numberOfPos=move)
+                                self.oponentChekerVisibility(visibility = False, numberOfPos = move, oponentTeam = oponentTeam)
+                                # lista folosita pentrtu a stica pozitiile de unde au fost aruncate piesele pe gad
+                                self.addCheckerToPosition(f'pos{move}', "ghost", useDice, True)
                                 self.fencedCheckers.append(move)
-                                self.addCheckerToPosition(f'pos{move}', "ghost", useDice)
-                                self.addCheckersToFence(oponentTeam)
+                                self.addGhostCheckerToFence(oponentTeam)
+                                print(f"piesa adversarului a fost aruncata pe gard de pe pozitia {move}")
                                 placedGhostCheckers += 1
                                 # piesa adversarului devine din nou vizibila prin apelarea functiei oponentChekerVisibility in functia hover
                         # excluderea pozitiilor unde exista piese ale opentului si sunt mai mult de 1 piese
@@ -189,19 +214,27 @@ class GameLogic():
                         placedGhostCheckers += 1
 
     # functie pemntru stergerea pieselor adversarului
-    def oponentChekerVisibility(self, visibility, numberOfPos) -> None:
+    def oponentChekerVisibility(self, visibility, numberOfPos, oponentTeam) -> None:
         """Functie care face vizibila/invizibila piesa adversarului.\n
         Folosita la momentul in care pe o posibila pozitie, jucatorul poate face mutare peste adversarul sau.\n
         Conditia este ca adversarul sa aiba doar o piesa pe pozitia respectiva.\n
         Acest lucru arunca piesa adversarului pe gard, iar o piesa ghost inlocuieste piesa adversarului pana la incetarea eventului hover.\n
         Apelata in functia:
             - showPosibleMove(posName, oponentTeam = "black") din gameLogic.py"""
+        # cauzeaza probleme cand se face o mutare concreata peste piesa care este aruncata pe gard
+        # if visibility:
+        #     checker = getattr(self.layouts, f"pos{numberOfPos}").itemAt(0).widget()
+        #     checker.show()
+        # else:
+        #     checker = getattr(self.layouts, f"pos{numberOfPos}").itemAt(0).widget()
+        #     checker.hide()
+        
+        # incercare de a sterge piesa adversarului de pe pozitia respectiva si sau de a o aduga in functie de visibility
         if visibility:
-            checker = getattr(self.layouts, f"pos{numberOfPos}").itemAt(0).widget()
-            checker.show()
+            self.addCheckerToPosition(f'pos{numberOfPos}', oponentTeam)
         else:
             checker = getattr(self.layouts, f"pos{numberOfPos}").itemAt(0).widget()
-            checker.hide()
+            checker.deleteLater()
 
     # functie pentru activarea/dezactivarea pieselor
     def checkersDisponibility(self, team, disponibility) -> None:
@@ -232,9 +265,14 @@ class GameLogic():
                 if count > 0:
                     for index in range(count):
                         checker = pos.itemAt(index).widget()
-                        if checker.getTeam() in ["ghost", "ghostFenceWhite", "ghostFenceBlack"]:
+                        if checker.objectName() in ["ghostChecker", "ghostFenceWhiteChecker", "ghostFenceBlackChecker"]:
                             pos.itemAt(index).widget().deleteLater()
                             index -= 1
+
+    def deleteCheckerFromPosition(self, fromPosNumber) -> None:
+        for pos in self.layouts.positions:
+            if pos.objectName() == f"pos{fromPosNumber}":
+                pos.itemAt(0).widget().deleteLater()
 
     # functie apelata de butonul Start
     def funcStartButton(self) -> None:
@@ -262,5 +300,5 @@ class GameLogic():
         for team, posAndCaunt in defaulPosition.items():
             for position, numberOfPieces in posAndCaunt:
                 for i in range(numberOfPieces):
-                    position.addWidget(Checkers(team = team, positionName = position.objectName(), gameLogic = self, sourceCheckers = 0))
+                    position.addWidget(Checkers(team = team, positionName = position.objectName(), gameLogic = self, usedDice = 0))
 

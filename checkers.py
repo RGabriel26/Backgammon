@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QPushButton
+from PyQt6.QtWidgets import QPushButton, QLabel
 from PyQt6.QtCore import pyqtSignal
 
 class Checkers(QPushButton):
@@ -17,21 +17,21 @@ class Checkers(QPushButton):
     # (self, culoarea piesei, numarul pozitiei pentru a identifica layout ul de pozitionare, instanta gameLogic)
     # sourceCheckers este folosit pentru diferentirea pieselor, daca:
         # - piesa este una reala, sourceCheckers = 0
-        # - piesa este una ghost, sourceCheckers = 1, 2, 3
-            # - 1 pentru primul zar
-            # - 2 pentru al doilea zar
-            # - 3 pentru ambele zaruri
-    def __init__(self, team, positionName, gameLogic, sourceCheckers = 0):
+        # - piesa este una ghost, sourceCheckers = 1,2,3,4,5,6 (in functie de numarul de zaruri folosite pentru crearea piesei ghost)
+    def __init__(self, team, positionName, gameLogic, usedDice = 0, replaceCheckers = False):
         super().__init__()
-        self.team = team
-        self.positionName = positionName
         self.gameLogic = gameLogic
         self.setObjectName(f'{team}Checker')
         self.setFixedSize(50,50)
+        
+        self.team = team
+        self.oponentTeam = "black" if team == "white" else "white"
+        self.positionName = positionName
         self.isHoverEnable = True
         self.canDeleteGhostCheckers = True
-        self.sourceCheckers = sourceCheckers
-
+        self.usedDice = usedDice
+        self.replaceCheckers = replaceCheckers
+    
         self.hovered.connect(self.hover)
         self.clicked.connect(self.click)
 
@@ -87,7 +87,7 @@ class Checkers(QPushButton):
                     if len(self.gameLogic.fencedCheckers) > 0:
                         while len(self.gameLogic.fencedCheckers) > 0:
                             position = self.gameLogic.fencedCheckers.pop()
-                            self.gameLogic.oponentChekerVisibility(True, position)
+                            self.gameLogic.oponentChekerVisibility(True, position, self.oponentTeam)
 
     def click(self):
         # Eventul de click pe o piesa va apela functia .showPossibleMove() din gameLogic.py
@@ -126,11 +126,32 @@ class Checkers(QPushButton):
             if self.team == "ghost":
                 # Aici trebuie sa se inlocuiasca piesa ghost pe care s-a dat click cu o piesa a jucatorului curent
                 # Iar de pe pozitia de unde s-a facut anterior click pe o piesa reala, sa se elimine piesa
-            
 
+                # se sterg piesele ghost
+                self.gameLogic.deleteGhostCheckers(True)
+                # TODO: Ar trebui sa se ofere ca parametru team ul piesei pentru a face dinamic inlocuirea piesei ghost cu una reala
+                self.gameLogic.addCheckerToPosition(self.positionName, self.gameLogic.teamTurn)
+                # stergerea piesei din pozitia anterioara
+                self.gameLogic.deleteCheckerFromPosition(self.gameLogic.getPosID(self.positionName) - self.usedDice)
+
+                # se verifica daca piesa gost pe care s-a apasat a inlocuit sau nu o piesa a adversarului
+                # daca da, se va elimina indexul pozititiei din lista de piese gost de pe gard
+                # astfel, nu se va mai recrea piesa adversarului pe pozitia anterioara
+
+                # TODO: Aici ar trebui sa fie adaugata piesa gost reala a adversarului pe gard
+
+                if self.replaceCheckers:
+                    self.gameLogic.fencedCheckers.remove(self.gameLogic.getPosID(self.positionName))
+                    self.gameLogic.addCheckerToFence('black' if self.gameLogic.teamTurn == 'white' else 'white')
+
+                print(f'Zarul folosit pentru acest checkers ghost: {self.usedDice}')
+                # stergerea zarurului folosit pentru realizarea mutarii
+                self.gameLogic.dices.remove(self.usedDice)
                 
-                print(f'Zarul folosit pentru acest checkers ghost: {self.sourceCheckers}')
-                
+                # dupa plasarea unei piese reale, se va reactiva eventul de hover pentru a putea fi afisate piesele gost
+                self.gameLogic.isGlobalHoverEnable = True
+                self.gameLogic.canDeleteGhostCheckers = True
+                self.gameLogic.clickCounter = 0
 
             
             # Event de click pentru piesele reale ale jucatorilo
