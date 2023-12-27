@@ -24,6 +24,7 @@ class GameLogic():
         """
     # TODO: TASK:
     # - imlementarea jogicii jocului, astfel ca jucatorii sa poata accesa piesele pe rand
+    # 
     def __init__(self):
         print("initializare gameLogic...")
         # folosit pentru a stoca zarurile generate in functia roll din RollFunctionalities
@@ -68,7 +69,6 @@ class GameLogic():
         dice.setScaledContents(True)
         return dice
 
-
     def roll(self, diceLayout) -> list:
         """Functia care genereaza cu randint cele 2 zaruri care sunt salvate in self.dices.\n
         Pe langa generarea zarurilor, functia are rolul de a afisa grafic zarurile generate.\n
@@ -106,7 +106,48 @@ class GameLogic():
         self.checkersDisponibility(team = "black", disponibility = False)
         self.checkersDisponibility(team = "white", disponibility = True)
 
+        self.stylePlayerTurn()
+
         print("A iesit din functia logic")
+
+    def stylePlayerTurn(self) -> None:
+        highlightColor = "rgba(67, 200, 176, 0.8)"
+        turnStylePlayerWhite = f"""
+    background-color:  {highlightColor};
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    margin: 60% 0% 45% 0%;
+    border-radius: 25%;"""
+        
+        defaultTurnStylePlayerWhite = """
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    margin: 60% 0% 45% 0%;
+    border-radius: 25%;"""
+        
+        turnStylePlayerBlack = f"""
+    background-color:  {highlightColor};
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    margin: 45% 0% 60% 0%;
+    border-radius: 25%;"""
+        
+        defaultTurnStylePlayerBlack = """
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    margin: 45% 0% 60% 0%;
+    border-radius: 25%;"""
+        
+        if self.teamTurn == "white":
+            self.layouts.labelPlayerWhite.setStyleSheet(turnStylePlayerWhite)
+            self.layouts.labelPlayerBlack.setStyleSheet(defaultTurnStylePlayerBlack)
+        else:
+            self.layouts.labelPlayerBlack.setStyleSheet(turnStylePlayerBlack)
+            self.layouts.labelPlayerWhite.setStyleSheet(defaultTurnStylePlayerWhite)
 
     # functii pentru adaugarea de piese in layout-uri
     def addOutCheker(self, team) -> None:
@@ -249,7 +290,7 @@ class GameLogic():
             if count > 0:
                 for index in range(count):
                     checker = pos.itemAt(index).widget()
-                    if checker.getTeam() == team:
+                    if checker.objectName() == f'{team}Checker':
                         checker.setEnabled(disponibility)
                         checker.setHover(disponibility)
                         index -= 1

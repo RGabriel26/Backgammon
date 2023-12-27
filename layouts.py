@@ -241,9 +241,11 @@ class UILayouts():
 
         # adaugarea de elemente in fiecare container
         # adaugarea elementelor din stanga
-        leftLayout.addWidget(QLabel("Player1", objectName = "labelPlayer1"))
+        self.labelPlayerWhite = QLabel("Player1", objectName = "labelPlayer1")
+        leftLayout.addWidget(self.labelPlayerWhite)
         leftLayout.addWidget(diceContainer)
-        leftLayout.addWidget(QLabel("Player2", objectName = "labelPlayer2"))
+        self.labelPlayerBlack = QLabel("Player2", objectName = "labelPlayer2")
+        leftLayout.addWidget(self.labelPlayerBlack)
 
         # QTimer.singleShot(0, lambda: print(f"leftContainer: {leftContainer.size()}"))
         return leftContainer

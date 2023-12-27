@@ -16,9 +16,9 @@ class UInterface(QMainWindow):
     def initGUI(self):
         self.width = 1366
         self.height = 768
-        # self.setGeometry(0, 0, self.width, self.height)
+        self.setGeometry(0, 0, self.width, self.height)
         # self.showFullScreen()
-        self.setFixedSize(self.width, self.height)
+        # self.setFixedSize(self.width, self.height)
 
         # folosit pentru a grupa cele trei containere principala ale ferestrei intr-un mod de afisare orizolntala
         parentLayout = QHBoxLayout()
@@ -32,7 +32,7 @@ class UInterface(QMainWindow):
 
         # folosit pentru a aduna containerele intr un singur loc pentru a putea fi gestionate
         parentLayout.addWidget(leftLayoutContainer, 20)
-        parentLayout.addWidget(middleLayoutContainer, 70)
+        parentLayout.addWidget(middleLayoutContainer, 70)   
         parentLayout.addWidget(rightLayoutContainer, 10)
 
         # centrarea layout ului parinte in centrul ferestrei

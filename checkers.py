@@ -36,9 +36,6 @@ class Checkers(QPushButton):
         self.clicked.connect(self.click)
 
     # functii setter si getter
-    def getTeam(self) -> str:
-        return self.team
-    
     def setHover(self, bool) -> None:
         self.isHoverEnable = bool
     

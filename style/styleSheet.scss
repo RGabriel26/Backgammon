@@ -1,5 +1,5 @@
 $mainContainerBColor: rgba(63, 208, 27, 0);
-$labelPlayerBColor: rgba(233, 219, 219, 0);
+$labelPlayerBColor: rgba(73, 158, 211, 0.185);
 $checkerOUTContainerBColor: rgba(255, 255, 255, 0);
 $playersTextColor: rgb(255, 255, 255);
 $layoutCheckersBColor: rgba(51, 255, 0, 0);
@@ -32,33 +32,30 @@ QLabel {
     background-color: $mainContainerBColor;
     image: url($backgroundLeft-image)
 }
-#labelPlayer1 {
-    background-color: $labelPlayerBColor;
-    image: url($backgroundPlayer-image);
-    // margin: 70% 30% 12% 25%;
-
+#labelPlayer1 {    
     /*text edit*/
     color: $playersTextColor;
     font-weight: bold;
     font-size: 25px;
-    // padding-left: 25%;
+    
+    // spatierea dintre obiecte
+    margin: 60% 0% 45% 0%;
+    border-radius: 25%;
 }
 #diceContainer{
-    background-color: $labelPlayerBColor;
+    // background-color: $labelPlayerBColor;
     image: url($backgroundDice-image)
-
     // margin: 15% 30% 12% 25%;
 }
 #labelPlayer2 {
-    background-color: $labelPlayerBColor;
-    image: url($backgroundPlayer-image);
-    // margin: 70% 30% 12% 25%;
-
     /*text edit*/
     color: $playersTextColor;
     font-weight: bold;
     font-size: 25px;
-    // padding-left: 25%;
+    
+    // spatierea dintre obiecte
+    margin: 45% 0% 60% 0%;
+    border-radius: 25%;
 }
 ////////////// MIJLOUL FERESTREI /////////////////
 #middleContainer{
