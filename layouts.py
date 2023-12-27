@@ -261,13 +261,13 @@ class UILayouts():
                 # crearea containerului pentru piesele ce vor fi scoase de jucatorul WHITE
         whiteCheckersContainer = QWidget()
         whiteCheckersContainer.setObjectName("whiteCheckersContainer")
-        self.whiteCheckersLayout = QVBoxLayout()
-        whiteCheckersContainer.setLayout(self.whiteCheckersLayout)
+        self.outWhiteCheckersLayout = QVBoxLayout()
+        whiteCheckersContainer.setLayout(self.outWhiteCheckersLayout)
                 # crearea containerului pentru piesele ce vor fi scoase de jucatorul BLACK
         blackCheckersContainer = QWidget()
         blackCheckersContainer.setObjectName("blackCheckersContainer")
-        self.blackCheckersLayout = QVBoxLayout()
-        blackCheckersContainer.setLayout(self.blackCheckersLayout)
+        self.outBlackCheckersLayout = QVBoxLayout()
+        blackCheckersContainer.setLayout(self.outBlackCheckersLayout)
                 # crearea butonului de Roll
         self.rollButton = QPushButton()
         self.rollButton.setObjectName("rollButton")
