@@ -26,22 +26,17 @@ class GameLogic():
         - setDefaultPosition() -> None
         """
     # TODO: TASK:
-    # TODO: Task 1: imlementarea jogicii jocului, astfel ca jucatorii sa poata accesa piesele pe rand
-    # 
     # TODO: Task 2: de impementat pentru sistemul de zaruri, sa fie afisate zarurile ce au picat in diceLayout, iar pentru duble, sa fie afisate toate 4 zaruri
     #   iar dupa ce se realizeaza o mutare folosind un anumit zar, sa fie sters din diceLayout
     #   te poti folosi de lista dices care stocheaza deja toate zarurile si asupra careia se fac eliminari cand se foloseste un zar
-    # 
+    #
     # TODO: Task 3: de implementat sistemul de directie a mutarilor pentru fiecare jucator, ca acestia sa ajunga cu piesele fiecare in casa lui
     # 
-    # TODO: Task 4: de implementat sistemul de adaugare a pieselor pe pozitiile 1 - 12, pentru ca acestea sa fie adaugate pe ultima poztie, nu pe pozitia 0 cum este defaul
-    # 
     # TODO: Task 5: de implementat sistemul de iesit de pe gard cu piesele respective
-
+    #
     # TODO: Task 6: BUG MARE: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
         # implementeaza sistemul de pozitionare a pieselor de pe gard, asta genereaza probleme
     
-    # TODO: Task 7: de tratat cazul in care pica o dubla si se doreste mutarea pe pozitiile 1 12
 
     def __init__(self):
         print("initializare gameLogic...")
@@ -109,7 +104,8 @@ class GameLogic():
                 diceLayout.removeWidget(curentDice.widget())
             diceLayout.addWidget(self.createDiceObject(f"images/dice{getDice}.png"), 0, index)
         
-        self.enableRollButton(False) # dezactivarea buronului de roll 
+        # TODO: Trebuie sa fie setat pe folse
+        self.enableRollButton(True) # dezactivarea buronului de roll 
         self.isGlobalCheckerInteractiv = True # activarea pieselor de pe tabla
         return dices
     
@@ -278,7 +274,8 @@ class GameLogic():
                         if position.itemAt(lastChecker).widget().objectName() not in [f'{oponentTeam}Checker', 'ghostChecker']:
                             # pentru pozitiile 1 12, piesele se vor adauga pe pozitia 0
                             if position in self.layouts.buttonPositions:
-                                position.insertWidget(0, Checkers(team = "ghost", positionName = position.objectName(), gameLogic = self, usedDice = useDice))
+                                if position.itemAt(0).widget().objectName() != 'ghostChecker':
+                                    position.insertWidget(0, Checkers(team = "ghost", positionName = position.objectName(), gameLogic = self, usedDice = useDice))
                             else:
                                 # pentru pozitiile 13 24, piesele se vor adauga pe ultima pozitie
                                 self.addCheckerToPosition(f'pos{move}', "ghost", useDice)
