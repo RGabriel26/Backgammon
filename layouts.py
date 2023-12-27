@@ -81,11 +81,11 @@ class UILayouts():
         middleFenceLayout = QVBoxLayout()
 
         fenceWhiteCheckersContainer = QWidget(objectName = "fenceWhiteCheckersContainer")
-        self.fenceWhiteCheckersLayout = QVBoxLayout(objectName = "fenceWhiteChekersLayout")
+        self.fenceWhiteCheckersLayout = QVBoxLayout(objectName = "fenceWhiteChekersLayout0")
         fenceWhiteCheckersContainer.setLayout(self.fenceWhiteCheckersLayout)
 
         fenceBlackCheckersContainer = QWidget(objectName = "fenceBlackCheckersContainer")
-        self.fenceBlackCheckersLayout = QVBoxLayout(objectName = "fenceBlackCheckersLayout")
+        self.fenceBlackCheckersLayout = QVBoxLayout(objectName = "fenceBlackCheckersLayout0")
         fenceBlackCheckersContainer.setLayout(self.fenceBlackCheckersLayout)
 
         middleFenceLayout.addWidget(fenceWhiteCheckersContainer)
@@ -210,11 +210,15 @@ class UILayouts():
                      self.pos10,self.pos11,self.pos12,self.pos13,self.pos14,self.pos15,self.pos16,self.pos17,self.pos18,
                      self.pos19,self.pos20,self.pos21,self.pos22,self.pos23,self.pos24,
                      self.fenceWhiteCheckersLayout, self.fenceBlackCheckersLayout]
+        
+        self.buttonPositions = [self.pos1, self.pos2, self.pos3, self.pos4, self.pos5, self.pos6, self.pos7, 
+                          self.pos8, self.pos9, self.pos10, self.pos11, self.pos12]
 
         # QTimer.singleShot(0, lambda: print(f"pos10Container: {pos10Container.size()}"))
 
         self.pos21.addWidget(Checkers(team="black", positionName=self.pos21.objectName(), gameLogic = self.gameLogic))
         self.pos20.addWidget(Checkers(team="black", positionName=self.pos20.objectName(), gameLogic = self.gameLogic))
+        self.pos22.addWidget(Checkers(team="white", positionName=self.pos22.objectName(), gameLogic = self.gameLogic))
         return middleContainer
 
     def leftContainer(self):
@@ -240,9 +244,11 @@ class UILayouts():
 
         # adaugarea de elemente in fiecare container
         # adaugarea elementelor din stanga
-        leftLayout.addWidget(QLabel("Player1", objectName = "labelPlayer1"))
+        self.labelPlayerWhite = QLabel("Player1", objectName = "labelPlayer1")
+        leftLayout.addWidget(self.labelPlayerWhite)
         leftLayout.addWidget(diceContainer)
-        leftLayout.addWidget(QLabel("Player2", objectName = "labelPlayer2"))
+        self.labelPlayerBlack = QLabel("Player2", objectName = "labelPlayer2")
+        leftLayout.addWidget(self.labelPlayerBlack)
 
         # QTimer.singleShot(0, lambda: print(f"leftContainer: {leftContainer.size()}"))
         return leftContainer
@@ -258,13 +264,13 @@ class UILayouts():
                 # crearea containerului pentru piesele ce vor fi scoase de jucatorul WHITE
         whiteCheckersContainer = QWidget()
         whiteCheckersContainer.setObjectName("whiteCheckersContainer")
-        self.whiteCheckersLayout = QVBoxLayout()
-        whiteCheckersContainer.setLayout(self.whiteCheckersLayout)
+        self.outWhiteCheckersLayout = QVBoxLayout()
+        whiteCheckersContainer.setLayout(self.outWhiteCheckersLayout)
                 # crearea containerului pentru piesele ce vor fi scoase de jucatorul BLACK
         blackCheckersContainer = QWidget()
         blackCheckersContainer.setObjectName("blackCheckersContainer")
-        self.blackCheckersLayout = QVBoxLayout()
-        blackCheckersContainer.setLayout(self.blackCheckersLayout)
+        self.outBlackCheckersLayout = QVBoxLayout()
+        blackCheckersContainer.setLayout(self.outBlackCheckersLayout)
                 # crearea butonului de Roll
         self.rollButton = QPushButton()
         self.rollButton.setObjectName("rollButton")
@@ -279,11 +285,11 @@ class UILayouts():
         rightLayout.addWidget(self.rollButton)
         rightLayout.addWidget(blackCheckersContainer)
 
-        self.whiteCheckersLayout.setAlignment(Qt.AlignmentFlag.AlignTop)
-        self.whiteCheckersLayout.setContentsMargins(0, 5, 0, 5)
+        self.outWhiteCheckersLayout.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self.outWhiteCheckersLayout.setContentsMargins(0, 5, 0, 5)
 
-        self.blackCheckersLayout.setAlignment(Qt.AlignmentFlag.AlignBottom)
-        self.blackCheckersLayout.setContentsMargins(0, 5, 0, 5)
+        self.outBlackCheckersLayout.setAlignment(Qt.AlignmentFlag.AlignBottom)
+        self.outBlackCheckersLayout.setContentsMargins(0, 5, 0, 5)
 
         # QTimer.singleShot(0, lambda: print(f"blackCheckersContainer: {outCheker.size()}"))
         return rightContainer
