@@ -26,17 +26,22 @@ class GameLogic():
         - setDefaultPosition() -> None
         """
     # TODO: TASK:
-    # - imlementarea jogicii jocului, astfel ca jucatorii sa poata accesa piesele pe rand
+    # TODO: Task 1: imlementarea jogicii jocului, astfel ca jucatorii sa poata accesa piesele pe rand
     # 
-    # - de impementat pentru sistemul de zaruri, sa fie afisate zarurile ce au picat in diceLayout, iar pentru duble, sa fie afisate toate 4 zaruri
+    # TODO: Task 2: de impementat pentru sistemul de zaruri, sa fie afisate zarurile ce au picat in diceLayout, iar pentru duble, sa fie afisate toate 4 zaruri
     #   iar dupa ce se realizeaza o mutare folosind un anumit zar, sa fie sters din diceLayout
     #   te poti folosi de lista dices care stocheaza deja toate zarurile si asupra careia se fac eliminari cand se foloseste un zar
     # 
-    # - de implementat sistemul de directie a mutarilor pentru fiecare jucator, ca acestia sa ajunga cu piesele fiecare in casa lui
+    # TODO: Task 3: de implementat sistemul de directie a mutarilor pentru fiecare jucator, ca acestia sa ajunga cu piesele fiecare in casa lui
     # 
-    # - de implementat sistemul de adaugare a pieselor pe pozitiile 1 - 12, pentru ca acestea sa fie adaugate pe ultima poztie, nu pe pozitia 0 cum este defaul
+    # TODO: Task 4: de implementat sistemul de adaugare a pieselor pe pozitiile 1 - 12, pentru ca acestea sa fie adaugate pe ultima poztie, nu pe pozitia 0 cum este defaul
     # 
-    # - de implementat sistemul de iesit de pe gard cu piesele respective
+    # TODO: Task 5: de implementat sistemul de iesit de pe gard cu piesele respective
+
+    # TODO: Task 6: BUG MARE: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
+        # implementeaza sistemul de pozitionare a pieselor de pe gard, asta genereaza probleme
+    
+    # TODO: Task 7: de tratat cazul in care pica o dubla si se doreste mutarea pe pozitiile 1 12
 
     def __init__(self):
         print("initializare gameLogic...")
@@ -212,8 +217,8 @@ class GameLogic():
             - showPosibleMove(posName, oponentTeam = "black") din gameLogic.py"""
         for pos in self.layouts.positions:
              if toPos_name == pos.objectName():
-                  pos.addWidget(Checkers(team = team, positionName = pos.objectName(), gameLogic = self, usedDice= useDice, replaceCheckers = replaceCheckers))
-   
+                pos.addWidget(Checkers(team = team, positionName = pos.objectName(), gameLogic = self, usedDice= useDice, replaceCheckers = replaceCheckers))
+
     def getPosID(self, posName) -> int:
         tempStr = ''
         for char in posName:
@@ -237,7 +242,11 @@ class GameLogic():
             # obtinerea numarului pozitiei din numele layout-ului
             posID = self.getPosID(posName)
             self.possibleMove.clear() 
-            # TODO: Ar trebui implementat un sistem care sa calculeze toate pozitiile posibile inclusiv cele prin adunarea zarurilor intre ele
+            # TODO: Ar trebui implementat un sistem care sa calculeze toate pozitiile posibile inclusiv cele prin adunarea zarurilor intre ele pentru toate combinatiile posibile
+            # de ex, pentru 2 2, pozitiile posivile sunt 4 pozitii incepand cu pozitia de pe care se doreste mutarea
+            # de ex, pentru 3 3, de pe poziia 1, pozitiile posibile sunt poziaita 4, 6, 9, 12, daca acest lucru este posibil
+            # cat timp exista zar, se adauga la pozitia curenta si se afiseaza pozitiile posibile
+            # pentru zarurile neperechi, zarurile se adauga pe rand la pozitia curenta si se afiseaza pozitiile posibile, inclusiv pozitia rezultata prin adunarea zarurilor: pozitia curenta + zar 1 + zar 2
             for dice in self.getDices():
                 self.possibleMove.append(posID + dice)
             for move in self.possibleMove:
@@ -247,9 +256,6 @@ class GameLogic():
                     # verificare daca se poate afisa pozitia rezultata prin adunarea zarurilor
                     # pentru ca piesa sa poata fi afisata pe pozitia rezultata prin adunarea zarurilor
                     # trebuie ca macar unul din zaruri sa fie folosit pentru a ajunge pe pozitia respectiva
-                   
-                    # if placedGhostCheckers == 0 and move == self.possibleMove[2]:
-                    #     break
                 # cazul in care pe pozitia posibila exista alte piese
                     if getattr(self.layouts, f'pos{move}').count() > 0:
                         # verificare daca adversarul are cel putin o piesa pe pozitia posibila 
@@ -265,12 +271,17 @@ class GameLogic():
                                 self.addCheckerToPosition(f'pos{move}', "ghost", useDice, True)
                                 self.fencedCheckers.append(move)
                                 self.addGhostCheckerToFence(oponentTeam)
-                                print(f"piesa adversarului a fost aruncata pe gard de pe pozitia {move}")
                                 # piesa adversarului devine din nou vizibila prin apelarea functiei oponentChekerVisibility in functia hover
                         # excluderea pozitiilor unde exista piese ale opentului si sunt mai mult de 1 piese
-                        lastChecker = getattr(self.layouts, f'pos{move}').count() - 1
-                        if getattr(self.layouts, f'pos{move}').itemAt(lastChecker).widget().objectName() not in [f'{oponentTeam}Checker', 'ghostChecker']:
-                            self.addCheckerToPosition(f'pos{move}', "ghost", useDice)
+                        position = getattr(self.layouts, f'pos{move}')
+                        lastChecker = position.count() - 1
+                        if position.itemAt(lastChecker).widget().objectName() not in [f'{oponentTeam}Checker', 'ghostChecker']:
+                            # pentru pozitiile 1 12, piesele se vor adauga pe pozitia 0
+                            if position in self.layouts.buttonPositions:
+                                position.insertWidget(0, Checkers(team = "ghost", positionName = position.objectName(), gameLogic = self, usedDice = useDice))
+                            else:
+                                # pentru pozitiile 13 24, piesele se vor adauga pe ultima pozitie
+                                self.addCheckerToPosition(f'pos{move}', "ghost", useDice)
                     else:
                         # cazul in cere pe pozitia posibila nu exista alte piese
                         self.addCheckerToPosition(f'pos{move}', "ghost", useDice)

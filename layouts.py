@@ -210,6 +210,9 @@ class UILayouts():
                      self.pos10,self.pos11,self.pos12,self.pos13,self.pos14,self.pos15,self.pos16,self.pos17,self.pos18,
                      self.pos19,self.pos20,self.pos21,self.pos22,self.pos23,self.pos24,
                      self.fenceWhiteCheckersLayout, self.fenceBlackCheckersLayout]
+        
+        self.buttonPositions = [self.pos1, self.pos2, self.pos3, self.pos4, self.pos5, self.pos6, self.pos7, 
+                          self.pos8, self.pos9, self.pos10, self.pos11, self.pos12]
 
         # QTimer.singleShot(0, lambda: print(f"pos10Container: {pos10Container.size()}"))
 
@@ -282,11 +285,11 @@ class UILayouts():
         rightLayout.addWidget(self.rollButton)
         rightLayout.addWidget(blackCheckersContainer)
 
-        self.whiteCheckersLayout.setAlignment(Qt.AlignmentFlag.AlignTop)
-        self.whiteCheckersLayout.setContentsMargins(0, 5, 0, 5)
+        self.outWhiteCheckersLayout.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self.outWhiteCheckersLayout.setContentsMargins(0, 5, 0, 5)
 
-        self.blackCheckersLayout.setAlignment(Qt.AlignmentFlag.AlignBottom)
-        self.blackCheckersLayout.setContentsMargins(0, 5, 0, 5)
+        self.outBlackCheckersLayout.setAlignment(Qt.AlignmentFlag.AlignBottom)
+        self.outBlackCheckersLayout.setContentsMargins(0, 5, 0, 5)
 
         # QTimer.singleShot(0, lambda: print(f"blackCheckersContainer: {outCheker.size()}"))
         return rightContainer
