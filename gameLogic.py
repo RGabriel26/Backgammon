@@ -26,8 +26,6 @@ class GameLogic():
         - deleteDice(deleteDice = None, deteleAll = False) -> None
         - setDefaultPosition() -> None
         """
-    # TODO: Task: de implementat sistemul de directie a mutarilor pentru fiecare jucator, ca acestia sa ajunga cu 
-    # piesele fiecare in casa lui
 
     # TODO: Task: de implementat sistemul de iesit de pe gard cu piesele respective
 
@@ -37,7 +35,9 @@ class GameLogic():
     # TODO: Task: De implementat un sistem care sa afiseze toate pozitiile posibile de pe piesa selectata folosind 
     # zarurile sau zarul disponibil pe pozitiile care permit mutari
 
-    # TODO: Task: De regandit sistemul de activare/dezactivare a pieselor, deoarece actualul genereaza probleme
+    # TODO: Task: De creat o metoda pentru a genera toate pozitiile posivile de pe pozotoa selectata in functie de zarurile disponibile
+
+    # TODO: Tasl: De creat o functie care sa calculeze pentru fiecare data cand se asteapta o mutare de la jucator, daca sunt mutari realizabile, daca nu, atunci se va trece la urmatorul jucator
 
     def __init__(self):
         print("initializare gameLogic...")
@@ -95,7 +95,7 @@ class GameLogic():
             dices.append(getDice)
         # stergerea zarului alfat in gridul diceLayout de pe pozitia 0 index pentru a nu se suprapune
         if diceLayout.count() > 0:
-            self.deleteDice(deteleAll = True) # daca exista deja zaruri afisate, atunci se sterg zarurile din latyout
+            self.deleteDiceFromLayout(deteleAll = True) # daca exista deja zaruri afisate, atunci se sterg zarurile din latyout
         
         # se salveaza zarurile generate in self.dices prin apelarea functiei saveDices
         if dices[0] == dices[1]:
@@ -112,15 +112,13 @@ class GameLogic():
         self.enableRollButton(True) # dezactivarea buronului de roll 
         self.isGlobalCheckerInteractiv = True # activarea pieselor de pe tabla
         return dices
-    
-    # functie apelata de butonul Start
+
     def funcStartButton(self) -> None:
         """Functie apelata de butonul Start.\n
         Aceasta ascunde butonul de start si apeleaza functia logic.\n"""
         self.layouts.startButton.hide()
         self.logic()
 
-    # dunctie pentru activarea/dezactivarea butonului de roll
     def enableRollButton(self, isEnable) -> None:
         """Functie care activeaza sau dezactiveaza butonul de roll.\n
         Activeaza sau dezactiveaza butonul de roll in functie de ce primeste ca parametru.\n
@@ -195,7 +193,6 @@ class GameLogic():
             self.layouts.labelPlayerBlack.setStyleSheet(turnStylePlayerBlack)
             self.layouts.labelPlayerWhite.setStyleSheet(defaultTurnStylePlayerWhite)
 
-    # functii pentru adaugarea de piese in layout-uri
     def addOutCheker(self, team) -> None:
         """Adauga piesele scoase din joc in layout-urile corespunzatoare in functie de variabila team data ca parametru.\n"""
         if team == "white":
@@ -258,7 +255,7 @@ class GameLogic():
         else:
             return posID - possibleMove
 
-    # functie pentru afisarea pozitiilor posibile
+    # TODO: optimizeaza
     def showPossibleMove(self, posName, team) -> None:
 
         """Functia este responsabila de informarea jucatorilor cu privire la pozitiile posibile pe care se pot folosi.\n
@@ -330,7 +327,7 @@ class GameLogic():
                         # cazul in cere pe pozitia posibila nu exista alte piese
                         self.addCheckerToPosition(f'pos{move}', "ghost", useDice)
 
-    # functie pemntru stergerea pieselor adversarului
+    # TODO: schimba denumirea functiei in ceva mai intuitiv
     def oponentChekerVisibility(self, visibility, numberOfPos, oponentTeam) -> None:
         """Functie care face vizibila/invizibila piesa adversarului.\n
         Folosita la momentul in care pe o posibila pozitie, jucatorul poate face mutare peste adversarul sau.\n
@@ -347,8 +344,6 @@ class GameLogic():
             checker = getattr(self.layouts, f"pos{numberOfPos}").itemAt(0).widget()
             checker.deleteLater()
 
-    # TODO: verifica de ce este nevoie de o variabila boolean pentru stergerea pieselor ghost
-    # functie pentru stergerea pieselor de pe tabla
     def deleteGhostCheckers(self, canDeleteGhostCheckers) -> None:
         """Functie care sterge piesele ghost de pe tabla.\n
         Apelata in functiile: 
@@ -375,7 +370,7 @@ class GameLogic():
             if pos.objectName() == f"pos{fromPosNumber}":
                 pos.itemAt(0).widget().deleteLater()
 
-    def deleteDice(self, deleteDice = None, deteleAll = False) -> None:
+    def deleteDiceFromLayout(self, deleteDice = None, deteleAll = False) -> None:
         """Functie care sterge obiecte zarurilor din self.diceLayout .\n
         Daca parametrul deleteAll = True, atunci se sterg toate obiectele din self.diceLayout.\n
         Daca parametrul deleteDice = int, corespunzator unui zar folosit pentru realizarea mutari, atunci se sterge zarul respectiv din diceLayout.\n
@@ -394,7 +389,6 @@ class GameLogic():
                     diceForDelete.deleteLater()
                     break
 
-    # functie pentru setarea pozitiei default a pieselor
     def setDefaultPosition(self) -> None:
         """Este apelata pentru a crea piesele la inceputul jocului pe pozitiile default ale jocului.\n
         Apelata in functia middleLayout() din layouts.py dupa crearea layout-urilor pentru pozitiile pieselor."""

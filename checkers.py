@@ -155,7 +155,7 @@ class Checkers(QPushButton):
                 # stergerea zarurului folosit pentru realizarea mutarii
                 self.gameLogic.dices.remove(self.usedDice)
                 # stergerea zarului folosit din diceLayout
-                self.gameLogic.deleteDice(deleteDice = self.usedDice)
+                self.gameLogic.deleteDiceFromLayout(deleteDice = self.usedDice)
                 # dupa plasarea unei piese reale, se va reactiva eventul de hover pentru a putea fi afisate piesele gost
                 self.gameLogic.isGlobalHoverEnable = True
                 self.gameLogic.canDeleteGhostCheckers = True
