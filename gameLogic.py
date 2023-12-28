@@ -21,7 +21,6 @@ class GameLogic():
         - getPosID(posName) -> int
         - showPossibleMove(posName, oponentTeam) -> None
         - oponentChekerVisibility(visibility, numberOfPos, oponentTeam) -> None
-        - checkersDisponibility(team, disponibility) -> None
         - deleteGhostCheckers(canDeleteGhostCheckers) -> None
         - deleteCheckerFromPosition(fromPosNumber) -> None
         - deleteDice(deleteDice = None, deteleAll = False) -> None
@@ -45,14 +44,14 @@ class GameLogic():
         # folosit pentru a stoca zarurile generate in functia roll din RollFunctionalities
         self.dices = []
         self.layouts = UILayouts(self)
-        self.fencedCheckers = []
-        self.clickCounter = 0
+        self.fencedCheckers = [] # lista folosita pentru a stoca pozitiile de unde au fost aruncate piesele pe gard
+        self.clickCounter = 0  # folosit pentru a numara cate click-uri au fost realizate pe piesa selectata
         self.turnsCounter = 0 # face pozibila trecerea de la un jucator la altul in functia logic
-        self.isGlobalCheckerInteractiv = False
-        self.isGlobalHoverEnable = True
+        self.isGlobalCheckerInteractiv = False # folosit doar pentru a bloca piesele la inceputul jocului
+        self.canDeleteGhostCheckers = True # ia valoarea False cand se apasa pe o piesa pentru a pastra piesele ghost
+        self.isGlobalHoverEnable = True 
         self.isBlackCheckerEnable = True
         self.isWhiteCheckerEnable = True
-        self.canDeleteGhostCheckers = True
         self.possibleMove = []# lista de pozitii posibile corespunzatoare selectarii unei piese: podID + dice
         self.teamTurn = "white" # variabila care stocheaza tipul jucatorului al carui ii este randul sa face actiuni in joc
     
@@ -144,15 +143,12 @@ class GameLogic():
 
         if self.turnsCounter % 2 == 0:
             self.teamTurn = "white"
-            # TODO: aici trebuie schimbate valorile pentru isBlackCheckerEnable si isWhiteCheckerEnables
+            self.isWhiteCheckerEnable = True
+            self.isBlackCheckerEnable = False
         else:
             self.teamTurn = "black"
-
-        # de test pentru a verifica disponibilitatea butoanelor
-        # aceasta functie trebuie utilizatat la diferentierea jucatorilor
-        #TODO: De schimbat aceste clase, si de creat conditii in interiorul evenimentelor hover si click pentru a verifica daca piesa este disponibila pentru interactiuni de click sau hover folosind variabile isBlackCheckerEnable si isWhiteCheckerEnable
-        self.checkersDisponibility(team = "black", disponibility = True if self.teamTurn == "black" else False)
-        self.checkersDisponibility(team = "white", disponibility = True if self.teamTurn == "white" else False)
+            self.isWhiteCheckerEnable = False
+            self.isBlackCheckerEnable = True
 
         self.stylePlayerTurn()
         self.turnsCounter += 1
@@ -263,11 +259,7 @@ class GameLogic():
             return posID - possibleMove
 
     # functie pentru afisarea pozitiilor posibile
-    # TODO: S-A SCHIMBAT PARAMETRUL OponentTeam IN TEAM, POATE CAUZA PROBLEME, NU ESTE TESTAT
     def showPossibleMove(self, posName, team) -> None:
-        # TODO: Aici trebuie creat sistemul de afisare a pozitiilor posibile in functie de diacare jucator
-        # jucatorl black face mutari de la 24 la 1
-        # jucatorul white face mutari de la 1 la 24
 
         """Functia este responsabila de informarea jucatorilor cu privire la pozitiile posibile pe care se pot folosi.\n
         Pozitiile posibile sunt calculate in functie de zarurile generate.\n
@@ -354,23 +346,6 @@ class GameLogic():
         else:
             checker = getattr(self.layouts, f"pos{numberOfPos}").itemAt(0).widget()
             checker.deleteLater()
-
-    # functie pentru activarea/dezactivarea pieselor
-    def checkersDisponibility(self, team, disponibility) -> None:
-        """Functia care face active sau inactive piesele de pe tabla.\n
-        In functie de jucatorul care trebuie sa realizeze mutarile.\n
-        Daca este randul jucatorului black, atunci piesele white sunt inactive si invers.\n
-        Apelata in functiile:
-            - logic() din gameLogic.py
-            """
-        for pos in self.layouts.positions:   
-            count = pos.count()
-            if count > 0:
-                for index in range(count):
-                    checker = pos.itemAt(index).widget()
-                    if checker.objectName() == f'{team}Checker':
-                        checker.setEnabled(disponibility)
-                        checker.isHoverEnable = disponibility
 
     # TODO: verifica de ce este nevoie de o variabila boolean pentru stergerea pieselor ghost
     # functie pentru stergerea pieselor de pe tabla

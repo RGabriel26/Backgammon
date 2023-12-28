@@ -59,6 +59,16 @@ class Checkers(QPushButton):
         if not self.gameLogic.isGlobalCheckerInteractiv:
             # se asteapta apasarea butonului de start pentru a indica inceperea jocului, implicit si interactiunea cu piesele
             return
+        
+        # Conditie pentri a dezactiva hoverul pieselor albe
+        if self.team == "white" and self.gameLogic.isWhiteCheckerEnable == False:
+            return
+        
+        # Conditie pentri a dezactiva hoverul pieselor negre
+        if self.team == "black" and self.gameLogic.isBlackCheckerEnable == False:
+            return
+        
+
         if self.gameLogic.isGlobalHoverEnable and self.team not in ['ghostFenceWhite', 'ghostFenceBlack']:
             if is_hovered and self.isHoverEnable and self.team != 'ghost':
                 # cand piesa este in focusul mouse-ului se apeleaza functia care afiseaza 
@@ -107,8 +117,14 @@ class Checkers(QPushButton):
                     # urmatorul jucator
         # - Daca nu se mai pot face mutari, jocul trece la urmatorul jucator
 
+        # se asteapta apasarea butonului de start pentru a indica inceperea jocului, implicit si interactiunea cu piesele
         if not self.gameLogic.isGlobalCheckerInteractiv:
-            # se asteapta apasarea butonului de start pentru a indica inceperea jocului, implicit si interactiunea cu piesele
+            return
+        # Conditie pentri a dezactiva hoverul pieselor albe
+        if self.team == "white" and self.gameLogic.isWhiteCheckerEnable == False:
+            return
+        # Conditie pentri a dezactiva hoverul pieselor negre
+        if self.team == "black" and self.gameLogic.isBlackCheckerEnable == False:
             return
 
         # Excluderea pieselor ghost de pe gard
