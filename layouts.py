@@ -85,7 +85,7 @@ class UILayouts():
         fenceWhiteCheckersContainer.setLayout(self.fenceWhiteCheckersLayout)
 
         fenceBlackCheckersContainer = QWidget(objectName = "fenceBlackCheckersContainer")
-        self.fenceBlackCheckersLayout = QVBoxLayout(objectName = "fenceBlackCheckersLayout0")
+        self.fenceBlackCheckersLayout = QVBoxLayout(objectName = "fenceBlackCheckersLayout25")
         fenceBlackCheckersContainer.setLayout(self.fenceBlackCheckersLayout)
 
         middleFenceLayout.addWidget(fenceWhiteCheckersContainer)
@@ -215,10 +215,6 @@ class UILayouts():
                           self.pos8, self.pos9, self.pos10, self.pos11, self.pos12]
 
         # QTimer.singleShot(0, lambda: print(f"pos10Container: {pos10Container.size()}"))
-
-        self.pos21.addWidget(Checkers(team="black", positionName=self.pos21.objectName(), gameLogic = self.gameLogic))
-        self.pos20.addWidget(Checkers(team="black", positionName=self.pos20.objectName(), gameLogic = self.gameLogic))
-        self.pos22.addWidget(Checkers(team="white", positionName=self.pos22.objectName(), gameLogic = self.gameLogic))
         return middleContainer
 
     def leftContainer(self):

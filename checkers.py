@@ -59,14 +59,21 @@ class Checkers(QPushButton):
         if not self.gameLogic.isGlobalCheckerInteractiv:
             # se asteapta apasarea butonului de start pentru a indica inceperea jocului, implicit si interactiunea cu piesele
             return
+        
+        # Conditie pentri a dezactiva hoverul pieselor albe
+        if self.team == "white" and self.gameLogic.isWhiteCheckerEnable == False:
+            return
+        
+        # Conditie pentri a dezactiva hoverul pieselor negre
+        if self.team == "black" and self.gameLogic.isBlackCheckerEnable == False:
+            return
+        
+
         if self.gameLogic.isGlobalHoverEnable and self.team not in ['ghostFenceWhite', 'ghostFenceBlack']:
             if is_hovered and self.isHoverEnable and self.team != 'ghost':
                 # cand piesa este in focusul mouse-ului se apeleaza functia care afiseaza 
                 # pe pozitiile posibile dictate de ce zar a picat si adauga piesele gost
-                if self.team == "white":
-                    self.gameLogic.showPossibleMove(posName = self.positionName, oponentTeam = "black")
-                else:
-                    self.gameLogic.showPossibleMove(posName = self.positionName, oponentTeam = "white")
+                self.gameLogic.showPossibleMove(posName = self.positionName, team = self.team)
 
                 # Doar de test
                 print(f"Piesa {self.team} a fost selectata prin hover event: {self.positionName}")
@@ -110,8 +117,14 @@ class Checkers(QPushButton):
                     # urmatorul jucator
         # - Daca nu se mai pot face mutari, jocul trece la urmatorul jucator
 
+        # se asteapta apasarea butonului de start pentru a indica inceperea jocului, implicit si interactiunea cu piesele
         if not self.gameLogic.isGlobalCheckerInteractiv:
-            # se asteapta apasarea butonului de start pentru a indica inceperea jocului, implicit si interactiunea cu piesele
+            return
+        # Conditie pentri a dezactiva hoverul pieselor albe
+        if self.team == "white" and self.gameLogic.isWhiteCheckerEnable == False:
+            return
+        # Conditie pentri a dezactiva hoverul pieselor negre
+        if self.team == "black" and self.gameLogic.isBlackCheckerEnable == False:
             return
 
         # Excluderea pieselor ghost de pe gard
@@ -125,7 +138,10 @@ class Checkers(QPushButton):
                 self.gameLogic.deleteGhostCheckers(True)
                 self.gameLogic.addCheckerToPosition(self.positionName, self.gameLogic.teamTurn)
                 # stergerea piesei din pozitia anterioara
-                self.gameLogic.deleteCheckerFromPosition(self.gameLogic.getPosID(self.positionName) - self.usedDice)
+                posID = self.gameLogic.getPosID(self.positionName)
+                anteriorPosition = posID - self.usedDice if self.gameLogic.teamTurn == 'white' else posID + self.usedDice
+                print(f"Pozitia anterioara: {anteriorPosition}")
+                self.gameLogic.deleteCheckerFromPosition(anteriorPosition)
 
                 # se verifica daca piesa gost pe care s-a apasat a inlocuit sau nu o piesa a adversarului
                 # daca da, se va elimina indexul pozititiei din lista de piese gost de pe gard
@@ -138,6 +154,8 @@ class Checkers(QPushButton):
 
                 # stergerea zarurului folosit pentru realizarea mutarii
                 self.gameLogic.dices.remove(self.usedDice)
+                # stergerea zarului folosit din diceLayout
+                self.gameLogic.deleteDiceFromLayout(deleteDice = self.usedDice)
                 # dupa plasarea unei piese reale, se va reactiva eventul de hover pentru a putea fi afisate piesele gost
                 self.gameLogic.isGlobalHoverEnable = True
                 self.gameLogic.canDeleteGhostCheckers = True
@@ -150,7 +168,7 @@ class Checkers(QPushButton):
                     self.gameLogic.isGlobalHoverEnable = True
                     self.gameLogic.canDeleteGhostCheckers = True
                     self.gameLogic.deleteGhostCheckers(True)
-                    self.gameLogic.showPossibleMove(posName = self.positionName, oponentTeam = self.oponentTeam) 
+                    self.gameLogic.showPossibleMove(posName = self.positionName, team = self.team) 
                 else:
                     self.gameLogic.isGlobalHoverEnable = False
                     self.gameLogic.canDeleteGhostCheckers = False
@@ -162,8 +180,6 @@ class Checkers(QPushButton):
             # si se apleaza functia logic
             print("Nu mai exista zaruri pentru a realiza mutari, trecem la celalalt jucator!")
             self.gameLogic.isGlobalCheckerInteractiv = False # dezactivarea buroanelor pana la reapasarea buronului de roll pentru a impiedica interactiunile inutile cu piesele de pe tabla
-            # Stergerea zarurilor din layout-ul de zaruri
-            self.gameLogic.deleteDice()
             self.gameLogic.logic()
     
 
@@ -176,6 +192,7 @@ class Checkers(QPushButton):
         # TODO: Trebuie creata o functia care sa verifica ca jucatorul are toate piesele in casa pentru ca sa poate scoate piesele din casa, astfel astigand jocul
 
         # Doar de test
+        print(f"Zarul folosit pentru mutarea piesei: {self.usedDice}")
         print(f"Piesa {self.team} a fost selectata prin clicked event: {self.positionName}")
 
 
