@@ -6,10 +6,12 @@ from layouts import *
 class GameLogic():
     """Clasa care va gestiona toata logica jocului.\n
     Metodele disponibile acestei clase:
-        - saveDices(dices) -> QLabel
-        - getDices() -> list
-        - createDiceObject(urlImage) -> QLabel
         - roll(diceLayout) -> list
+        - createDiceObject(urlImage, usedDice) -> QLabel
+        - saveDices(dices) -> None
+        - getDices() -> list
+        - funcStartButton() -> None
+        - enableRollButton(isEnable) -> None
         - logic() -> None
         - stylePlayerTurn() -> None
         - addOutCheker(team) -> None
@@ -21,8 +23,8 @@ class GameLogic():
         - oponentChekerVisibility(visibility, numberOfPos, oponentTeam) -> None
         - checkersDisponibility(team, disponibility) -> None
         - deleteGhostCheckers(canDeleteGhostCheckers) -> None
-        - funcStartButton() -> None
-        - enableRollButton(isEnable) -> None
+        - deleteCheckerFromPosition(fromPosNumber) -> None
+        - deleteDice(deleteDice = None, deteleAll = False) -> None
         - setDefaultPosition() -> None
         """
     # TODO: Task: de implementat sistemul de directie a mutarilor pentru fiecare jucator, ca acestia sa ajunga cu 
@@ -36,6 +38,8 @@ class GameLogic():
     # TODO: Task: De implementat un sistem care sa afiseze toate pozitiile posibile de pe piesa selectata folosind 
     # zarurile sau zarul disponibil pe pozitiile care permit mutari
 
+    # TODO: Task: De regandit sistemul de activare/dezactivare a pieselor, deoarece actualul genereaza probleme
+
     def __init__(self):
         print("initializare gameLogic...")
         # folosit pentru a stoca zarurile generate in functia roll din RollFunctionalities
@@ -46,6 +50,8 @@ class GameLogic():
         self.turnsCounter = 0 # face pozibila trecerea de la un jucator la altul in functia logic
         self.isGlobalCheckerInteractiv = False
         self.isGlobalHoverEnable = True
+        self.isBlackCheckerEnable = True
+        self.isWhiteCheckerEnable = True
         self.canDeleteGhostCheckers = True
         self.possibleMove = []# lista de pozitii posibile corespunzatoare selectarii unei piese: podID + dice
         self.teamTurn = "white" # variabila care stocheaza tipul jucatorului al carui ii este randul sa face actiuni in joc
@@ -138,11 +144,13 @@ class GameLogic():
 
         if self.turnsCounter % 2 == 0:
             self.teamTurn = "white"
+            # TODO: aici trebuie schimbate valorile pentru isBlackCheckerEnable si isWhiteCheckerEnables
         else:
             self.teamTurn = "black"
 
         # de test pentru a verifica disponibilitatea butoanelor
         # aceasta functie trebuie utilizatat la diferentierea jucatorilor
+        #TODO: De schimbat aceste clase, si de creat conditii in interiorul evenimentelor hover si click pentru a verifica daca piesa este disponibila pentru interactiuni de click sau hover folosind variabile isBlackCheckerEnable si isWhiteCheckerEnable
         self.checkersDisponibility(team = "black", disponibility = True if self.teamTurn == "black" else False)
         self.checkersDisponibility(team = "white", disponibility = True if self.teamTurn == "white" else False)
 
@@ -239,7 +247,7 @@ class GameLogic():
 
     def getPosID(self, posName) -> int:
         """
-        posID -> intul din interiorul numelui layout-ului\n
+        posID -> int-ul care este in numele layout ului selectat\n
         posName -> string corespunzator numelui layout-ului, de preferat un layout corespunzator unei poztitii( pos1 - pos24)\n"""
         tempStr = ''
         for char in posName:
@@ -247,8 +255,16 @@ class GameLogic():
                 tempStr = tempStr + char
         return int(tempStr)
 
+    def getUsedDice(self, possibleMove, posID, team) -> int:
+        """Functie care returneaza zarul folosit pentru a ajunge pe pozitia respectiva mutarii.\n"""
+        if team == "white":
+            return possibleMove - posID
+        else:
+            return posID - possibleMove
+
     # functie pentru afisarea pozitiilor posibile
-    def showPossibleMove(self, posName, oponentTeam) -> None:
+    # TODO: S-A SCHIMBAT PARAMETRUL OponentTeam IN TEAM, POATE CAUZA PROBLEME, NU ESTE TESTAT
+    def showPossibleMove(self, posName, team) -> None:
         # TODO: Aici trebuie creat sistemul de afisare a pozitiilor posibile in functie de diacare jucator
         # jucatorl black face mutari de la 24 la 1
         # jucatorul white face mutari de la 1 la 24
@@ -256,11 +272,12 @@ class GameLogic():
         """Functia este responsabila de informarea jucatorilor cu privire la pozitiile posibile pe care se pot folosi.\n
         Pozitiile posibile sunt calculate in functie de zarurile generate.\n
         Pentru a informa jucatorii, pozitiile posibile sunt marcate cu piese ghost, care apar cand una din piesele jucatorului este selectata
-        atat cu event de tip hover, cat si cu event de tip click\n
+        prin eveniment de tip hover peste piesa sa, si dispar o data cu incetarea hover-ului asupra piesei.\n
         Apelata in functia:
             - hover(is_hovered) din checkers.py
             - click() din checkers.py
             """
+        oponentTeam = "black" if team == "white" else "white"
         if self.dices:
             # obtinerea numarului pozitiei din numele layout-ului
             posID = self.getPosID(posName)
@@ -270,22 +287,34 @@ class GameLogic():
             # de ex, pentru 3 3, de pe poziia 1, pozitiile posibile sunt poziaita 4, 6, 9, 12, daca acest lucru este posibil
             # cat timp exista zar, se adauga la pozitia curenta si se afiseaza pozitiile posibile
             # pentru zarurile neperechi, zarurile se adauga pe rand la pozitia curenta si se afiseaza pozitiile posibile, inclusiv pozitia rezultata prin adunarea zarurilor: pozitia curenta + zar 1 + zar 2
-            for dice in self.getDices():
-                self.possibleMove.append(posID + dice)
+            
+            # directionarea pieselor in functie de culoarea jucatorului
+            # directionarea pieselor jucatorului white
+            if team == "white":
+                # jucatorul white face mutari de la 1 la 24
+                for dice in self.getDices():
+                    self.possibleMove.append(posID + dice)
+            else:
+                # jucatorl black face mutari de la 24 la 1
+                for dice in self.getDices():
+                    self.possibleMove.append(posID - dice)
+
+            print(f"Posibilele mutari pentru pozitia {posID} sunt: {self.possibleMove}")
+        
             for move in self.possibleMove:
-                # zarul folosit pentru a ajunge la pozitia respectiva
-                useDice = move - posID
-                if move <= 24:
+                useDice = self.getUsedDice(move, posID, team)
+                if move >= 1 and move <= 24:
+                    layoutPosition = getattr(self.layouts, f'pos{move}')
                     # verificare daca se poate afisa pozitia rezultata prin adunarea zarurilor
                     # pentru ca piesa sa poata fi afisata pe pozitia rezultata prin adunarea zarurilor
                     # trebuie ca macar unul din zaruri sa fie folosit pentru a ajunge pe pozitia respectiva
                 # cazul in care pe pozitia posibila exista alte piese
-                    if getattr(self.layouts, f'pos{move}').count() > 0:
+                    if layoutPosition.count() > 0:
                         # verificare daca adversarul are cel putin o piesa pe pozitia posibila 
                             # veificam ca pe pozitia respectica sa existe doar o piesa
-                        if getattr(self.layouts, f'pos{move}').count() == 1:
+                        if layoutPosition.count() == 1:
                             # daca exista doar o piesa, atunci se verifica daca acesta este a adversarului
-                            if getattr(self.layouts, f'pos{move}').itemAt(0).widget().objectName() == f'{oponentTeam}Checker':
+                            if layoutPosition.itemAt(0).widget().objectName() == f'{oponentTeam}Checker':
                                 # daca piesa este a adversarului, atunci se poate muta pe pozitia respectiva
                                     # aici, piesa ghost ar trebui sa inlocuiasca piesa adversarului si
                                     # piesa adversarului ar trebui sa fie aruncata pe gard
@@ -296,13 +325,12 @@ class GameLogic():
                                 self.addGhostCheckerToFence(oponentTeam)
                                 # piesa adversarului devine din nou vizibila prin apelarea functiei oponentChekerVisibility in functia hover
                         # excluderea pozitiilor unde exista piese ale opentului si sunt mai mult de 1 piese
-                        position = getattr(self.layouts, f'pos{move}')
-                        lastChecker = position.count() - 1
-                        if position.itemAt(lastChecker).widget().objectName() not in [f'{oponentTeam}Checker', 'ghostChecker']:
+                        lastChecker = layoutPosition.count() - 1
+                        if layoutPosition.itemAt(lastChecker).widget().objectName() not in [f'{oponentTeam}Checker', 'ghostChecker']:
                             # pentru pozitiile 1 12, piesele se vor adauga pe pozitia 0
-                            if position in self.layouts.buttonPositions:
-                                if position.itemAt(0).widget().objectName() != 'ghostChecker':
-                                    position.insertWidget(0, Checkers(team = "ghost", positionName = position.objectName(), gameLogic = self, usedDice = useDice))
+                            if layoutPosition in self.layouts.buttonPositions:
+                                if layoutPosition.itemAt(0).widget().objectName() != 'ghostChecker':
+                                    layoutPosition.insertWidget(0, Checkers(team = "ghost", positionName = layoutPosition.objectName(), gameLogic = self, usedDice = useDice))
                             else:
                                 # pentru pozitiile 13 24, piesele se vor adauga pe ultima pozitie
                                 self.addCheckerToPosition(f'pos{move}', "ghost", useDice)
@@ -343,7 +371,6 @@ class GameLogic():
                     if checker.objectName() == f'{team}Checker':
                         checker.setEnabled(disponibility)
                         checker.isHoverEnable = disponibility
-                        index -= 1
 
     # TODO: verifica de ce este nevoie de o variabila boolean pentru stergerea pieselor ghost
     # functie pentru stergerea pieselor de pe tabla
@@ -368,6 +395,7 @@ class GameLogic():
         Apelata in functia:
             - click() din checkers.py
         """
+        print(f"deleteCheckerFromPosition {fromPosNumber}")
         for pos in self.layouts.positions:
             if pos.objectName() == f"pos{fromPosNumber}":
                 pos.itemAt(0).widget().deleteLater()

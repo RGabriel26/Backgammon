@@ -85,7 +85,7 @@ class UILayouts():
         fenceWhiteCheckersContainer.setLayout(self.fenceWhiteCheckersLayout)
 
         fenceBlackCheckersContainer = QWidget(objectName = "fenceBlackCheckersContainer")
-        self.fenceBlackCheckersLayout = QVBoxLayout(objectName = "fenceBlackCheckersLayout0")
+        self.fenceBlackCheckersLayout = QVBoxLayout(objectName = "fenceBlackCheckersLayout25")
         fenceBlackCheckersContainer.setLayout(self.fenceBlackCheckersLayout)
 
         middleFenceLayout.addWidget(fenceWhiteCheckersContainer)

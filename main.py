@@ -35,7 +35,7 @@ class UInterface(QMainWindow):
         parentLayout.addWidget(middleLayoutContainer, 70)   
         parentLayout.addWidget(rightLayoutContainer, 10)
 
-        # centrarea layout ului parinte in centrul ferestrei
+        # centrareas layout ului parinte in centrul ferestrei
         centralWidget = QWidget()  
         centralWidget.setLayout(parentLayout)
         self.setCentralWidget(centralWidget)
