@@ -25,18 +25,16 @@ class GameLogic():
         - enableRollButton(isEnable) -> None
         - setDefaultPosition() -> None
         """
-    # TODO: TASK:
-    # TODO: Task 2: de impementat pentru sistemul de zaruri, sa fie afisate zarurile ce au picat in diceLayout, iar pentru duble, sa fie afisate toate 4 zaruri
-    #   iar dupa ce se realizeaza o mutare folosind un anumit zar, sa fie sters din diceLayout
-    #   te poti folosi de lista dices care stocheaza deja toate zarurile si asupra careia se fac eliminari cand se foloseste un zar
-    #
-    # TODO: Task 3: de implementat sistemul de directie a mutarilor pentru fiecare jucator, ca acestia sa ajunga cu piesele fiecare in casa lui
-    # 
-    # TODO: Task 5: de implementat sistemul de iesit de pe gard cu piesele respective
-    #
-    # TODO: Task 6: BUG MARE: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
-        # implementeaza sistemul de pozitionare a pieselor de pe gard, asta genereaza probleme
+    # TODO: Task: de implementat sistemul de directie a mutarilor pentru fiecare jucator, ca acestia sa ajunga cu 
+    # piesele fiecare in casa lui
+
+    # TODO: Task: de implementat sistemul de iesit de pe gard cu piesele respective
+
+    # TODO: Task: BUG MARE: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
+    # implementeaza sistemul de pozitionare a pieselor de pe gard, asta genereaza probleme
     
+    # TODO: Task: De implementat un sistem care sa afiseze toate pozitiile posibile de pe piesa selectata folosind 
+    # zarurile sau zarul disponibil pe pozitiile care permit mutari
 
     def __init__(self):
         print("initializare gameLogic...")
@@ -49,66 +47,82 @@ class GameLogic():
         self.isGlobalCheckerInteractiv = False
         self.isGlobalHoverEnable = True
         self.canDeleteGhostCheckers = True
-        
-        # lista de pozitii posibile corespunzatoare selectarii unei piese: podID + dice
-        self.possibleMove = []
-        
+        self.possibleMove = []# lista de pozitii posibile corespunzatoare selectarii unei piese: podID + dice
         self.teamTurn = "white" # variabila care stocheaza tipul jucatorului al carui ii este randul sa face actiuni in joc
     
     def saveDices(self,dices) -> QLabel:
-        if dices[0] == dices[1]:
-            self.dices = [dices[0] for i in range(4)]
-            print(self.dices)
-        else:
-            self.dices = dices
+        self.dices = dices
 
     def getDices(self) -> list:
         """Functie care returneaza zarurile salvate in cadrul instantei gameLogic.\n
         Apela in functia:
-            - showPosibleMove(posName, oponentTeam = "black") din gameLogic.py
+            - roll(diceLayout) din gameLogic.py\n
         Return: list"""
         return self.dices
 
-    def createDiceObject(self, urlImage) -> QLabel:
+    def createDiceObject(self, urlImage, usedDice) -> QLabel:
         """Functie care creeaza obiectele zarurilor.\n
-        Setari aduse obiectelor:
-            - dimensiunea
-            - setarea imaginii
-            - setarea continutului
+        Creaza obiecte de tip QLabel cu objectName = 'dice{usedDice}'
+        - usedDice -> numarul corespunzator zarurilor generate\n
         Apelata in functia:
-            - roll(diceLayout) din gameLogic.py
+            - roll(diceLayout) din gameLogic.py\n
         Return: QLabel"""
         pixmap = QPixmap(urlImage)
         dice = QLabel()
         dice.setPixmap(pixmap)
         dice.setFixedSize(70,70)
         dice.setScaledContents(True)
+        dice.setObjectName(f"dice{usedDice}")
         return dice
 
     def roll(self, diceLayout) -> list:
         """Functia care genereaza cu randint cele 2 zaruri care sunt salvate in self.dices.\n
-        Pe langa generarea zarurilor, functia are rolul de a afisa grafic zarurile generate.\n
-        Zarurile sunt afisate in gridLayout-ul diceLayout.\n
+        Pe langa generarea zarurilor, functia are rolul de a afisa grafic zarurile generate in diceLayout.\n
         Daca exista deja un zar afisat in gridLayout, acesta este sters pentru a nu se suprapune.\n
+        Daca zarurile generate sunt egale, atunci se vor afisa 4 zaruri corespunzatoare dublurii.\n
         Apelata in functia:
-            - funcStartButton() din gameLogic.py
+            - rollDice() din RollFunctionalities.py\n
         Return: list"""
-        dices = [0, 0]
+        dices = []
+        # gemerarea celor 2 zaruri
         for index in range(2):
             getDice = randint(1,6)
-            dices[index] = getDice
-            # stergerea zarului alfat in gridul diceLayout de pe pozitia 0 index pentru a nu se suprapune
-            # .itemAtPosition returneaza un QLayoutItem si se foloseste .widget pentru al conveti intr ul widget pentru a permite stergerea
-            curentDice = diceLayout.itemAtPosition(0, index)
-            if curentDice:
-                diceLayout.removeWidget(curentDice.widget())
-            diceLayout.addWidget(self.createDiceObject(f"images/dice{getDice}.png"), 0, index)
+            dices.append(getDice)
+        # stergerea zarului alfat in gridul diceLayout de pe pozitia 0 index pentru a nu se suprapune
+        if diceLayout.count() > 0:
+            self.deleteDice(deteleAll = True) # daca exista deja zaruri afisate, atunci se sterg zarurile din latyout
         
-        # TODO: Trebuie sa fie setat pe folse
+        # se salveaza zarurile generate in self.dices prin apelarea functiei saveDices
+        if dices[0] == dices[1]:
+            dices = [dices[0], dices[0], dices[0], dices[0]] # daca au fost generate zaruri duble, atuci se vor salva 4 zaruri corespunzatoare dublei
+            # daca nu, se vor salva doar cele 2 zaruri generate
+        self.saveDices(dices)
+        
+        # afisarea obiectelor corespunzatoare zarurilor generate
+        for index, getDice in enumerate(dices):
+            position = [0,1,0,1]
+            diceLayout.addWidget(self.createDiceObject(f'images/dice{getDice}', getDice) , 0 if index < 2 else 1, position[index])
+        
+        # TODO: enableRollButton trebuie sa fie setat pe false
         self.enableRollButton(True) # dezactivarea buronului de roll 
         self.isGlobalCheckerInteractiv = True # activarea pieselor de pe tabla
         return dices
     
+    # functie apelata de butonul Start
+    def funcStartButton(self) -> None:
+        """Functie apelata de butonul Start.\n
+        Aceasta ascunde butonul de start si apeleaza functia logic.\n"""
+        self.layouts.startButton.hide()
+        self.logic()
+
+    # dunctie pentru activarea/dezactivarea butonului de roll
+    def enableRollButton(self, isEnable) -> None:
+        """Functie care activeaza sau dezactiveaza butonul de roll.\n
+        Activeaza sau dezactiveaza butonul de roll in functie de ce primeste ca parametru.\n
+        Apelata in functia:
+            - logic() din gameLogic.py"""
+        self.layouts.rollButton.setEnabled(isEnable)
+
     def logic(self) -> None:
         """Functia care va gestiona logica jocului.\n
         Functia va fi apelata la apasarea butonului de start.\n
@@ -138,6 +152,7 @@ class GameLogic():
         print("A iesit din functia logic")
 
     def stylePlayerTurn(self) -> None:
+        """Functie care seteaza styleSheet-ul pentru label-urile unde sunt afisate numele jucatorilor, pentru a indica al cui este randul sa realizaze mutari.\n"""
         highlightColor = "rgba(67, 200, 176, 0.8)"
         turnStylePlayerWhite = f"""
     background-color:  {highlightColor};
@@ -183,11 +198,14 @@ class GameLogic():
             self.layouts.outWhiteCheckersLayout.addWidget(QLabel(objectName = "outWhiteChecker"))
         else:
             self.layouts.outBlackCheckersLayout.addWidget(QLabel(objectName = "outBlackChecker"))
+
     # TODO: Nu ar fi rau o fuziune intre urmatoarele 2 functii
     def addGhostCheckerToFence(self, team) -> None:
         """Adauga piesele aruncate pe gard in layout-urile corespunzatoare in functie de variabila team data ca parametru.\n
         Apelata in functia:
-            - showPosibleMove(posName, oponentTeam = "black") din gameLogic.py"""
+            - showPosibleMove(posName, oponentTeam = "black") din gameLogic.py
+            - hover(is_hovered) din checkers.py
+            """
         if team == "white":
             layout = self.layouts.fenceWhiteCheckersLayout
             layout.addWidget(Checkers(team="ghostFenceWhite", positionName = layout.objectName(), gameLogic = self))
@@ -198,7 +216,9 @@ class GameLogic():
     def addCheckerToFence(self, team) -> None:
         """Adauga piesele aruncate pe gard in layout-urile corespunzatoare in functie de variabila team data ca parametru.\n
         Apelata in functia:
-            - showPosibleMove(posName, oponentTeam = "black") din gameLogic.py"""
+            - showPosibleMove(posName, oponentTeam = "black") din gameLogic.py
+            - hover(is_hovered) din checkers.py
+            """
         if team == "white":
             layout = self.layouts.fenceWhiteCheckersLayout
             layout.addWidget(Checkers(team="white", positionName = layout.objectName(), gameLogic = self))
@@ -210,12 +230,17 @@ class GameLogic():
         """Adauga piesele pe pozitiile corespunzatoare in functie de variabila team data ca parametru.\n
         Pozitionarea pieselor se face in functie de variabila toPos_name data ca parametru.\n
         Apelata in functia:
-            - showPosibleMove(posName, oponentTeam = "black") din gameLogic.py"""
+            - showPosibleMove(posName, oponentTeam = "black") din gameLogic.py
+            - hover(is_hovered) din checkers.py
+        """
         for pos in self.layouts.positions:
              if toPos_name == pos.objectName():
-                pos.addWidget(Checkers(team = team, positionName = pos.objectName(), gameLogic = self, usedDice= useDice, replaceCheckers = replaceCheckers))
+                pos.addWidget(Checkers(team = team, positionName = pos.objectName(), gameLogic = self, usedDice = useDice, replaceCheckers = replaceCheckers))
 
     def getPosID(self, posName) -> int:
+        """
+        posID -> intul din interiorul numelui layout-ului\n
+        posName -> string corespunzator numelui layout-ului, de preferat un layout corespunzator unei poztitii( pos1 - pos24)\n"""
         tempStr = ''
         for char in posName:
             if char.isdigit():
@@ -233,7 +258,9 @@ class GameLogic():
         Pentru a informa jucatorii, pozitiile posibile sunt marcate cu piese ghost, care apar cand una din piesele jucatorului este selectata
         atat cu event de tip hover, cat si cu event de tip click\n
         Apelata in functia:
-            - hover(is_hovered) din checkers.py"""
+            - hover(is_hovered) din checkers.py
+            - click() din checkers.py
+            """
         if self.dices:
             # obtinerea numarului pozitiei din numele layout-ului
             posID = self.getPosID(posName)
@@ -248,7 +275,7 @@ class GameLogic():
             for move in self.possibleMove:
                 # zarul folosit pentru a ajunge la pozitia respectiva
                 useDice = move - posID
-                if move < 24:
+                if move <= 24:
                     # verificare daca se poate afisa pozitia rezultata prin adunarea zarurilor
                     # pentru ca piesa sa poata fi afisata pe pozitia rezultata prin adunarea zarurilor
                     # trebuie ca macar unul din zaruri sa fie folosit pentru a ajunge pe pozitia respectiva
@@ -289,17 +316,11 @@ class GameLogic():
         Folosita la momentul in care pe o posibila pozitie, jucatorul poate face mutare peste adversarul sau.\n
         Conditia este ca adversarul sa aiba doar o piesa pe pozitia respectiva.\n
         Acest lucru arunca piesa adversarului pe gard, iar o piesa ghost inlocuieste piesa adversarului pana la incetarea eventului hover.\n
+        cand se readuce piesa 'aruncata' pe gard, inapoi in pozitia initiala prin incetarea eventului hover, daca locatia nu este ocupata de jucatorul in curs\n
         Apelata in functia:
-            - showPosibleMove(posName, oponentTeam = "black") din gameLogic.py"""
-        # cauzeaza probleme cand se face o mutare concreata peste piesa care este aruncata pe gard
-        # if visibility:
-        #     checker = getattr(self.layouts, f"pos{numberOfPos}").itemAt(0).widget()
-        #     checker.show()
-        # else:
-        #     checker = getattr(self.layouts, f"pos{numberOfPos}").itemAt(0).widget()
-        #     checker.hide()
-        
-        # incercare de a sterge piesa adversarului de pe pozitia respectiva si sau de a o aduga in functie de visibility
+            - showPosibleMove(posName, oponentTeam = "black") din gameLogic.py
+            - hover(is_hovered) din checkers.py
+            """
         if visibility:
             self.addCheckerToPosition(f'pos{numberOfPos}', oponentTeam)
         else:
@@ -309,11 +330,11 @@ class GameLogic():
     # functie pentru activarea/dezactivarea pieselor
     def checkersDisponibility(self, team, disponibility) -> None:
         """Functia care face active sau inactive piesele de pe tabla.\n
-        In functie de progresul jocului\n
-        Daca este randul jucatorului white, atunci piesele black sunt inactive si invers.
+        In functie de jucatorul care trebuie sa realizeze mutarile.\n
+        Daca este randul jucatorului black, atunci piesele white sunt inactive si invers.\n
         Apelata in functiile:
             - logic() din gameLogic.py
-            - hover(is_hovered) din checkers.py"""
+            """
         for pos in self.layouts.positions:   
             count = pos.count()
             if count > 0:
@@ -324,12 +345,14 @@ class GameLogic():
                         checker.isHoverEnable = disponibility
                         index -= 1
 
+    # TODO: verifica de ce este nevoie de o variabila boolean pentru stergerea pieselor ghost
     # functie pentru stergerea pieselor de pe tabla
     def deleteGhostCheckers(self, canDeleteGhostCheckers) -> None:
         """Functie care sterge piesele ghost de pe tabla.\n
         Apelata in functiile: 
             - hover(is_hovered) din checkers.py
-            - roll(diceLayout) din gameLogic.py"""
+            - click() din checkers.py
+            """
         if canDeleteGhostCheckers:
             for pos in self.layouts.positions:
                 count = pos.count()
@@ -341,32 +364,32 @@ class GameLogic():
                             index -= 1
 
     def deleteCheckerFromPosition(self, fromPosNumber) -> None:
+        """Folosita pentru a sterge piese reale de pe anumite pozitii in fucntie de parametrul fromPosNumber.\n
+        Apelata in functia:
+            - click() din checkers.py
+        """
         for pos in self.layouts.positions:
             if pos.objectName() == f"pos{fromPosNumber}":
                 pos.itemAt(0).widget().deleteLater()
-    
-    def deleteDice(self) -> None:
-        """Functie care sterge obiectele zarurilor din self.diceLayout .\n"""
-        for index in range(2):
-            self.layouts.diceLayout.itemAt(index).widget().deleteLater()
 
-
-    # functie apelata de butonul Start
-    def funcStartButton(self) -> None:
-        """Functie apelata de butonul Start.\n
-        Aceasta ascunde butonul de start si apeleaza functia logic.\n
+    def deleteDice(self, deleteDice = None, deteleAll = False) -> None:
+        """Functie care sterge obiecte zarurilor din self.diceLayout .\n
+        Daca parametrul deleteAll = True, atunci se sterg toate obiectele din self.diceLayout.\n
+        Daca parametrul deleteDice = int, corespunzator unui zar folosit pentru realizarea mutari, atunci se sterge zarul respectiv din diceLayout.\n
         Apelata in functia:
-            - funcStartButton() din gameLogic.py"""
-        self.layouts.startButton.hide()
-        self.logic()
-
-    # dunctie pentru activarea/dezactivarea butonului de roll
-    def enableRollButton(self, isEnable) -> None:
-        """Functie care activeaza sau dezactiveaza butonul de roll.\n
-        Activeaza sau dezactiveaza butonul de roll in functie de ce primeste ca parametru.\n
-        Apelata in functia:
-            - logic() din gameLogic.py"""
-        self.layouts.rollButton.setEnabled(isEnable)
+            - roll(diceLayout) din gameLogic.py
+            """
+        if deteleAll:
+            countDiceObject = self.layouts.diceLayout.count()
+            if countDiceObject > 0:
+                for index in range(countDiceObject):
+                    self.layouts.diceLayout.itemAt(index).widget().deleteLater()
+        if deleteDice:
+            for index in range(self.layouts.diceLayout.count()):
+                diceForDelete = self.layouts.diceLayout.itemAt(index).widget()
+                if diceForDelete.objectName() == f"dice{deleteDice}":
+                    diceForDelete.deleteLater()
+                    break
 
     # functie pentru setarea pozitiei default a pieselor
     def setDefaultPosition(self) -> None:
@@ -378,4 +401,3 @@ class GameLogic():
             for position, numberOfPieces in posAndCaunt:
                 for i in range(numberOfPieces):
                     position.addWidget(Checkers(team = team, positionName = position.objectName(), gameLogic = self, usedDice = 0))
-

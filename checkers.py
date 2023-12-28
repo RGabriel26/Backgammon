@@ -125,7 +125,8 @@ class Checkers(QPushButton):
                 self.gameLogic.deleteGhostCheckers(True)
                 self.gameLogic.addCheckerToPosition(self.positionName, self.gameLogic.teamTurn)
                 # stergerea piesei din pozitia anterioara
-                self.gameLogic.deleteCheckerFromPosition(self.gameLogic.getPosID(self.positionName) - self.usedDice)
+                anteriorPosition = self.gameLogic.getPosID(self.positionName) - self.usedDice
+                self.gameLogic.deleteCheckerFromPosition(anteriorPosition)
 
                 # se verifica daca piesa gost pe care s-a apasat a inlocuit sau nu o piesa a adversarului
                 # daca da, se va elimina indexul pozititiei din lista de piese gost de pe gard
@@ -138,6 +139,8 @@ class Checkers(QPushButton):
 
                 # stergerea zarurului folosit pentru realizarea mutarii
                 self.gameLogic.dices.remove(self.usedDice)
+                # stergerea zarului folosit din diceLayout
+                self.gameLogic.deleteDice(deleteDice = self.usedDice)
                 # dupa plasarea unei piese reale, se va reactiva eventul de hover pentru a putea fi afisate piesele gost
                 self.gameLogic.isGlobalHoverEnable = True
                 self.gameLogic.canDeleteGhostCheckers = True
@@ -162,8 +165,6 @@ class Checkers(QPushButton):
             # si se apleaza functia logic
             print("Nu mai exista zaruri pentru a realiza mutari, trecem la celalalt jucator!")
             self.gameLogic.isGlobalCheckerInteractiv = False # dezactivarea buroanelor pana la reapasarea buronului de roll pentru a impiedica interactiunile inutile cu piesele de pe tabla
-            # Stergerea zarurilor din layout-ul de zaruri
-            self.gameLogic.deleteDice()
             self.gameLogic.logic()
     
 
