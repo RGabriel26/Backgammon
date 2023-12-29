@@ -6,10 +6,10 @@ from layouts import *
 class GameLogic():
     """Clasa care va gestiona toata logica jocului.\n
     Metodele disponibile acestei clase:
-        - roll(diceLayout) -> list
-        - createDiceObject(urlImage, usedDice) -> QLabel
         - saveDices(dices) -> None
         - getDices() -> list
+        - createDiceObject(urlImage, usedDice) -> QLabel
+        - roll(diceLayout) -> list
         - funcStartButton() -> None
         - enableRollButton(isEnable) -> None
         - logic() -> None
@@ -19,11 +19,12 @@ class GameLogic():
         - addCheckerToFence(team) -> None
         - addCheckerToPosition(toPos_name, team, useDice = 0, replaceCheckers = False) -> None
         - getPosID(posName) -> int
-        - showPossibleMove(posName, oponentTeam) -> None
+        - getUsedDice(possibleMove, posID, team) -> int
+        - showPossibleMove(posName, team) -> None
         - oponentChekerVisibility(visibility, numberOfPos, oponentTeam) -> None
         - deleteGhostCheckers(canDeleteGhostCheckers) -> None
         - deleteCheckerFromPosition(fromPosNumber) -> None
-        - deleteDice(deleteDice = None, deteleAll = False) -> None
+        - deleteDiceFromLayout(deleteDice = None, deteleAll = False) -> None
         - setDefaultPosition() -> None
         """
 
