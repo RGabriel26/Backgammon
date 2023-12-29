@@ -28,10 +28,10 @@ class GameLogic():
         - setDefaultPosition() -> None
         """
 
-    # TODO: Task: de implementat sistemul de iesit de pe gard cu piesele respective
 
     # TODO: Task: BUG MARE: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
     # implementeaza sistemul de pozitionare a pieselor de pe gard, asta genereaza probleme
+    # CRED CA ESTE REZOLVAT - NU S-A MAI REPETAT
     
     # TODO: Task: De implementat un sistem care sa afiseze toate pozitiile posibile de pe piesa selectata folosind 
     # zarurile sau zarul disponibil pe pozitiile care permit mutari
@@ -203,7 +203,7 @@ class GameLogic():
 
     # TODO: Nu ar fi rau o fuziune intre urmatoarele 2 functii
     def addGhostCheckerToFence(self, team) -> None:
-        """Adauga piesele aruncate pe gard in layout-urile corespunzatoare in functie de variabila team data ca parametru.\n
+        """Folosita pentru a informa jucatorul atunci cand o mutare de a sa, arunca piese de ale adversarului pe gard, adaugand pe gard piese ghost.\n
         Apelata in functia:
             - showPosibleMove(posName, oponentTeam = "black") din gameLogic.py
             - hover(is_hovered) din checkers.py

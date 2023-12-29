@@ -137,16 +137,26 @@ class Checkers(QPushButton):
                 # se sterg piesele ghost
                 self.gameLogic.deleteGhostCheckers(True)
                 self.gameLogic.addCheckerToPosition(self.positionName, self.gameLogic.teamTurn)
-                # stergerea piesei din pozitia anterioara
+
+                # stergerea piesei de pe pozitia de unde s-a initiat mutarea
                 posID = self.gameLogic.getPosID(self.positionName)
                 anteriorPosition = posID - self.usedDice if self.gameLogic.teamTurn == 'white' else posID + self.usedDice
-                print(f"Pozitia anterioara: {anteriorPosition}")
-                self.gameLogic.deleteCheckerFromPosition(anteriorPosition)
+                # daca anteriorPosition este == 0 sau 25, inseamna ca piesa selectata se afla pe gard, 
+                # pozitia 0 este pentru piesele white de pe gard
+                # pozitia 25 este pentru piesele black de pe gard
+                if anteriorPosition == 0:
+                    # piesa selectata de pe gard este a jucatorului white
+                    self.gameLogic.layouts.fenceWhiteCheckersLayout.itemAt(0).widget().deleteLater()
+                elif anteriorPosition == 25:
+                    # piesa selectata de pe gard este a jucatorului black
+                    self.gameLogic.layouts.fenceBlackCheckersLayout.itemAt(0).widget().deleteLater()
+                else:
+                    print(f"Pozitia anterioara: {anteriorPosition}")
+                    self.gameLogic.deleteCheckerFromPosition(anteriorPosition)
 
                 # se verifica daca piesa gost pe care s-a apasat a inlocuit sau nu o piesa a adversarului
                 # daca da, se va elimina indexul pozititiei din lista de piese gost de pe gard
                 # astfel, nu se va mai recrea piesa adversarului pe pozitia anterioara
-
                 if self.replaceCheckers:
                     self.gameLogic.fencedCheckers.remove(self.gameLogic.getPosID(self.positionName))
                     # TODO: creaza probleme
@@ -160,7 +170,6 @@ class Checkers(QPushButton):
                 self.gameLogic.isGlobalHoverEnable = True
                 self.gameLogic.canDeleteGhostCheckers = True
                 self.gameLogic.clickCounter = 0
-
             
             # Event de click pentru piesele reale ale jucatorilo
             if self.team != "ghost":
