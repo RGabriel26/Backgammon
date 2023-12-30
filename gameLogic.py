@@ -28,6 +28,8 @@ class GameLogic():
         - setDefaultPosition() -> None
         """
 
+    # TODO: Task: De implementat sistemul de iesit cu piesele din joc
+    # RECOMANDARE: De creat un event de click pe layout urile out checkers pentru fiecare dintre jucatori
 
     # TODO: Task: BUG MARE: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
     # implementeaza sistemul de pozitionare a pieselor de pe gard, asta genereaza probleme
@@ -138,21 +140,60 @@ class GameLogic():
 
         # initial butonul de dice este dezactivat, dar devine activ dupa apasare btonului de start
         self.enableRollButton(True) # si se ve dezactiva dupa apasarea butonului de rollDice in functia roll
+        # TODO: Verifica care e treaba cu self.isGlobalCheckerInteractiv si de ce este comentat
         # self.isGlobalCheckerInteractiv =  # variabila care va activa/dezactiva piesele de pe tabla
 
         if self.turnsCounter % 2 == 0:
             self.teamTurn = "white"
             self.isWhiteCheckerEnable = True
             self.isBlackCheckerEnable = False
+            # verificare daca jucatorul are piese pe gard
+            if self.checkFence("white") > 0:
+                self.disponibilityPlayerCheckers("white", False)
         else:
             self.teamTurn = "black"
             self.isWhiteCheckerEnable = False
             self.isBlackCheckerEnable = True
+            # verificare daca jucatorul are piese pe gard
+            if self.checkFence("black") > 0: 
+                self.disponibilityPlayerCheckers("black", False)
 
         self.stylePlayerTurn()
         self.turnsCounter += 1
 
         print("A iesit din functia logic")
+        
+    def disponibilityPlayerCheckers(self, team, disponibility) -> None:
+        """Functia care face disponibile sau nu piesele jucatorului.\n
+        Folosit cand este nevoie de indeplinirea unei conditii pentru ca jucatorul sa poata continua jocul.\n"""
+        for pos in self.layouts.positions[:-2]:
+            if pos.count() > 0:
+                if pos.itemAt(0).widget().objectName() == f"{team}Checker":
+                    for index in range(pos.count()):
+                        layoutPosition = pos.itemAt(index).widget()
+                        layoutPosition.setEnabled(disponibility)
+                        layoutPosition.isHoverEnable = disponibility
+
+    def checkFence(self, team) -> int:
+        if team == "white":
+            return self.layouts.fenceWhiteCheckersLayout.count()
+        else:
+            return self.layouts.fenceBlackCheckersLayout.count()
+
+    def restrictionFence(self, anteriorPosition) -> None:
+        # verificarea restrictiilor
+        if anteriorPosition == 0:
+            # mentinerea restrictiei cand jucatorul are piese pe gard
+            if self.checkFence("white") > 0:
+                self.disponibilityPlayerCheckers("white", False)
+            else:
+                self.disponibilityPlayerCheckers("white", True)
+        elif anteriorPosition == 25:
+            # mentinerea restrictiei cand jucatorul are piese pe gard
+            if self.checkFence("black") > 0: 
+                self.disponibilityPlayerCheckers("black", False)
+            else:
+                self.disponibilityPlayerCheckers("black", True)
 
     def stylePlayerTurn(self) -> None:
         """Functie care seteaza styleSheet-ul pentru label-urile unde sunt afisate numele jucatorilor, pentru a indica al cui este randul sa realizaze mutari.\n"""
@@ -366,7 +407,6 @@ class GameLogic():
         Apelata in functia:
             - click() din checkers.py
         """
-        print(f"deleteCheckerFromPosition {fromPosNumber}")
         for pos in self.layouts.positions:
             if pos.objectName() == f"pos{fromPosNumber}":
                 pos.itemAt(0).widget().deleteLater()
