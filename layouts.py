@@ -213,6 +213,25 @@ class UILayouts():
         
         self.buttonPositions = [self.pos1, self.pos2, self.pos3, self.pos4, self.pos5, self.pos6, self.pos7, 
                           self.pos8, self.pos9, self.pos10, self.pos11, self.pos12]
+        
+        self.pos18.addWidget(Checkers(team="white", positionName=self.pos18.objectName(), gameLogic = self.gameLogic))
+        self.pos18.addWidget(Checkers(team="white", positionName=self.pos18.objectName(), gameLogic = self.gameLogic))
+        self.pos2.addWidget(Checkers(team="white", positionName=self.pos2.objectName(), gameLogic = self.gameLogic))
+        self.pos2.addWidget(Checkers(team="white", positionName=self.pos2.objectName(), gameLogic = self.gameLogic))
+        self.pos7.addWidget(Checkers(team="white", positionName=self.pos7.objectName(), gameLogic = self.gameLogic))
+        self.pos7.addWidget(Checkers(team="white", positionName=self.pos7.objectName(), gameLogic = self.gameLogic))
+
+        self.pos20.addWidget(Checkers(team="white", positionName=self.pos20.objectName(), gameLogic = self.gameLogic))
+        self.pos20.addWidget(Checkers(team="white", positionName=self.pos20.objectName(), gameLogic = self.gameLogic))
+        self.pos21.addWidget(Checkers(team="white", positionName=self.pos21.objectName(), gameLogic = self.gameLogic))
+        self.pos21.addWidget(Checkers(team="white", positionName=self.pos21.objectName(), gameLogic = self.gameLogic))
+        self.pos22.addWidget(Checkers(team="white", positionName=self.pos22.objectName(), gameLogic = self.gameLogic))
+        self.pos22.addWidget(Checkers(team="white", positionName=self.pos22.objectName(), gameLogic = self.gameLogic))
+        self.pos23.addWidget(Checkers(team="white", positionName=self.pos23.objectName(), gameLogic = self.gameLogic))
+        self.pos23.addWidget(Checkers(team="white", positionName=self.pos23.objectName(), gameLogic = self.gameLogic))
+
+        
+
 
         # QTimer.singleShot(0, lambda: print(f"pos10Container: {pos10Container.size()}"))
         return middleContainer
@@ -273,7 +292,7 @@ class UILayouts():
         #QTime.singleShot(0) asteapta ca interfata grafica sa se termine de randat, dupa care executa comanda
         QTimer.singleShot(0, lambda: self.rollButton.setFixedSize(whiteCheckersContainer.width(), whiteCheckersContainer.width()))
                 # functia roll care adauga widgetul in diceLayout si returneaza lista cu raruri, care sunt salvate in clasa gamoLogic si stocate prin setDices
-        self.rollButton.clicked.connect(lambda: self.gameLogic.saveDices(self.gameLogic.roll(self.diceLayout)))
+        self.rollButton.clicked.connect(lambda: self.gameLogic.roll(self.diceLayout))
         self.gameLogic.enableRollButton(False)
 
             # adaugarea elementelor din dreapta
