@@ -29,7 +29,7 @@ class UInterface(QMainWindow):
         middleLayoutContainer = self.gameLogic.layouts.middleLayout()
         # containerul elementelor din stanga
         rightLayoutContainer = self.gameLogic.layouts.rightContainer()
-
+    
         # folosit pentru a aduna containerele intr un singur loc pentru a putea fi gestionate
         parentLayout.addWidget(leftLayoutContainer, 20)
         parentLayout.addWidget(middleLayoutContainer, 70)   

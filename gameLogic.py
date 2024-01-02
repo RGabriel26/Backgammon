@@ -31,10 +31,6 @@ class GameLogic():
 
 
 
-
-    # TODO: Task: De implementat sistemul de iesit cu piesele din joc
-    # RECOMANDARE: De creat un event de click pe layout urile out checkers pentru fiecare dintre jucatori
-
     # TODO: Task: BUG MARE: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
     # implementeaza sistemul de pozitionare a pieselor de pe gard, asta genereaza probleme
     # CRED CA ESTE REZOLVAT - NU S-A MAI REPETAT
@@ -42,12 +38,17 @@ class GameLogic():
     # TODO: Task: De implementat un sistem care sa afiseze toate pozitiile posibile de pe piesa selectata folosind 
     # zarurile sau zarul disponibil pe pozitiile care permit mutari si de adaugat piesele ghost in locurile corespunzatoare
 
+    # TODO: Task: De gestionat cazul cand jucatorul are doar piese in casa, atuci ar trebui sa fie capabil sa scoata piese
+    # este un bug care face sa se treaca peste jucator daca are doar piese in caas si da un zar, iar pe pozitia respectiva zarului nu are nici o piese
+    # jocul trece mai departe
 
     def __init__(self):
         print("initializare gameLogic...")
         # folosit pentru a stoca zarurile generate in functia roll din RollFunctionalities
         self.dices = []
         self.layouts = UILayouts(self)
+        self.lastClickedChecker = None # folosit pentru a stoca ultima piesa selectata
+        self.usedDiceForOutCheckers = None # folosit pentru a stoca zarul folosit pentru a scoate piesa din joc
         self.fencedCheckers = [] # lista folosita pentru a stoca pozitiile de unde au fost aruncate piesele pe gard
         self.clickCounter = 0  # folosit pentru a numara cate click-uri au fost realizate pe piesa selectata
         self.turnsCounter = 0 # face pozibila trecerea de la un jucator la altul in functia logic
@@ -56,6 +57,7 @@ class GameLogic():
         self.isGlobalHoverEnable = True 
         self.isBlackCheckerEnable = True
         self.isWhiteCheckerEnable = True
+        self.canTakeOut = True # variabila care activeaza si dezactiveaza interactiunea cu "butonul" care scoate piesele din joc
         self.possibleMove = []# lista de pozitii posibile corespunzatoare selectarii unei piese: podID + dice
         self.teamTurn = "white" # variabila care stocheaza tipul jucatorului al carui ii este randul sa face actiuni in joc
     
@@ -171,6 +173,7 @@ class GameLogic():
             # verificare daca jucatorul are piese pe gard
             if self.checkFence("white") > 0:
                 self.disponibilityPlayerCheckers("white", False)
+            
         else:
             self.teamTurn = "black"
             self.isWhiteCheckerEnable = False
@@ -256,13 +259,70 @@ class GameLogic():
             self.layouts.labelPlayerBlack.setStyleSheet(turnStylePlayerBlack)
             self.layouts.labelPlayerWhite.setStyleSheet(defaultTurnStylePlayerWhite)
 
-    def addOutCheker(self, team) -> None:
-        """Adauga piesele scoase din joc in layout-urile corespunzatoare in functie de variabila team data ca parametru.\n"""
-        if team == "white":
+    def addOutCheker(self) -> None:
+        """Adauga piesele scoase din joc in layout-urile corespunzatoare in functie de jucatorul care care posibilitatea de a realiza mutari pe tabla.\n"""
+        if self.teamTurn == 'white':
             self.layouts.outWhiteCheckersLayout.addWidget(QLabel(objectName = "outWhiteChecker"))
         else:
             self.layouts.outBlackCheckersLayout.addWidget(QLabel(objectName = "outBlackChecker"))
+    
+    def manageOutCheker(self) -> None:
+        self.highlightOutPosibility(False)
+        posID = self.getPosID(self.lastClickedChecker)
+        self.deleteCheckerFromPosition(posID)
+        self.deleteGhostCheckers(True)
 
+        # stergerea zarului folosit din lista de zaruri
+        print(f'zarul folosit pentru scoaterea piesei din joc: {self.usedDiceForOutCheckers}')
+        self.dices.remove(self.usedDiceForOutCheckers)
+        print(f'lista de zaruri dupa stergerea zarului folosit: {self.dices}')
+        # stergerea zarului folosit din diceLayout
+        self.deleteDiceFromLayout(deleteDice = self.usedDiceForOutCheckers)
+        # dupa plasarea unei piese reale, se va reactiva eventul de hover pentru a putea fi afisate piesele gost
+        self.isGlobalHoverEnable = True
+        self.canDeleteGhostCheckers = True
+        self.clickCounter = 0
+
+        self.addOutCheker()
+
+        # stergerea datelor folosite
+        self.lastClickedChecker = None
+        self.usedDiceForOutCheckers = None
+
+        # TODO: De folosit sistemul de verificare a mutarilor posibile cu canMakeMove
+        if not self.dices:
+            self.enableRollButton(True)
+            self.isGlobalCheckerInteractiv = False
+            self.logic()
+            
+
+    def createBlurEffect(self, active) -> QGraphicsDropShadowEffect:
+        shadow = QGraphicsDropShadowEffect()
+        shadow.setBlurRadius(100)
+        shadow.setOffset(0) 
+        shadow.setColor(QColor(49, 191, 103))
+        shadow.setEnabled(active)
+        return shadow
+    
+    def highlightOutPosibility(self, show = True) -> None:
+        """Funtia care seteaza interactiunea cu zonele de iesirea a pieselor jucatorului si evidentierea acestora."""
+        if show:
+            if self.teamTurn == "white":
+                self.layouts.whiteCheckersContainer.setEnabled(True)
+                self.layouts.blackCheckersContainer.setEnabled(False)
+                self.layouts.whiteCheckersContainer.setGraphicsEffect(self.createBlurEffect(True))
+                self.layouts.blackCheckersContainer.setGraphicsEffect(self.createBlurEffect(False))
+            else:
+                self.layouts.whiteCheckersContainer.setEnabled(False)
+                self.layouts.blackCheckersContainer.setEnabled(True)
+                self.layouts.whiteCheckersContainer.setGraphicsEffect(self.createBlurEffect(False))
+                self.layouts.blackCheckersContainer.setGraphicsEffect(self.createBlurEffect(True))
+        else:
+            self.layouts.whiteCheckersContainer.setEnabled(False)
+            self.layouts.blackCheckersContainer.setEnabled(False)
+            self.layouts.whiteCheckersContainer.setGraphicsEffect(self.createBlurEffect(False))
+            self.layouts.blackCheckersContainer.setGraphicsEffect(self.createBlurEffect(False))
+        
     # TODO: Nu ar fi rau o fuziune intre urmatoarele 2 functii
     def addGhostCheckerToFence(self, team) -> None:
         """Folosita pentru a informa jucatorul atunci cand o mutare de a sa, arunca piese de ale adversarului pe gard, adaugand pe gard piese ghost.\n
@@ -314,9 +374,9 @@ class GameLogic():
     def getUsedDice(self, possibleMove, posID, team) -> int:
         """Functie care returneaza zarul folosit pentru a ajunge pe pozitia respectiva mutarii.\n"""
         if team == "white":
-            return possibleMove - posID
+            return abs(possibleMove - posID)
         else:
-            return posID - possibleMove
+            return abs(posID - possibleMove)
 
     # TODO: optimizeaza
     # TODO: de implementat sistemul de afisare a tuturor pozitiilor posibile
@@ -389,6 +449,11 @@ class GameLogic():
                     else:
                         # cazul in cere pe pozitia posibila nu exista alte piese
                         self.addCheckerToPosition(f'pos{move}', "ghost", useDice)
+                else:
+                    # momentul cand zona de scoatere a pieselor devine activa
+                    print(f'Se pot realiza mutari pentru a scoate piese din joc, zarul folosit pentru aceasta mutare: {useDice}')
+                    self.usedDiceForOutCheckers = useDice
+                    self.highlightOutPosibility(True)
 
     def canMakeMove(self, fromFence = False) -> bool:
         oponentTeam = "black" if self.teamTurn == "white" else "white"
@@ -400,7 +465,6 @@ class GameLogic():
                 positions = self.layouts.positions[-2:]
             else: 
                 positions = self.layouts.positions
-
             for pos in positions:
                 if pos.count() > 0:
                     # print(f'aici 1 - {realizableMove} {pos.objectName()}')

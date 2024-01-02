@@ -87,6 +87,11 @@ class Checkers(QPushButton):
                             position = self.gameLogic.fencedCheckers.pop()
                             self.gameLogic.oponentChekerVisibility(True, position, self.oponentTeam)
 
+                    # dezactivarea zonei de scoatere a pieselor
+                    self.gameLogic.highlightOutPosibility(False)
+                    # resetara variabilei care stocheaza zarul folosit pentru scoaterea piesei din joc
+                    self.gameLogic.usedDiceForOutCheckers = None
+
     def click(self):
         # Eventul de click pe o piesa va apela functia .showPossibleMove() din gameLogic.py
         # care va afisa jucatorului pozitiile disponibile in functie de zarul pe care l-a aruncat si va face in asa fel incat piesele
@@ -171,7 +176,7 @@ class Checkers(QPushButton):
                 # RESTRICTII:
                 # Verificare daca jucatorul poate realiza mutari cu zarurile primite
                 # Tot aici este tratat si cazul cand jucatorul a realizat mutari cu toate zarurile primite
-                if self.gameLogic.layouts.fenceWhiteCheckersLayout.count() > 0 and self.gameLogic.teamTurn == "white" or self.gameLogic.layouts.fenceBlackCheckersLayout.count() > 0 and self.gameLogic.teamTurn == "black" :
+                if QTimer.singleShot(0, lambda: self.gameLogic.layouts.fenceWhiteCheckersLayout.count() > 0 and self.gameLogic.teamTurn == "white" or self.gameLogic.layouts.fenceBlackCheckersLayout.count() > 0 and self.gameLogic.teamTurn == "black") :
                     if self.gameLogic.canMakeMove(fromFence = True) == False:
                         print('Nu se pot face mutari cu zarurile primite.\nSe va trece la jucatorul urmator')
                         self.gameLogic.dices.clear()
@@ -197,6 +202,9 @@ class Checkers(QPushButton):
                     self.gameLogic.isGlobalHoverEnable = False
                     self.gameLogic.canDeleteGhostCheckers = False
                 self.gameLogic.clickCounter += 1
+
+        # salvarea pozitiei ultimei piese selectate
+        self.gameLogic.lastClickedChecker = self.positionName
 
         # RESTRICTII:
         # Restrictia pieselor pe gard care face ca celelalte piese sa fie indisponibile pana cand toate piesele de pe gard sunt mutate inapoi in joc:
