@@ -277,32 +277,32 @@ class UILayouts():
         rightContainer.setLayout(rightLayout)
             # setarea containerelor pentru piesele care vor fi scoase din joc
                 # crearea containerului pentru piesele ce vor fi scoase de jucatorul WHITE
-        self.whiteCheckersContainer = QWidget()
-        self.whiteCheckersContainer.setObjectName("whiteCheckersContainer")
+        self.outWhiteCheckersContainer = QWidget()
+        self.outWhiteCheckersContainer.setObjectName("whiteCheckersContainer")
         self.outWhiteCheckersLayout = QVBoxLayout()
-        self.whiteCheckersContainer.setLayout(self.outWhiteCheckersLayout)
-        self.whiteCheckersContainer.mousePressEvent = lambda event: self.gameLogic.manageOutCheker()
-        self.whiteCheckersContainer.setEnabled(False)
+        self.outWhiteCheckersContainer.setLayout(self.outWhiteCheckersLayout)
+        self.outWhiteCheckersContainer.mousePressEvent = lambda event: self.gameLogic.manageOutCheker()
+        self.outWhiteCheckersContainer.setEnabled(False)
                 # crearea containerului pentru piesele ce vor fi scoase de jucatorul BLACK
-        self.blackCheckersContainer = QWidget()
-        self.blackCheckersContainer.setObjectName("blackCheckersContainer")
+        self.outBlackCheckersContainer = QWidget()
+        self.outBlackCheckersContainer.setObjectName("blackCheckersContainer")
         self.outBlackCheckersLayout = QVBoxLayout()
-        self.blackCheckersContainer.setLayout(self.outBlackCheckersLayout)
-        self.blackCheckersContainer.mousePressEvent = lambda event: self.gameLogic.manageOutCheker()
-        self.blackCheckersContainer.setEnabled(False)
+        self.outBlackCheckersContainer.setLayout(self.outBlackCheckersLayout)
+        self.outBlackCheckersContainer.mousePressEvent = lambda event: self.gameLogic.manageOutCheker()
+        self.outBlackCheckersContainer.setEnabled(False)
         # crearea butonului de Roll
         self.rollButton = QPushButton()
         self.rollButton.setObjectName("rollButton")
         #QTime.singleShot(0) asteapta ca interfata grafica sa se termine de randat, dupa care executa comanda
-        QTimer.singleShot(0, lambda: self.rollButton.setFixedSize(self.whiteCheckersContainer.width(), self.whiteCheckersContainer.width()))
+        QTimer.singleShot(0, lambda: self.rollButton.setFixedSize(self.outWhiteCheckersContainer.width(), self.outWhiteCheckersContainer.width()))
                 # functia roll care adauga widgetul in diceLayout si returneaza lista cu raruri, care sunt salvate in clasa gamoLogic si stocate prin setDices
         self.rollButton.clicked.connect(lambda: self.gameLogic.roll(self.diceLayout))
         self.gameLogic.enableRollButton(False)
 
             # adaugarea elementelor din dreapta
-        rightLayout.addWidget(self.whiteCheckersContainer)
+        rightLayout.addWidget(self.outWhiteCheckersContainer)
         rightLayout.addWidget(self.rollButton)
-        rightLayout.addWidget(self.blackCheckersContainer)
+        rightLayout.addWidget(self.outBlackCheckersContainer)
 
         self.outWhiteCheckersLayout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.outWhiteCheckersLayout.setContentsMargins(0, 5, 0, 5)

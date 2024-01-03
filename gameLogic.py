@@ -161,6 +161,11 @@ class GameLogic():
         print("Start game!")
         print(f"Este randul jucatorului {self.teamTurn}!")
 
+        # Conditia de win:
+        if self.countOutCheckers() == 15:
+            print(f"Jucatorul {self.teamTurn} a castigat!")
+            return
+        
         # initial butonul de dice este dezactivat, dar devine activ dupa apasare btonului de start
         self.enableRollButton(True) # si se ve dezactiva dupa apasarea butonului de rollDice in functia roll
         # TODO: Verifica care e treaba cu self.isGlobalCheckerInteractiv si de ce este comentat
@@ -181,6 +186,7 @@ class GameLogic():
             # verificare daca jucatorul are piese pe gard
             if self.checkFence("black") > 0: 
                 self.disponibilityPlayerCheckers("black", False)
+            
 
         self.stylePlayerTurn()
         self.turnsCounter += 1
@@ -295,7 +301,6 @@ class GameLogic():
             self.isGlobalCheckerInteractiv = False
             self.logic()
             
-
     def createBlurEffect(self, active) -> QGraphicsDropShadowEffect:
         shadow = QGraphicsDropShadowEffect()
         shadow.setBlurRadius(100)
@@ -308,20 +313,20 @@ class GameLogic():
         """Funtia care seteaza interactiunea cu zonele de iesirea a pieselor jucatorului si evidentierea acestora."""
         if show:
             if self.teamTurn == "white":
-                self.layouts.whiteCheckersContainer.setEnabled(True)
-                self.layouts.blackCheckersContainer.setEnabled(False)
-                self.layouts.whiteCheckersContainer.setGraphicsEffect(self.createBlurEffect(True))
-                self.layouts.blackCheckersContainer.setGraphicsEffect(self.createBlurEffect(False))
+                self.layouts.outWhiteCheckersContainer.setEnabled(True)
+                self.layouts.outBlackCheckersContainer.setEnabled(False)
+                self.layouts.outWhiteCheckersContainer.setGraphicsEffect(self.createBlurEffect(True))
+                self.layouts.outBlackCheckersContainer.setGraphicsEffect(self.createBlurEffect(False))
             else:
-                self.layouts.whiteCheckersContainer.setEnabled(False)
-                self.layouts.blackCheckersContainer.setEnabled(True)
-                self.layouts.whiteCheckersContainer.setGraphicsEffect(self.createBlurEffect(False))
-                self.layouts.blackCheckersContainer.setGraphicsEffect(self.createBlurEffect(True))
+                self.layouts.outWhiteCheckersContainer.setEnabled(False)
+                self.layouts.outBlackCheckersContainer.setEnabled(True)
+                self.layouts.outWhiteCheckersContainer.setGraphicsEffect(self.createBlurEffect(False))
+                self.layouts.outBlackCheckersContainer.setGraphicsEffect(self.createBlurEffect(True))
         else:
-            self.layouts.whiteCheckersContainer.setEnabled(False)
-            self.layouts.blackCheckersContainer.setEnabled(False)
-            self.layouts.whiteCheckersContainer.setGraphicsEffect(self.createBlurEffect(False))
-            self.layouts.blackCheckersContainer.setGraphicsEffect(self.createBlurEffect(False))
+            self.layouts.outWhiteCheckersContainer.setEnabled(False)
+            self.layouts.outBlackCheckersContainer.setEnabled(False)
+            self.layouts.outWhiteCheckersContainer.setGraphicsEffect(self.createBlurEffect(False))
+            self.layouts.outBlackCheckersContainer.setGraphicsEffect(self.createBlurEffect(False))
         
     # TODO: Nu ar fi rau o fuziune intre urmatoarele 2 functii
     def addGhostCheckerToFence(self, team) -> None:
@@ -451,9 +456,11 @@ class GameLogic():
                         self.addCheckerToPosition(f'pos{move}', "ghost", useDice)
                 else:
                     # momentul cand zona de scoatere a pieselor devine activa
-                    print(f'Se pot realiza mutari pentru a scoate piese din joc, zarul folosit pentru aceasta mutare: {useDice}')
-                    self.usedDiceForOutCheckers = useDice
-                    self.highlightOutPosibility(True)
+                    # TODO: De implementat conditica ca doar atunci cand jucatorul are toate piesele in casa acesta sa poate raliza mutari pentru a scoate piesele
+                    if self.allCheckersHouse():
+                        print(f'Se pot realiza mutari pentru a scoate piese din joc, zarul folosit pentru aceasta mutare: {useDice}')
+                        self.usedDiceForOutCheckers = useDice
+                        self.highlightOutPosibility(True)
 
     def canMakeMove(self, fromFence = False) -> bool:
         oponentTeam = "black" if self.teamTurn == "white" else "white"
@@ -467,9 +474,9 @@ class GameLogic():
                 positions = self.layouts.positions
             for pos in positions:
                 if pos.count() > 0:
-                    # print(f'aici 1 - {realizableMove} {pos.objectName()}')
+                    print(f'aici 1 - {realizableMove} {pos.objectName()}')
                     if realizableMove == False: # daca se gaseste anterior o mutare posibila, realozableMove este True si nu se mai verifica daca mai sunt mutari posibile
-                        # print(f'aici 2 - {realizableMove}')
+                        print(f'aici 2 - {realizableMove}')
                         if pos.itemAt(0).widget().objectName() == f"{self.teamTurn}Checker":
                             posID = self.getPosID(pos.objectName())
                             possibleMove.clear()
@@ -503,8 +510,34 @@ class GameLogic():
                                     else:
                                         realizableMove = True
                                         break
+                else:
+                    # TODO: de pus conditie pentru a calcula mutarea doar atunci cand jucatorul are toate piesele in casa
+                    if self.allCheckersHouse():
+                        realizableMove = True
+                        break
         print(f"canMakeMove - Jucatorul {self.teamTurn} poate face mutari: {realizableMove}")
         return realizableMove
+    
+    def countOutCheckers(self) -> int:
+        if self.teamTurn == "white":
+            return self.layouts.outWhiteCheckersLayout.count()
+        else:
+            return self.layouts.outBlackCheckersLayout.count()
+        
+    def allCheckersHouse(self) -> bool:
+        if self.teamTurn == "white":
+            for pos in self.layouts.positions:
+                if pos not in [self.layouts.pos19, self.layouts.pos20, self.layouts.pos21, self.layouts.pos22, self.layouts.pos23, self.layouts.pos24]:
+                    if pos.count() > 0:
+                        if pos.itemAt(0).widget().objectName() == "whiteChecker":
+                            return False
+        if self.teamTurn == "black":
+            for pos in self.layouts.positions:
+                if pos not in [self.layouts.pos1, self.layouts.pos2, self.layouts.pos3, self.layouts.pos4, self.layouts.pos5, self.layouts.pos6]:
+                    if pos.count() > 0:
+                        if pos.itemAt(0).widget().objectName() == "blackChecker":
+                            return False
+        return True
 
     # TODO: schimba denumirea functiei in ceva mai intuitiv
     def oponentChekerVisibility(self, visibility, numberOfPos, oponentTeam) -> None:
