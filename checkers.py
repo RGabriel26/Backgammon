@@ -188,11 +188,6 @@ class Checkers(QPushButton):
                     self.gameLogic.isGlobalCheckerActive = False
                     self.gameLogic.logic()
 
-                # Conditia de win:
-                if self.gameLogic.countOutCheckers() == 15:
-                    print(f"Jucatorul {self.gameLogic.teamTurn} a castigat!")
-                    return self.gameLogic.logic()
-
             # Event de click pentru piesele reale ale jucatorilo
             if self.team != "ghost":
                 if self.gameLogic.clickCounter % 2 != 0:

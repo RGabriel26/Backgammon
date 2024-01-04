@@ -1,4 +1,3 @@
-from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QPixmap
 from random import randint
 
@@ -37,6 +36,12 @@ class GameLogic():
     # TODO: Task: De implementat un sistem care sa afiseze toate pozitiile posibile de pe piesa selectata folosind 
     # zarurile sau zarul disponibil pe pozitiile care permit mutari si de adaugat piesele ghost in locurile corespunzatoare
 
+    # TODO: De creat restrictii la scoaterea pieselor din joc, de ex:
+        # - daca ai zarurile 5 4 si pe pozitiile respective ai piese, sa fii obligat sa scoti acele piese
+        # - daca nu ai piese pe pozitiile respective si ai piese pe pozitiile mai mari decat zarurile primite, atunci
+        # - trebuie sa realozezi mutari cu acele zaruri
+        # - posibilitatea de a scoate o piesa de pe o pozitie mai mica decat 5, tinand cont ca pe pozitia 6 sunt piese este ilegala
+
     def __init__(self):
         print("initializare gameLogic...")
         # folosit pentru a stoca zarurile generate in functia roll din RollFunctionalities
@@ -59,6 +64,10 @@ class GameLogic():
         # folosite pentru a stoca numarul de piese de pe gard
         self.numberWhiteFenceCheckers = 0
         self.numberBlackFenceCheckers = 0
+
+        # folosite pentru a stoca numarul de piese scoase din joc
+        self.numberWhiteOutCheckers = 0
+        self.numberBlackOutCheckers = 0
 
     
     def saveDices(self,dices) -> None:
@@ -141,11 +150,17 @@ class GameLogic():
             - logic() din gameLogic.py"""
         self.layouts.rollButton.setEnabled(isEnable)
 
-    def countOutCheckers(self) -> int:
+    def winCondition(self) -> bool:
         if self.teamTurn == "white":
-            return self.layouts.outWhiteCheckersLayout.count()
+            if self.numberWhiteOutCheckers == 14:
+                return True
+            else:
+                return False
         else:
-            return self.layouts.outBlackCheckersLayout.count()
+            if self.numberBlackOutCheckers == 14:
+                return True
+            else:
+                return False
 
     def logic(self) -> None:
         """Functia care va gestiona logica jocului.\n
@@ -160,8 +175,9 @@ class GameLogic():
         print(f"Este randul jucatorului {self.teamTurn}!")
 
         # Conditia de win:
-        if self.countOutCheckers() == 15:
-            print(f"Jucatorul {self.teamTurn} a castigat!")
+        if self.winCondition():
+            print(f'Jucatorul {self.teamTurn} a castigat!')
+            self.deleteDiceFromLayout(deleteAll = True)
             return
         
         # initial butonul de dice este dezactivat, dar devine activ dupa apasare btonului de start
@@ -266,15 +282,12 @@ class GameLogic():
         else:
             self.layouts.labelPlayerBlack.setStyleSheet(turnStylePlayerBlack)
             self.layouts.labelPlayerWhite.setStyleSheet(defaultTurnStylePlayerWhite)
-
-    def addOutCheker(self) -> None:
-        """Adauga piesele scoase din joc in layout-urile corespunzatoare in functie de jucatorul care care posibilitatea de a realiza mutari pe tabla.\n"""
-        if self.teamTurn == 'white':
-            self.layouts.outWhiteCheckersLayout.addWidget(QLabel(objectName = "outWhiteChecker"))
-        else:
-            self.layouts.outBlackCheckersLayout.addWidget(QLabel(objectName = "outBlackChecker"))
     
     def manageOutCheker(self) -> None:
+        # Conditia de win:
+        if self.winCondition():
+            self.logic()
+        
         self.highlightOutPosibility(False)
         posID = self.getPosID(self.lastClickedChecker)
         self.deleteCheckerFromPosition(posID)
@@ -329,6 +342,15 @@ class GameLogic():
             self.layouts.outBlackCheckersContainer.setEnabled(False)
             self.layouts.outWhiteCheckersContainer.setGraphicsEffect(self.createBlurEffect(False))
             self.layouts.outBlackCheckersContainer.setGraphicsEffect(self.createBlurEffect(False))
+        
+    def addOutCheker(self) -> None:
+        """Adauga piesele scoase din joc in layout-urile corespunzatoare in functie de jucatorul care care posibilitatea de a realiza mutari pe tabla.\n"""
+        if self.teamTurn == 'white':
+            self.layouts.outWhiteCheckersLayout.addWidget(QLabel(objectName = "outWhiteChecker"))
+            self.numberWhiteOutCheckers += 1
+        else:
+            self.layouts.outBlackCheckersLayout.addWidget(QLabel(objectName = "outBlackChecker"))
+            self.numberBlackOutCheckers += 1
         
     # TODO: Nu ar fi rau o fuziune intre urmatoarele 2 functii
     def addGhostCheckerToFence(self, team) -> None:
