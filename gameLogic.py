@@ -27,7 +27,7 @@ class GameLogic():
         - deleteDiceFromLayout(deleteDice = None, deteleAll = False) -> None
         - setDefaultPosition() -> None
         """
-    # TODO: IMPORTANT: Daca dai roll si primesti un zar pe care nu l poti face, jucatorul at rebui informat, sa se mentina un timp piesele pe dice layout, si sa se primeasca mesajul de informare
+    # TODO: Task: IMPORTANT: Daca dai roll si primesti un zar pe care nu l poti face, jucatorul at rebui informat, sa se mentina un timp piesele pe dice layout, si sa se primeasca mesajul de informare
 
     # TODO: Task: BUG MARE: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
     # implementeaza sistemul de pozitionare a pieselor de pe gard, asta genereaza probleme
@@ -36,7 +36,7 @@ class GameLogic():
     # TODO: Task: De implementat un sistem care sa afiseze toate pozitiile posibile de pe piesa selectata folosind 
     # zarurile sau zarul disponibil pe pozitiile care permit mutari si de adaugat piesele ghost in locurile corespunzatoare
 
-    # TODO: De creat restrictii la scoaterea pieselor din joc, de ex:
+    # TODO: Task: De creat restrictii la scoaterea pieselor din joc, de ex:
         # - daca ai zarurile 5 4 si pe pozitiile respective ai piese, sa fii obligat sa scoti acele piese
         # - daca nu ai piese pe pozitiile respective si ai piese pe pozitiile mai mari decat zarurile primite, atunci
         # - trebuie sa realozezi mutari cu acele zaruri
@@ -57,7 +57,6 @@ class GameLogic():
         self.isGlobalHoverEnable = True 
         self.isBlackCheckerEnable = True
         self.isWhiteCheckerEnable = True
-        self.canTakeOut = True # variabila care activeaza si dezactiveaza interactiunea cu "butonul" care scoate piesele din joc
         self.possibleMove = []# lista de pozitii posibile corespunzatoare selectarii unei piese: podID + dice
         self.teamTurn = "white" # variabila care stocheaza tipul jucatorului al carui ii este randul sa face actiuni in joc
 
@@ -553,6 +552,8 @@ class GameLogic():
                                         realizableMove = True
                                         return realizableMove
         # print(f"canMakeMove - Jucatorul {self.teamTurn} poate face mutari: {realizableMove}")
+        else:
+            print("Nu mai exista zaruri pentru a se realiza mutari.")
         return realizableMove
 
     # TODO: schimba denumirea functiei in ceva mai intuitiv
