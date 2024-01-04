@@ -176,20 +176,18 @@ class Checkers(QPushButton):
                 # RESTRICTII:
                 # Verificare daca jucatorul poate realiza mutari cu zarurile primite
                 # Tot aici este tratat si cazul cand jucatorul a realizat mutari cu toate zarurile primite
-                if QTimer.singleShot(0, lambda: self.gameLogic.layouts.fenceWhiteCheckersLayout.count() > 0 and self.gameLogic.teamTurn == "white" or self.gameLogic.layouts.fenceBlackCheckersLayout.count() > 0 and self.gameLogic.teamTurn == "black") :
-                    if self.gameLogic.canMakeMove(fromFence = True) == False:
-                        print('Nu se pot face mutari cu zarurile primite.\nSe va trece la jucatorul urmator')
-                        self.gameLogic.dices.clear()
-                        self.gameLogic.deleteDiceFromLayout(deleteAll = True)
-                        self.gameLogic.isGlobalCheckerInteractiv = False
-                        self.gameLogic.logic()
-                else:
-                    if self.gameLogic.canMakeMove() == False:
-                        print('Nu se pot face mutari cu zarurile primite.\nSe va trece la jucatorul urmator')
-                        self.gameLogic.dices.clear()
-                        self.gameLogic.deleteDiceFromLayout(deleteAll = True)
-                        self.gameLogic.isGlobalCheckerInteractiv = False
-                        self.gameLogic.logic()
+
+                # countFenceWhite = self.gameLogic.layouts.fenceWhiteCheckersLayout.count()
+                # countFenceBlack = self.gameLogic.layouts.fenceBlackCheckersLayout.count()
+                # condition = (countFenceWhite > 0 and self.gameLogic.teamTurn == "white") or (countFenceBlack > 0 and self.gameLogic.teamTurn == "black")
+
+                # se pot realiza mutari cu zarurile, de pe orice pozitie
+                if self.gameLogic.canMakeMove() == False:
+                    print('Nu se pot face mutari de pe tabla!')
+                    self.gameLogic.dices.clear()
+                    self.gameLogic.deleteDiceFromLayout(deleteAll = True)
+                    self.gameLogic.isGlobalCheckerInteractiv = False
+                    self.gameLogic.logic()
 
             # Event de click pentru piesele reale ale jucatorilo
             if self.team != "ghost":
@@ -212,7 +210,7 @@ class Checkers(QPushButton):
             # folosim QTimer pentru a astepta stergerea completa a pieselor de pe gard
             QTimer.singleShot(0, lambda: self.gameLogic.restrictionFence(anteriorPosition))
 
-        print('sfarsit click event')
+        print('click - sfarsit click event')
 
         # Piesele vor fi mutate pana dupa posibilitati pana in momentul in care toate piesele vor fi in casa
         # Dupa aceasta se va realiza eliminarea pieselor din casa, si totodata adaugarea de elemente in
@@ -225,5 +223,7 @@ class Checkers(QPushButton):
         # print(f"Zarul folosit pentru mutarea piesei: {self.usedDice}")
         # print(f"Piesa {self.team} a fost selectata prin clicked event: {self.positionName}")
 
+    def test(self):
+       self.checkersFromFence = self.gameLogic.countFenceCheckers()
 
 
