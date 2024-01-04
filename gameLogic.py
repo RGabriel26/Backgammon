@@ -57,7 +57,7 @@ class GameLogic():
         self.isGlobalHoverEnable = True 
         self.isBlackCheckerEnable = True
         self.isWhiteCheckerEnable = True
-        self.possibleMove = []# lista de pozitii posibile corespunzatoare selectarii unei piese: podID + dice
+        self.possibleMove = [] # lista de pozitii posibile corespunzatoare selectarii unei piese: podID + dice
         self.teamTurn = "white" # variabila care stocheaza tipul jucatorului al carui ii este randul sa face actiuni in joc
 
         # folosite pentru a stoca numarul de piese de pe gard
@@ -181,8 +181,7 @@ class GameLogic():
         
         # initial butonul de dice este dezactivat, dar devine activ dupa apasare btonului de start
         self.enableRollButton(True) # si se ve dezactiva dupa apasarea butonului de rollDice in functia roll
-        # TODO: Verifica care e treaba cu self.isGlobalCheckerActive si de ce este comentat
-        # self.isGlobalCheckerActive = False # variabila care va activa/dezactiva piesele de pe tabla
+        self.isGlobalCheckerActive = False # ia valoare False pana cand se apasa din nou pe butonul de roll
 
         if self.turnsCounter % 2 == 0:
             self.teamTurn = "white"
