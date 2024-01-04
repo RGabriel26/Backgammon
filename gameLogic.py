@@ -9,22 +9,33 @@ class GameLogic():
         - saveDices(dices) -> None
         - getDices() -> list
         - createDiceObject(urlImage, usedDice) -> QLabel
-        - roll(diceLayout) -> list
+        - roll(diceLayout) -> None
         - funcStartButton() -> None
         - enableRollButton(isEnable) -> None
+        - winCondition() -> bool
         - logic() -> None
+        - disponibilityPlayerCheckers(team, disponibility) -> None
+        - countFenceCheckers() -> int
+        - restrictionFence(anteriorPosition) -> None
         - stylePlayerTurn() -> None
-        - addOutCheker(team) -> None
+        - winConditionFromOutCheckersLayoutClick() -> bool
+        - manageOutCheker() -> None
+        - createBlurEffect(active) -> QGraphicsDropShadowEffect
+        - highlightOutPosibility(show=True) -> None
+        - addOutCheker() -> None
         - addGhostCheckerToFence(team) -> None
         - addCheckerToFence(team) -> None
-        - addCheckerToPosition(toPos_name, team, useDice = 0, replaceCheckers = False) -> None
+        - addCheckerToPosition(toPos_name, team, useDice=0, replaceCheckers=False) -> None
+        - allCheckersHouse() -> bool
         - getPosID(posName) -> int
         - getUsedDice(possibleMove, posID, team) -> int
         - showPossibleMove(posName, team) -> None
+        - getPositionsList() -> list
+        - canMakeMove() -> bool
         - oponentChekerVisibility(visibility, numberOfPos, oponentTeam) -> None
         - deleteGhostCheckers(canDeleteGhostCheckers) -> None
         - deleteCheckerFromPosition(fromPosNumber) -> None
-        - deleteDiceFromLayout(deleteDice = None, deteleAll = False) -> None
+        - deleteDiceFromLayout(deleteDice=None, deleteAll=False) -> None
         - setDefaultPosition() -> None
         """
     # TODO: Task: IMPORTANT: Daca dai roll si primesti un zar pe care nu l poti face, jucatorul at rebui informat, sa se mentina un timp piesele pe dice layout, si sa se primeasca mesajul de informare
@@ -36,8 +47,6 @@ class GameLogic():
     # TODO: Task: De implementat un sistem care sa afiseze toate pozitiile posibile de pe piesa selectata folosind 
     # zarurile sau zarul disponibil pe pozitiile care permit mutari si de adaugat piesele ghost in locurile corespunzatoare
 
-    # TODO: BUG: Bug la sistemul de win, cand sunt 14 piese si scoti piesele din joc cu zaruri unice(ex: 1 - 2, 4 - 2 ... )
-    # acesta returneaza true si implicit jocul se termina 
     def __init__(self):
         print("initializare gameLogic...")
         # folosit pentru a stoca zarurile generate in functia roll din RollFunctionalities
@@ -147,12 +156,12 @@ class GameLogic():
 
     def winCondition(self) -> bool:
         if self.teamTurn == "white":
-            if self.numberWhiteOutCheckers == 14:
+            if self.numberWhiteOutCheckers == 15:
                 return True
             else:
                 return False
         else:
-            if self.numberBlackOutCheckers == 14:
+            if self.numberBlackOutCheckers == 15:
                 return True
             else:
                 return False
@@ -170,6 +179,7 @@ class GameLogic():
         print(f"Este randul jucatorului {self.teamTurn}!")
 
         # Conditia de win:
+        # se verifica din nou pentru a incheia logica jocului in functia logic
         if self.winCondition():
             print(f'Jucatorul {self.teamTurn} a castigat!')
             self.deleteDiceFromLayout(deleteAll = True)
@@ -277,10 +287,13 @@ class GameLogic():
             self.layouts.labelPlayerBlack.setStyleSheet(turnStylePlayerBlack)
             self.layouts.labelPlayerWhite.setStyleSheet(defaultTurnStylePlayerWhite)
     
-    def manageOutCheker(self) -> None:
-        # Conditia de win:
+    def winConditionFromOutCheckersLayoutClick(self) -> bool:
         if self.winCondition():
             self.logic()
+
+    def manageOutCheker(self) -> None:
+        # Conditia de win:
+        QTimer.singleShot(0, lambda: self.winConditionFromOutCheckersLayoutClick())
         
         self.highlightOutPosibility(False)
         posID = self.getPosID(self.lastClickedChecker)
@@ -493,9 +506,6 @@ class GameLogic():
                     # momentul cand zona de scoatere a pieselor devine activa si jucatorul poate realiza mutari in afara tablei, rezultand scoaterea pieselor din joc
                     if self.allCheckersHouse() and not foundOutMove:
 
-                        # TODO: BUG: Daca sunt piese pe pozitia 6, si ai zarul 5, ai permisiunea sa faci mutare in exterior
-                        # de pe pozitia 4, ar trebui sa te oblige sa faci mutarea de pe pozitia 6
-                        
                         # cazul in care zarul folosit scoaterii piesei este egal cu pozitia piesei
                         if self.teamTurn == "white":
                             # daca pozitia selectata este corespunzatoare zarului care arunca piesa in afara jocului
@@ -515,6 +525,7 @@ class GameLogic():
                             else:
                                 position = 25 - 6
                                 while position < 25:
+                                    # restrictie in cazul in care pe o pozitie mai mare decat zarul primit, poti face mutari, nu va permite scoaterea pieselor de pe pozitii mai mici decat zarul curent
                                     if getattr(self.layouts, f'pos{position}').count() > 0:
                                         break
                                     if posID == position + 1:
@@ -542,9 +553,11 @@ class GameLogic():
                             else:
                                 position = 0 + 6
                                 while position > 0:
+                                    # restrictie in cazul in care pe o pozitie mai mare decat zarul primit, poti face mutari, nu va permite scoaterea pieselor de pe pozitii mai mici decat zarul curent
                                     if getattr(self.layouts, f'pos{position}').count() > 0:
                                         break
                                     if posID == position - 1:
+                                        # daca ai zarul 5, se verifica daca pe poztizia 5 nu sunt piese, asta inseamna ca pot fi scoase piese de pe pozitia urmatoare, adica pozitia 4
                                         if getattr(self.layouts, f'pos{posID + 1}').count() == 0:
                                             self.highlightOutPosibility(True)
                                             foundOutMove = True
