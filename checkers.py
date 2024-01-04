@@ -58,7 +58,7 @@ class Checkers(QPushButton):
         pe pozitiile anterioare de unde au fost luate."""
         
         # verificarea restrictii: 
-        if not self.gameLogic.isGlobalCheckerInteractiv:
+        if not self.gameLogic.isGlobalCheckerActive:
             # se asteapta apasarea butonului de start pentru a indica inceperea jocului, implicit si interactiunea cu piesele
             return
         # Conditie pentri a dezactiva hoverul pieselor albe
@@ -91,6 +91,7 @@ class Checkers(QPushButton):
                     self.gameLogic.highlightOutPosibility(False)
                     # resetara variabilei care stocheaza zarul folosit pentru scoaterea piesei din joc
                     self.gameLogic.usedDiceForOutCheckers = None
+        
 
     def click(self):
         # Eventul de click pe o piesa va apela functia .showPossibleMove() din gameLogic.py
@@ -120,7 +121,7 @@ class Checkers(QPushButton):
         # - Daca nu se mai pot face mutari, jocul trece la urmatorul jucator
 
         # se asteapta apasarea butonului de start pentru a indica inceperea jocului, implicit si interactiunea cu piesele
-        if not self.gameLogic.isGlobalCheckerInteractiv:
+        if not self.gameLogic.isGlobalCheckerActive:
             return
         # Conditie pentri a dezactiva hoverul pieselor albe
         if self.team == "white" and self.gameLogic.isWhiteCheckerEnable == False:
@@ -150,9 +151,11 @@ class Checkers(QPushButton):
                 if anteriorPosition == 0:
                     # piesa selectata de pe gard este a jucatorului white
                     self.gameLogic.layouts.fenceWhiteCheckersLayout.itemAt(0).widget().deleteLater()
+                    self.gameLogic.numberWhiteFenceCheckers -= 1
                 elif anteriorPosition == 25:
                     # piesa selectata de pe gard este a jucatorului black
                     self.gameLogic.layouts.fenceBlackCheckersLayout.itemAt(0).widget().deleteLater()
+                    self.gameLogic.numberBlackFenceCheckers -= 1
                 else:
                     self.gameLogic.deleteCheckerFromPosition(anteriorPosition)
 
@@ -177,17 +180,18 @@ class Checkers(QPushButton):
                 # Verificare daca jucatorul poate realiza mutari cu zarurile primite
                 # Tot aici este tratat si cazul cand jucatorul a realizat mutari cu toate zarurile primite
 
-                # countFenceWhite = self.gameLogic.layouts.fenceWhiteCheckersLayout.count()
-                # countFenceBlack = self.gameLogic.layouts.fenceBlackCheckersLayout.count()
-                # condition = (countFenceWhite > 0 and self.gameLogic.teamTurn == "white") or (countFenceBlack > 0 and self.gameLogic.teamTurn == "black")
-
                 # se pot realiza mutari cu zarurile, de pe orice pozitie
                 if self.gameLogic.canMakeMove() == False:
-                    print('Nu se pot face mutari de pe tabla!')
+                    print('NU SE POT REALIZA MUTARI CU ZARURILE PRIMITE.')
                     self.gameLogic.dices.clear()
                     self.gameLogic.deleteDiceFromLayout(deleteAll = True)
-                    self.gameLogic.isGlobalCheckerInteractiv = False
+                    self.gameLogic.isGlobalCheckerActive = False
                     self.gameLogic.logic()
+
+                # Conditia de win:
+                if self.gameLogic.countOutCheckers() == 15:
+                    print(f"Jucatorul {self.gameLogic.teamTurn} a castigat!")
+                    return self.gameLogic.logic()
 
             # Event de click pentru piesele reale ale jucatorilo
             if self.team != "ghost":
@@ -209,7 +213,6 @@ class Checkers(QPushButton):
         if anteriorPosition == 0 or anteriorPosition == 25:
             # folosim QTimer pentru a astepta stergerea completa a pieselor de pe gard
             QTimer.singleShot(0, lambda: self.gameLogic.restrictionFence(anteriorPosition))
-
         print('click - sfarsit click event')
 
         # Piesele vor fi mutate pana dupa posibilitati pana in momentul in care toate piesele vor fi in casa
@@ -222,8 +225,5 @@ class Checkers(QPushButton):
         # Doar de test
         # print(f"Zarul folosit pentru mutarea piesei: {self.usedDice}")
         # print(f"Piesa {self.team} a fost selectata prin clicked event: {self.positionName}")
-
-    def test(self):
-       self.checkersFromFence = self.gameLogic.countFenceCheckers()
 
 
