@@ -30,18 +30,12 @@ class GameLogic():
         """
     # TODO: IMPORTANT: Daca dai roll si primesti un zar pe care nu l poti face, jucatorul at rebui informat, sa se mentina un timp piesele pe dice layout, si sa se primeasca mesajul de informare
 
-
-
     # TODO: Task: BUG MARE: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
     # implementeaza sistemul de pozitionare a pieselor de pe gard, asta genereaza probleme
     # CRED CA ESTE REZOLVAT - NU S-A MAI REPETAT
     
     # TODO: Task: De implementat un sistem care sa afiseze toate pozitiile posibile de pe piesa selectata folosind 
     # zarurile sau zarul disponibil pe pozitiile care permit mutari si de adaugat piesele ghost in locurile corespunzatoare
-
-    # TODO: Task: De gestionat cazul cand jucatorul are doar piese in casa, atuci ar trebui sa fie capabil sa scoata piese
-    # este un bug care face sa se treaca peste jucator daca are doar piese in casa si da un zar, iar pe pozitia respectiva zarului nu are nici o piese
-    # jocul trece mai departe
 
     def __init__(self):
         print("initializare gameLogic...")
