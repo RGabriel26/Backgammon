@@ -1,5 +1,6 @@
-from PyQt6.QtWidgets import QWidget, QGridLayout, QVBoxLayout, QHBoxLayout, QLabel, QDialog
+from PyQt6.QtWidgets import QWidget, QGridLayout, QVBoxLayout, QHBoxLayout, QLabel, QGraphicsDropShadowEffect
 from PyQt6.QtCore import Qt, QTimer
+from PyQt6.QtGui import QColor
 
 from checkers import *
 
@@ -205,6 +206,40 @@ class UILayouts():
 
         #pozitionarea pe locurile default ale pieselor
         self.gameLogic.setDefaultPosition()
+                
+            
+        # DE TEST CAND TOATE PIESELE JUCATORILOR SUNT IN CASA 
+        # self.pos1.addWidget(Checkers(team="black", positionName=self.pos1.objectName(), gameLogic = self.gameLogic))
+        # self.pos1.addWidget(Checkers(team="black", positionName=self.pos1.objectName(), gameLogic = self.gameLogic))
+        # self.pos2.addWidget(Checkers(team="black", positionName=self.pos2.objectName(), gameLogic = self.gameLogic))
+        # self.pos2.addWidget(Checkers(team="black", positionName=self.pos2.objectName(), gameLogic = self.gameLogic))
+        # self.pos3.addWidget(Checkers(team="black", positionName=self.pos3.objectName(), gameLogic = self.gameLogic))
+        # self.pos3.addWidget(Checkers(team="black", positionName=self.pos3.objectName(), gameLogic = self.gameLogic))
+        # self.pos4.addWidget(Checkers(team="black", positionName=self.pos4.objectName(), gameLogic = self.gameLogic))
+        # self.pos4.addWidget(Checkers(team="black", positionName=self.pos4.objectName(), gameLogic = self.gameLogic))
+        # self.pos4.addWidget(Checkers(team="black", positionName=self.pos4.objectName(), gameLogic = self.gameLogic))
+        # self.pos5.addWidget(Checkers(team="black", positionName=self.pos5.objectName(), gameLogic = self.gameLogic))
+        # self.pos5.addWidget(Checkers(team="black", positionName=self.pos5.objectName(), gameLogic = self.gameLogic))
+        # self.pos5.addWidget(Checkers(team="black", positionName=self.pos5.objectName(), gameLogic = self.gameLogic))
+        # self.pos6.addWidget(Checkers(team="black", positionName=self.pos6.objectName(), gameLogic = self.gameLogic))
+        # self.pos6.addWidget(Checkers(team="black", positionName=self.pos6.objectName(), gameLogic = self.gameLogic))
+        # self.pos6.addWidget(Checkers(team="black", positionName=self.pos6.objectName(), gameLogic = self.gameLogic))
+
+        # self.pos19.addWidget(Checkers(team="white", positionName=self.pos19.objectName(), gameLogic = self.gameLogic))
+        # self.pos19.addWidget(Checkers(team="white", positionName=self.pos19.objectName(), gameLogic = self.gameLogic))
+        # self.pos20.addWidget(Checkers(team="white", positionName=self.pos20.objectName(), gameLogic = self.gameLogic))
+        # self.pos20.addWidget(Checkers(team="white", positionName=self.pos20.objectName(), gameLogic = self.gameLogic))
+        # self.pos21.addWidget(Checkers(team="white", positionName=self.pos21.objectName(), gameLogic = self.gameLogic))
+        # self.pos21.addWidget(Checkers(team="white", positionName=self.pos21.objectName(), gameLogic = self.gameLogic))
+        # self.pos22.addWidget(Checkers(team="white", positionName=self.pos22.objectName(), gameLogic = self.gameLogic))
+        # self.pos22.addWidget(Checkers(team="white", positionName=self.pos22.objectName(), gameLogic = self.gameLogic))
+        # self.pos22.addWidget(Checkers(team="white", positionName=self.pos22.objectName(), gameLogic = self.gameLogic))
+        # self.pos23.addWidget(Checkers(team="white", positionName=self.pos23.objectName(), gameLogic = self.gameLogic))
+        # self.pos23.addWidget(Checkers(team="white", positionName=self.pos23.objectName(), gameLogic = self.gameLogic))
+        # self.pos23.addWidget(Checkers(team="white", positionName=self.pos23.objectName(), gameLogic = self.gameLogic))
+        # self.pos24.addWidget(Checkers(team="white", positionName=self.pos24.objectName(), gameLogic = self.gameLogic))
+        # self.pos24.addWidget(Checkers(team="white", positionName=self.pos24.objectName(), gameLogic = self.gameLogic))
+        # self.pos24.addWidget(Checkers(team="white", positionName=self.pos24.objectName(), gameLogic = self.gameLogic))
 
         self.positions = [self.pos1, self.pos2,self.pos3, self.pos4, self.pos5,self.pos6, self.pos7, self.pos8,self.pos9,
                      self.pos10,self.pos11,self.pos12,self.pos13,self.pos14,self.pos15,self.pos16,self.pos17,self.pos18,
@@ -212,7 +247,7 @@ class UILayouts():
                      self.fenceWhiteCheckersLayout, self.fenceBlackCheckersLayout]
         
         self.buttonPositions = [self.pos1, self.pos2, self.pos3, self.pos4, self.pos5, self.pos6, self.pos7, 
-                          self.pos8, self.pos9, self.pos10, self.pos11, self.pos12]
+                          self.pos8, self.pos9, self.pos10, self.pos11, self.pos12] 
 
         # QTimer.singleShot(0, lambda: print(f"pos10Container: {pos10Container.size()}"))
         return middleContainer
@@ -258,34 +293,40 @@ class UILayouts():
         rightContainer.setLayout(rightLayout)
             # setarea containerelor pentru piesele care vor fi scoase din joc
                 # crearea containerului pentru piesele ce vor fi scoase de jucatorul WHITE
-        whiteCheckersContainer = QWidget()
-        whiteCheckersContainer.setObjectName("whiteCheckersContainer")
+        self.outWhiteCheckersContainer = QWidget()
+        self.outWhiteCheckersContainer.setObjectName("whiteCheckersContainer")
         self.outWhiteCheckersLayout = QVBoxLayout()
-        whiteCheckersContainer.setLayout(self.outWhiteCheckersLayout)
+        self.outWhiteCheckersContainer.setLayout(self.outWhiteCheckersLayout)
+        self.outWhiteCheckersContainer.mousePressEvent = lambda event: self.gameLogic.manageOutCheker()
+        self.outWhiteCheckersContainer.setEnabled(False)
                 # crearea containerului pentru piesele ce vor fi scoase de jucatorul BLACK
-        blackCheckersContainer = QWidget()
-        blackCheckersContainer.setObjectName("blackCheckersContainer")
+        self.outBlackCheckersContainer = QWidget()
+        self.outBlackCheckersContainer.setObjectName("blackCheckersContainer")
         self.outBlackCheckersLayout = QVBoxLayout()
-        blackCheckersContainer.setLayout(self.outBlackCheckersLayout)
-                # crearea butonului de Roll
+        self.outBlackCheckersContainer.setLayout(self.outBlackCheckersLayout)
+        self.outBlackCheckersContainer.mousePressEvent = lambda event: self.gameLogic.manageOutCheker()
+        self.outBlackCheckersContainer.setEnabled(False)
+        # crearea butonului de Roll
         self.rollButton = QPushButton()
         self.rollButton.setObjectName("rollButton")
         #QTime.singleShot(0) asteapta ca interfata grafica sa se termine de randat, dupa care executa comanda
-        QTimer.singleShot(0, lambda: self.rollButton.setFixedSize(whiteCheckersContainer.width(), whiteCheckersContainer.width()))
+        QTimer.singleShot(0, lambda: self.rollButton.setFixedSize(self.outWhiteCheckersContainer.width(), self.outWhiteCheckersContainer.width()))
                 # functia roll care adauga widgetul in diceLayout si returneaza lista cu raruri, care sunt salvate in clasa gamoLogic si stocate prin setDices
-        self.rollButton.clicked.connect(lambda: self.gameLogic.saveDices(self.gameLogic.roll(self.diceLayout)))
+        self.rollButton.clicked.connect(lambda: self.gameLogic.roll(self.diceLayout))
         self.gameLogic.enableRollButton(False)
 
             # adaugarea elementelor din dreapta
-        rightLayout.addWidget(whiteCheckersContainer)
+        rightLayout.addWidget(self.outWhiteCheckersContainer)
         rightLayout.addWidget(self.rollButton)
-        rightLayout.addWidget(blackCheckersContainer)
+        rightLayout.addWidget(self.outBlackCheckersContainer)
 
         self.outWhiteCheckersLayout.setAlignment(Qt.AlignmentFlag.AlignTop)
-        self.outWhiteCheckersLayout.setContentsMargins(0, 5, 0, 5)
+        self.outWhiteCheckersLayout.setContentsMargins(0, 15, 0, 10)
+        self.outWhiteCheckersLayout.setSpacing(2)
 
         self.outBlackCheckersLayout.setAlignment(Qt.AlignmentFlag.AlignBottom)
-        self.outBlackCheckersLayout.setContentsMargins(0, 5, 0, 5)
+        self.outBlackCheckersLayout.setContentsMargins(0, 10, 0, 15)
+        self.outBlackCheckersLayout.setSpacing(2)
 
         # QTimer.singleShot(0, lambda: print(f"blackCheckersContainer: {outCheker.size()}"))
         return rightContainer
