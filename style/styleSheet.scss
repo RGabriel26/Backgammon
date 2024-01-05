@@ -3,6 +3,7 @@ $labelPlayerBColor: rgba(73, 158, 211, 0.185);
 $checkerOUTContainerBColor: rgba(255, 255, 255, 0);
 $playersTextColor: rgb(255, 255, 255);
 $layoutCheckersBColor: rgba(51, 255, 0, 0);
+$frameElementsBColor: rgba(63, 208, 27, 0.363);
 
 $rollButton-image: "images/rollButton.png";
 $blackChecker-image: "images/black-checker.png";
@@ -213,5 +214,14 @@ QLabel {
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 25%;
-    
+  
 } 
+
+////////////// MESSAGE FRAME ////////////////////
+
+#topFrameContainer{
+    background-color: $frameElementsBColor;
+}
+#buttomFrameContainer{
+    background-color: $frameElementsBColor;
+}

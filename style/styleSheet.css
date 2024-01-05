@@ -229,4 +229,12 @@ QLabel {
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 25%;
+}
+
+#topFrameContainer {
+  background-color: rgba(63, 208, 27, 0.363);
+}
+
+#buttomFrameContainer {
+  background-color: rgba(63, 208, 27, 0.363);
 }/*# sourceMappingURL=styleSheet.css.map */
