@@ -1,6 +1,5 @@
-from PyQt6.QtWidgets import QWidget, QGridLayout, QVBoxLayout, QHBoxLayout, QLabel, QGraphicsDropShadowEffect
+from PyQt6.QtWidgets import QWidget, QGridLayout, QVBoxLayout, QHBoxLayout, QLabel, QFrame, QGraphicsDropShadowEffect, QStackedLayout
 from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QColor
 
 from checkers import *
 
@@ -12,7 +11,7 @@ class UILayouts():
         print("initializare layouts...")
 
     def middleLayout(self):
-        middleContainer = QWidget(objectName = "middleContainer")
+        middleContainer = QWidget(objectName = "middleContainer" )
         middlePrincipalLayout = QHBoxLayout()
         ############################################ zona din STANGA ###############################################################
         middleLeftLayoutContainer = QWidget(objectName = "middleLeftLayoutContainer")
@@ -162,6 +161,42 @@ class UILayouts():
         middlePrincipalLayout.addWidget(middleFenceLayoutContainer,10)
         middlePrincipalLayout.addWidget(middleRightLayoutContainer,45)
 
+        # utilizarea QStaketLayout-ului pentru a putea schimva intre layouturi
+
+        # # primul layout
+        # firstLayoutContainer = QWidget()
+        # firstLayoutContainer.setLayout(middlePrincipalLayout)
+
+        # # Definirea și setarea layout-ului pentru al doilea layout (secondLayout)
+        # secondLayoutContainer = QWidget()
+        # # Crearea layout-ului pentru al doilea layout
+        # secondLayout = QVBoxLayout()  # Sau alt layout pe care dorești să îl folosești
+        # secondLayoutContainer.setLayout(secondLayout)  # Setarea layout-ului pentru al doilea layout
+
+        # # Crearea QFrame-ului pentru afișarea informațiilor în interiorul celui de-al doilea layout
+        # self.infoFrame = QFrame()
+        # self.infoFrame.setObjectName("infoFrame")
+        # self.infoFrame.setLineWidth(2)
+        # self.infoFrame.setMidLineWidth(1)
+        # self.infoFrame.setContentsMargins(0, 0, 0, 0)
+        # self.infoFrame.setFixedSize(200, 200)
+        # self.infoFrame.setStyleSheet("background-color: red;")
+        # self.infoFrame.show()
+
+        # # Adăugarea self.infoFrame în layout-ul al doilea
+        # secondLayout.addWidget(self.infoFrame, alignment=Qt.AlignmentFlag.AlignCenter)
+
+        # # Crearea QStackedLayout-ului
+        # self.stackLayout = QStackedLayout()
+        # self.stackLayout.addWidget(firstLayoutContainer)
+        # self.stackLayout.addWidget(secondLayoutContainer)
+
+        # self.stackLayout.setCurrentIndex(1)
+
+        # # Setarea QStackedLayout-ului pe middleContainer
+        # middleContainer.setLayout(self.stackLayout)
+
+
         middleContainer.setLayout(middlePrincipalLayout)
 
         #setup containerelor
@@ -205,7 +240,7 @@ class UILayouts():
                 positions[i].setContentsMargins(0, 0, 0, 0)
 
         #pozitionarea pe locurile default ale pieselor
-        self.gameLogic.setDefaultPosition()
+        # self.gameLogic.setDefaultPosition()
                 
             
         # DE TEST CAND TOATE PIESELE JUCATORILOR SUNT IN CASA 
@@ -265,13 +300,6 @@ class UILayouts():
         self.diceLayout = QGridLayout()
         self.diceLayout.setObjectName("diceLayout")
         diceContainer.setLayout(self.diceLayout)
-
-        #butonul de start
-        self.startButton = QPushButton("START", objectName = "startButton")
-        self.startButton.setFixedSize(50,50)
-        self.startButton.clicked.connect(lambda: self.gameLogic.funcStartButton())
-
-        self.diceLayout.addWidget(self.startButton)
 
         # adaugarea de elemente in fiecare container
         # adaugarea elementelor din stanga

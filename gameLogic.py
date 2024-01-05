@@ -1,4 +1,4 @@
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QColor
 from random import randint
 
 from layouts import *
@@ -140,12 +140,6 @@ class GameLogic():
             self.deleteDiceFromLayout(deleteAll = True)
             self.isGlobalCheckerActive = False
             self.logic()
-
-    def funcStartButton(self) -> None:  
-        """Functie apelata de butonul Start.\n
-        Aceasta ascunde butonul de start si apeleaza functia logic.\n"""
-        self.layouts.startButton.hide()
-        self.logic()
 
     def enableRollButton(self, isEnable) -> None:
         """Functie care activeaza sau dezactiveaza butonul de roll.\n
