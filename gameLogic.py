@@ -43,6 +43,11 @@ class GameLogic():
     # TODO: Task: BUG MARE: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
     # implementeaza sistemul de pozitionare a pieselor de pe gard, asta genereaza probleme
     # CRED CA ESTE REZOLVAT - NU S-A MAI REPETAT
+
+    # TODO: BUG: Inca este bug atunci cand intri cu piesele de pe gard si folosesti unul din zaruri
+    # de ex, daca toate pozitiile sunt blocate in casa adversarului si doar pozitia 6 este libera, 
+    # primesti zar 6 5 pentru a intra in casa, dupa plasarea piesei pe pozitia 6
+    # jocul trece la jucatorul urmator considerand ca nu poti sa mai faci mutari
     
     # TODO: Task: De implementat un sistem care sa afiseze toate pozitiile posibile de pe piesa selectata folosind 
     # zarurile sau zarul disponibil pe pozitiile care permit mutari si de adaugat piesele ghost in locurile corespunzatoare
@@ -169,7 +174,6 @@ class GameLogic():
             - click() din checkers.py\n
 
         """
-        print("Start game!")
         print(f"Este randul jucatorului {self.teamTurn}!")
 
         # Conditia de win:
@@ -572,6 +576,7 @@ class GameLogic():
         positions = []
         if self.dices:
             positions = self.getPositionsList()
+            print(f'canMakeMove: lista de pozitii: {positions}')
             for pos in positions:
                 if pos.count() > 0:
                     if realizableMove == False: # daca se gaseste anterior o mutare posibila, realozableMove este True si nu se mai verifica daca mai sunt mutari posibile

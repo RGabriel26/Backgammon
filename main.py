@@ -1,9 +1,9 @@
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QFrame, QSizePolicy
-from PyQt6.QtGui import QIcon, QFont
+from PyQt6.QtGui import QIcon
 import sys
 
 from gameLogic import *
-from messageWindow import *
+from boxInfoWindow import *
 
 
 class UInterface(QMainWindow):
@@ -33,7 +33,7 @@ class UInterface(QMainWindow):
         # containerul elementelor din stanga
         rightLayoutContainer = self.gameLogic.layouts.rightContainer()
     
-        # folosit pentru a aduna    containerele intr un singur loc pentru a putea fi gestionate
+        # folosit pentru a aduna containerele intr un singur loc pentru a putea fi gestionate
         parentLayout.addWidget(leftLayoutContainer, 20)
         parentLayout.addWidget(middleLayoutContainer, 70)   
         parentLayout.addWidget(rightLayoutContainer, 10)
@@ -43,8 +43,13 @@ class UInterface(QMainWindow):
         centralWidget.setLayout(parentLayout)
         self.setCentralWidget(centralWidget)
 
-        # Initializarea ferestrei de mesaje
-        infoWindow = MessageWindow(self, self.gameLogic, winCenter)
+        # Initializarea ferestrei de informatii de la inceputul jocului
+        infoWindow = BoxInfoWindow(self, self.gameLogic)
+
+        # TODO: Task: Creaza ca in cazulanterior, o clasa care sa ofere ferestre cu informatii pe parcursul jocului:
+        # - mesaj cand jucatorul nu poate muta cu zarurile date
+        # - mesaj cand jucatorul a castigat
+
         
     
 
