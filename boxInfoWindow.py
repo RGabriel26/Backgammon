@@ -90,13 +90,13 @@ class BoxInfoWindow(QFrame):
 
         self.inputPlayer1 = QLineEdit()
         self.inputPlayer1.setPlaceholderText("Nickname-ul jucatorului White...")
-        self.inputPlayer1.setMaxLength(25)
+        self.inputPlayer1.setMaxLength(15)
         self.inputPlayer1.setStyleSheet("border: none; background: none; padding: 0px; margin: 0px; background-color: rgba(0,0,0,0)")
 
 
         self.inputPlayer2 = QLineEdit()
         self.inputPlayer2.setPlaceholderText("Nickname-ul jucatorului Black...")
-        self.inputPlayer2.setMaxLength(25)
+        self.inputPlayer2.setMaxLength(10)
         self.inputPlayer2.setStyleSheet("border: none; background: none; padding: 0px; margin: 0px; background-color: rgba(0,0,0,0)")
 
         layout.addWidget(info, 0, 0, 1, 2)
@@ -165,7 +165,3 @@ class BoxInfoWindow(QFrame):
                 page = curentPage + 1
 
         self.topBoxContainerLayout.setCurrentIndex(page)
-            
-
-            
-        

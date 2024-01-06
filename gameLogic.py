@@ -40,9 +40,9 @@ class GameLogic():
         """
     # TODO: Task: IMPORTANT: Daca dai roll si primesti un zar pe care nu l poti face, jucatorul at rebui informat, sa se mentina un timp piesele pe dice layout, si sa se primeasca mesajul de informare
 
-    # TODO: Task: BUG MARE: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
+    # TODO: BUG: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
     # implementeaza sistemul de pozitionare a pieselor de pe gard, asta genereaza probleme
-    # CRED CA ESTE REZOLVAT - NU S-A MAI REPETAT
+    # !!! foarte rar se intampla !!!
 
     # TODO: BUG: Inca este bug atunci cand intri cu piesele de pe gard si folosesti unul din zaruri
     # de ex, daca toate pozitiile sunt blocate in casa adversarului si doar pozitia 6 este libera, 
@@ -601,7 +601,7 @@ class GameLogic():
                                         if layoutPosition.count() == 1:
                                             # daca este piesa adversarului, atunci se poate muta pe pozitia respectiva si se arunca piesa adversarului pe gard
                                             if layoutPosition.itemAt(0).widget().objectName() == f'{oponentTeam}Checker':
-                                                realizableMove = True
+                                                realizableMove = False
                                                 return realizableMove
                                             else:
                                                 # daca nu e pozitia adversarului, inseamna ca este piesa jucatorului actual si se poate muta peste ea

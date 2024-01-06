@@ -161,42 +161,6 @@ class UILayouts():
         middlePrincipalLayout.addWidget(middleFenceLayoutContainer,10)
         middlePrincipalLayout.addWidget(middleRightLayoutContainer,45)
 
-        # utilizarea QStaketLayout-ului pentru a putea schimva intre layouturi
-
-        # # primul layout
-        # firstLayoutContainer = QWidget()
-        # firstLayoutContainer.setLayout(middlePrincipalLayout)
-
-        # # Definirea și setarea layout-ului pentru al doilea layout (secondLayout)
-        # secondLayoutContainer = QWidget()
-        # # Crearea layout-ului pentru al doilea layout
-        # secondLayout = QVBoxLayout()  # Sau alt layout pe care dorești să îl folosești
-        # secondLayoutContainer.setLayout(secondLayout)  # Setarea layout-ului pentru al doilea layout
-
-        # # Crearea QFrame-ului pentru afișarea informațiilor în interiorul celui de-al doilea layout
-        # self.infoFrame = QFrame()
-        # self.infoFrame.setObjectName("infoFrame")
-        # self.infoFrame.setLineWidth(2)
-        # self.infoFrame.setMidLineWidth(1)
-        # self.infoFrame.setContentsMargins(0, 0, 0, 0)
-        # self.infoFrame.setFixedSize(200, 200)
-        # self.infoFrame.setStyleSheet("background-color: red;")
-        # self.infoFrame.show()
-
-        # # Adăugarea self.infoFrame în layout-ul al doilea
-        # secondLayout.addWidget(self.infoFrame, alignment=Qt.AlignmentFlag.AlignCenter)
-
-        # # Crearea QStackedLayout-ului
-        # self.stackLayout = QStackedLayout()
-        # self.stackLayout.addWidget(firstLayoutContainer)
-        # self.stackLayout.addWidget(secondLayoutContainer)
-
-        # self.stackLayout.setCurrentIndex(1)
-
-        # # Setarea QStackedLayout-ului pe middleContainer
-        # middleContainer.setLayout(self.stackLayout)
-
-
         middleContainer.setLayout(middlePrincipalLayout)
 
         #setup containerelor
@@ -240,6 +204,7 @@ class UILayouts():
                 positions[i].setContentsMargins(0, 0, 0, 0)
 
         #pozitionarea pe locurile default ale pieselor
+                # acum se seteaza pozitiile initiale pe tabla, la momentul apasarii butonului de start
         # self.gameLogic.setDefaultPosition()
                 
             
