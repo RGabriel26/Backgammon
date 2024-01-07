@@ -2,6 +2,7 @@ from PyQt6.QtGui import QPixmap, QColor
 from random import randint
 
 from layouts import *
+from messageWindow import *
 
 class GameLogic():
     """Clasa care va gestiona toata logica jocului.\n
@@ -52,11 +53,14 @@ class GameLogic():
     # TODO: Task: De implementat un sistem care sa afiseze toate pozitiile posibile de pe piesa selectata folosind 
     # zarurile sau zarul disponibil pe pozitiile care permit mutari si de adaugat piesele ghost in locurile corespunzatoare
 
-    def __init__(self):
+    def __init__(self, parentWindow):
         print("initializare gameLogic...")
         # folosit pentru a stoca zarurile generate in functia roll din RollFunctionalities
-        self.dices = []
         self.layouts = UILayouts(self)
+        self.messageWindow = None #se va initializa dupa pasarea butonului de setDefaultPosition in functia start pentru a fi siguri ca toate elementele grafice au fost incarcate dejaa
+        self.parentWindow = parentWindow
+
+        self.dices = []
         self.lastClickedChecker = None # folosit pentru a stoca ultima piesa selectata
         self.usedDiceForOutCheckers = None # folosit pentru a stoca zarul folosit pentru a scoate piesa din joc
         self.fencedCheckers = [] # lista folosita pentru a stoca pozitiile de unde au fost aruncate piesele pe gard
@@ -601,7 +605,7 @@ class GameLogic():
                                         if layoutPosition.count() == 1:
                                             # daca este piesa adversarului, atunci se poate muta pe pozitia respectiva si se arunca piesa adversarului pe gard
                                             if layoutPosition.itemAt(0).widget().objectName() == f'{oponentTeam}Checker':
-                                                realizableMove = False
+                                                realizableMove = True
                                                 return realizableMove
                                             else:
                                                 # daca nu e pozitia adversarului, inseamna ca este piesa jucatorului actual si se poate muta peste ea
@@ -693,3 +697,5 @@ class GameLogic():
             for position, numberOfPieces in posAndCaunt:
                 for i in range(numberOfPieces):
                     position.addWidget(Checkers(team = team, positionName = position.objectName(), gameLogic = self, usedDice = 0))
+
+        self.messageWindow = MessageWindow(parent = self.parentWindow, gameLogic = self)

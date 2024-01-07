@@ -1,25 +1,25 @@
-from PyQt6.QtWidgets import QPushButton, QFrame, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QGridLayout, QStackedLayout, QLineEdit
+from PyQt6.QtWidgets import QPushButton, QFrame, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QGridLayout, QStackedLayout, QLineEdit, QMainWindow
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont 
 
-class BoxInfoWindow(QFrame):
+class BoxInfoWindow():
     def __init__(self, parent, gameLogic):
         super().__init__()
         self.parent = parent
         self.gameLogic = gameLogic
-        center = self.parent.geometry().center()
-        self.centerX = center.x() - 157
-        self.centerY = center.y() - 135
+        centerMainWindow = self.parent.geometry().center()
+        self.centerX = centerMainWindow.x() - 157
+        self.centerY = centerMainWindow.y() - 135
 
-        self.initBoxInfo()
+        self.initInfoBox()
         
-
-    def initBoxInfo(self):
+    def initInfoBox(self):
         # Adăugarea QFrame-ului in care vor fi adaugate toate elementele ce contin informatiile
         # de la inceputul jocului
-        self.infoFrame = QFrame(self.parent)
-        self.infoFrame.setGeometry(self.centerX, self.centerY, 450, 250)
-        self.infoFrame.setFrameStyle(QFrame.Shape.Box)
+        self.infoBox = QFrame(self.parent, objectName = "infoBox")
+        self.infoBox.setGeometry(self.centerX, self.centerY, 450, 250)
+        # self.infoBox.setFixedSize(450, 250)        
+        # self.infoBox.setFrameStyle(QFrame.Shape.Box)
 
         # butoane din QFrame
         previeousButton = QPushButton("PREVIOUS", objectName = "previousButton")
@@ -62,7 +62,7 @@ class BoxInfoWindow(QFrame):
         boxLayout.addWidget(topBoxContainer, 90)
         boxLayout.addWidget(buttomBoxContainer, 10)
     
-        self.infoFrame.setLayout(boxLayout)
+        self.infoBox.setLayout(boxLayout)
     
     def setNicknames(self):
         """Functie utilizata pentru a crea un QWidget cu doua QLineEdit-uri pentru a seta numele jucatorilor.\n
@@ -71,7 +71,9 @@ class BoxInfoWindow(QFrame):
 
         layout = QGridLayout()
         
-        text = "Bun venit in Backgammon!\nPentru inceput, jucatorii sunt rugati sa-si inregistreze numele de joc."
+        text = """
+        Bun venit in Backgammon!\n
+        Pentru inceput, jucatorii sunt rugati sa-si inregistreze numele de joc."""
         info = QLabel(text)
         info.setAlignment(Qt.AlignmentFlag.AlignCenter)
         info.setWordWrap(True)
@@ -115,9 +117,9 @@ class BoxInfoWindow(QFrame):
         """Functie utilizata pentru a crea un QLabel cu informatii despre joc.\n
         QLabel ce va fi adaugat in QFrame printr-un layout de tip QStackedLayout."""
         text = """
-        Backgammon este un joc unde norocul si skill-ul conteaza. \n
-        Jocul se termina cand primul jucator reuseste sa-si scoata toate piesele de pe tabla. \n
-        "Multa bafta tuturor!"""
+        Backgammon este un joc unde norocul unde si skill-ul conteaza.
+        Jocul se termina cand primul jucator reuseste sa-si scoata toate piesele de pe tabla.
+        Multa bafta tuturor!"""
         infoLabel = QLabel(text, objectName = "infoLabel")
         infoLabel.setAlignment(Qt.AlignmentFlag.AlignLeft)
         infoLabel.setWordWrap(True)
@@ -130,15 +132,24 @@ class BoxInfoWindow(QFrame):
         """Functie utilizata pentru a crea un QLabel cu regulile jocului.\n
         QLabel ce va fi adaugat in QFrame printr-un layout de tip QStackedLayout."""
         rules = QLabel()
-
-        
+        reguli = """
+        Reguli si restrictii:\n
+        - Majoritatea restrictiilor clasice ale jocului sunt restrictionate de catre joc.
+        - Doar de regulile bunului simt trebuie sa tina cont jucatorii. 
+        - Dupa terminarea jocului, fereastra trebuie redeschisa pentru inca un joc nou.
+         """
+        rules.setText(reguli)
+        rules.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        rules.setWordWrap(True)
+        rules.setFont(QFont("Times", 10, QFont.Weight.Bold))
 
         return rules
 
     def startButtonAction(self):
         """Functie utilizata la apasarea butonului de start.\n"""
         print("Start game!")
-        self.infoFrame.hide()
+        # TODO: De catat o modalitate de a sterge cu totutl Qframe-ul dupa apasarea butonului de start
+        self.infoBox.hide()
         self.gameLogic.setDefaultPosition()
         self.gameLogic.logic()
 

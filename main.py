@@ -1,9 +1,10 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QFrame, QSizePolicy
+from PyQt6.QtWidgets import QApplication, QMainWindow
 from PyQt6.QtGui import QIcon
 import sys
 
 from gameLogic import *
 from boxInfoWindow import *
+from messageWindow import *
 
 
 class UInterface(QMainWindow):
@@ -11,7 +12,7 @@ class UInterface(QMainWindow):
         super().__init__()
         self.setWindowTitle("BackGammon")
         self.setWindowIcon(QIcon("images/white-checker.png"))
-        self.gameLogic = GameLogic()
+        self.gameLogic = GameLogic(self)
         self.initGUI()
 
     def initGUI(self):
@@ -46,12 +47,10 @@ class UInterface(QMainWindow):
         # Initializarea ferestrei de informatii de la inceputul jocului
         infoWindow = BoxInfoWindow(self, self.gameLogic)
 
+
         # TODO: Task: Creaza ca in cazulanterior, o clasa care sa ofere ferestre cu informatii pe parcursul jocului:
         # - mesaj cand jucatorul nu poate muta cu zarurile date
         # - mesaj cand jucatorul a castigat
-
-        
-    
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
