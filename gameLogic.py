@@ -144,11 +144,21 @@ class GameLogic():
         # Verificare daca jucatorul poate realiza mutari cu zarurile primite
         print(f"Jucatorul {self.teamTurn} a primit zarurile: {self.dices}")
         if self.canMakeMove() == False:
-            print('Nu se pot face mutari cu zarurile primite.\nSe va trece la jucatorul urmator')
-            self.dices.clear()
-            self.deleteDiceFromLayout(deleteAll = True)
-            self.isGlobalCheckerActive = False
-            self.logic()
+            if len(self.dices) > 0 :
+                # cazul cand mai sunt zaruri disponibile dar nu se mai pot realiza mutari
+                self.messageWindow.messageBox(1)
+                QTimer.singleShot(3500, lambda: self.actionAfterMessage())
+            else:
+                # czul cand nu mai sunt zaruri disponibile
+                self.isGlobalCheckerActive = False
+                self.logic()
+    
+    def actionAfterMessage(self):
+        self.messageWindow.messageBoxLabel.deleteLater()
+        self.dices.clear()
+        self.deleteDiceFromLayout(deleteAll = True)
+        self.isGlobalCheckerActive = False
+        self.logic()
 
     def enableRollButton(self, isEnable) -> None:
         """Functie care activeaza sau dezactiveaza butonul de roll.\n
@@ -185,6 +195,7 @@ class GameLogic():
         if self.winCondition():
             print(f'Jucatorul {self.teamTurn} a castigat!')
             self.deleteDiceFromLayout(deleteAll = True)
+            self.messageWindow.messageBox(2, self.teamTurn)
             return
         
         # initial butonul de dice este dezactivat, dar devine activ dupa apasare btonului de start
