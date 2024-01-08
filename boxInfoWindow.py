@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QPushButton, QFrame, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QGridLayout, QStackedLayout, QLineEdit, QMainWindow
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont 
+from PyQt6.QtGui import QFont, QPixmap 
 
 class BoxInfoWindow():
     def __init__(self, parent, gameLogic):
@@ -9,30 +9,28 @@ class BoxInfoWindow():
         self.gameLogic = gameLogic
         centerMainWindow = self.parent.geometry().center()
         self.centerX = centerMainWindow.x() - 157
-        self.centerY = centerMainWindow.y() - 135
+        self.centerY = centerMainWindow.y() - 130
 
         self.initInfoBox()
         
     def initInfoBox(self):
         # Adăugarea QFrame-ului in care vor fi adaugate toate elementele ce contin informatiile
         # de la inceputul jocului
-        self.infoBox = QFrame(self.parent, objectName = "infoBox")
+        self.infoBox = QWidget(self.parent, objectName = "infoBox")
         self.infoBox.setGeometry(self.centerX, self.centerY, 450, 250)
-        # self.infoBox.setFixedSize(450, 250)        
-        # self.infoBox.setFrameStyle(QFrame.Shape.Box)
 
         # butoane din QFrame
-        previeousButton = QPushButton("PREVIOUS", objectName = "previousButton")
-        previeousButton.setFixedSize(150,50)
+        previeousButton = QPushButton(objectName = "previousButton")
+        previeousButton.setFixedSize(100,50)
         previeousButton.clicked.connect(lambda: self.setPageBox("previous"))
 
         self.startButton = QPushButton("START", objectName = "startButton")
-        self.startButton.setFixedSize(150,50)
+        self.startButton.setFixedSize(100,50)
         self.startButton.clicked.connect(lambda: self.startButtonAction())
-        self.startButton.hide
+        self.startButton.setFont(QFont("Times", 12, QFont.Weight.Bold.value))
 
-        nextButton = QPushButton("NEXT", objectName = "nextButton")
-        nextButton.setFixedSize(150,50)
+        nextButton = QPushButton(objectName = "nextButton")
+        nextButton.setFixedSize(100,50)
         nextButton.clicked.connect(lambda: self.setPageBox("next"))
 
         # Adăugarea layout-ului pentru QFrame
@@ -117,6 +115,7 @@ class BoxInfoWindow():
         """Functie utilizata pentru a crea un QLabel cu informatii despre joc.\n
         QLabel ce va fi adaugat in QFrame printr-un layout de tip QStackedLayout."""
         text = """
+        Informatii despre joc:\n
         Backgammon este un joc unde norocul unde si skill-ul conteaza.
         Jocul se termina cand primul jucator reuseste sa-si scoata toate piesele de pe tabla.
         Multa bafta tuturor!"""
@@ -148,8 +147,7 @@ class BoxInfoWindow():
     def startButtonAction(self):
         """Functie utilizata la apasarea butonului de start.\n"""
         print("Start game!")
-        # TODO: De catat o modalitate de a sterge cu totutl Qframe-ul dupa apasarea butonului de start
-        self.infoBox.hide()
+        self.infoBox.deleteLater()
         self.gameLogic.setDefaultPosition()
         self.gameLogic.logic()
 

@@ -14,9 +14,14 @@ $backgroundLeft-image: "images/leftBackground.png";
 $backgroundRight-image: "images/rightBackgroud.png";
 $backgroundDice-image: "images/diceLayoutBackground.png";
 $backgroundOutCheckers-image: "images/outCheckersBackground.png";
+$background-infoBoxWindow-image: "images/backgroundInfoWindow.png";
+$background-messageBoxWindow-image: "images/backgroundMessageWindow.png";
 $outWhiteCheckers-image: "images/outWhiteChecker.png";
 $outBlackCheckers-image: "images/outBlackChecker.png";
 $ghostChecker-image: "images/ghostChecker.png";
+$nextButton-image: "images/nextbutton.png";
+$preaviousButton-image: "images/previewButton.png";
+$startButton-image: "images/startButton.png";
 
 QMainWindow { 
     // image: url($background-image);
@@ -171,11 +176,12 @@ QLabel {
 ////////////////// CHECKERS ////////////////////
 #blackChecker{
     image: url($blackChecker-image);
-    border-radius: 25%;
+    background-color: rgba(0, 0, 0, 0);
+
 }
 #whiteChecker{
     image: url($whiteChecker-image);
-    border-radius: 25%;
+    background-color: rgba(0, 0, 0, 0);
 }
 #ghostChecker{
     image: url($ghostChecker-image);
@@ -219,9 +225,33 @@ QLabel {
 
 ////////////// MESSAGE FRAME ////////////////////
 
-#topFrameContainer{
-    background-color: $frameElementsBColor;
+// #topFrameContainer{
+//     background-color: $frameElementsBColor;
+// }
+// #buttomFrameContainer{
+//     background-color: $frameElementsBColor;
+// }
+
+#infoBox{
+    image: url($background-infoBoxWindow-image);
 }
-#buttomFrameContainer{
-    background-color: $frameElementsBColor;
+
+#messageBox{
+    image: url($background-messageBoxWindow-image);
+}
+
+#nextButton{
+    image: url($nextButton-image);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#previousButton{
+    image: url($preaviousButton-image);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#startButton{
+    image: url($startButton-image);
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
 }

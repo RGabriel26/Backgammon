@@ -47,11 +47,6 @@ class UInterface(QMainWindow):
         # Initializarea ferestrei de informatii de la inceputul jocului
         infoWindow = BoxInfoWindow(self, self.gameLogic)
 
-
-        # TODO: Task: Creaza ca in cazulanterior, o clasa care sa ofere ferestre cu informatii pe parcursul jocului:
-        # - mesaj cand jucatorul nu poate muta cu zarurile date
-        # - mesaj cand jucatorul a castigat
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     

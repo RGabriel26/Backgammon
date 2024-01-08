@@ -178,12 +178,12 @@ QLabel {
 
 #blackChecker {
   image: url("images/black-checker.png");
-  border-radius: 25%;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 #whiteChecker {
   image: url("images/white-checker.png");
-  border-radius: 25%;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 #ghostChecker {
@@ -231,10 +231,26 @@ QLabel {
   border-radius: 25%;
 }
 
-#topFrameContainer {
-  background-color: rgba(63, 208, 27, 0.363);
+#infoBox {
+  image: url("images/backgroundInfoWindow.png");
 }
 
-#buttomFrameContainer {
-  background-color: rgba(63, 208, 27, 0.363);
+#messageBox {
+  image: url("images/backgroundMessageWindow.png");
+}
+
+#nextButton {
+  image: url("images/nextbutton.png");
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#previousButton {
+  image: url("images/previewButton.png");
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#startButton {
+  image: url("images/startButton.png");
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
 }/*# sourceMappingURL=styleSheet.css.map */

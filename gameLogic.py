@@ -39,7 +39,15 @@ class GameLogic():
         - deleteDiceFromLayout(deleteDice=None, deleteAll=False) -> None
         - setDefaultPosition() -> None
         """
-    # TODO: Task: IMPORTANT: Daca dai roll si primesti un zar pe care nu l poti face, jucatorul at rebui informat, sa se mentina un timp piesele pe dice layout, si sa se primeasca mesajul de informare
+    # TODO: Task: De creat un sitem de inceput care sa determine ce jucator va incepe jocul primul, in functie de cine da zarul mai mare.
+
+    # TODO: Task: De implementat un sistem care sa afiseze toate pozitiile posibile de pe piesa selectata folosind 
+    # zarurile sau zarul disponibil pe pozitiile care permit mutari si de adaugat piesele ghost in locurile corespunzatoare
+
+    # TODO: Task: De implementat un sistem de jucat cu calculatorul.
+    # buton de selectie a jocului cu calculatorului in box info de la inceputul jocului
+
+    # TODO: Task: DPentru mesajul de wim, sa fie folosit numele jucatorului introdus, nu cel default dictat de echipa.
 
     # TODO: BUG: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
     # implementeaza sistemul de pozitionare a pieselor de pe gard, asta genereaza probleme
@@ -50,8 +58,6 @@ class GameLogic():
     # primesti zar 6 5 pentru a intra in casa, dupa plasarea piesei pe pozitia 6
     # jocul trece la jucatorul urmator considerand ca nu poti sa mai faci mutari
     
-    # TODO: Task: De implementat un sistem care sa afiseze toate pozitiile posibile de pe piesa selectata folosind 
-    # zarurile sau zarul disponibil pe pozitiile care permit mutari si de adaugat piesele ghost in locurile corespunzatoare
 
     def __init__(self, parentWindow):
         print("initializare gameLogic...")
@@ -147,6 +153,7 @@ class GameLogic():
             if len(self.dices) > 0 :
                 # cazul cand mai sunt zaruri disponibile dar nu se mai pot realiza mutari
                 self.messageWindow.messageBox(1)
+                self.enableRollButton(False)
                 QTimer.singleShot(3500, lambda: self.actionAfterMessage())
             else:
                 # czul cand nu mai sunt zaruri disponibile
@@ -591,7 +598,8 @@ class GameLogic():
         positions = []
         if self.dices:
             positions = self.getPositionsList()
-            print(f'canMakeMove: lista de pozitii: {positions}')
+            # de test
+            # print(f'canMakeMove: lista de pozitii: {positions}')
             for pos in positions:
                 if pos.count() > 0:
                     if realizableMove == False: # daca se gaseste anterior o mutare posibila, realozableMove este True si nu se mai verifica daca mai sunt mutari posibile
