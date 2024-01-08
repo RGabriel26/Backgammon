@@ -1,4 +1,5 @@
-from PyQt6.QtWidgets import QPushButton, QFrame, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QGridLayout, QStackedLayout, QLineEdit, QMainWindow
+from PyQt6.QtWidgets import (QPushButton, QFrame, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QGridLayout,
+                             QStackedLayout, QLineEdit, QMainWindow)
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont, QPixmap 
 
@@ -66,17 +67,33 @@ class BoxInfoWindow():
         """Functie utilizata pentru a crea un QWidget cu doua QLineEdit-uri pentru a seta numele jucatorilor.\n
         QWidget ce va fi adaugat in QFrame printr-un layout de tip QStackedLayout."""
         container = QWidget()
-
         layout = QGridLayout()
         
+        
         text = """
-        Bun venit in Backgammon!\n
-        Pentru inceput, jucatorii sunt rugati sa-si inregistreze numele de joc."""
+        Bun venit in Backgammon!"""
         info = QLabel(text)
         info.setAlignment(Qt.AlignmentFlag.AlignCenter)
         info.setWordWrap(True)
         info.setFont(QFont("Times", 10, QFont.Weight.Bold))
         info.setContentsMargins(0, 0, 0, 0)
+
+        # Butoane pentru selectia tipului de joc
+        # adica joc 1 vs 1 sau joc 1 vs PC
+        # defaul va fi selectat jocul 1v1
+
+        self.button1v1 = QPushButton("1 vs 1", objectName = "button1v1")
+        self.button1v1.setFixedSize(100,50)
+        self.button1v1.clicked.connect(lambda: self.setGameType("1v1"))
+        self.button1v1.setFont(QFont("Times", 12, QFont.Weight.Bold.value))
+        self.button1v1.setEnabled(False)
+
+        self.button1vPC = QPushButton("1 vs PC", objectName = "button1vPC")
+        self.button1vPC.setFixedSize(100,50)
+        self.button1vPC.clicked.connect(lambda: self.setGameType("1vPC"))
+        self.button1vPC.setFont(QFont("Times", 12, QFont.Weight.Bold.value))
+        self.button1vPC.setEnabled(True)
+
 
         textPlayer1 = QLabel("Player W: ")
         textPlayer1.setAlignment(Qt.AlignmentFlag.AlignLeft)
@@ -99,11 +116,22 @@ class BoxInfoWindow():
         self.inputPlayer2.setMaxLength(10)
         self.inputPlayer2.setStyleSheet("border: none; background: none; padding: 0px; margin: 0px; background-color: rgba(0,0,0,0)")
 
+        layoutSetSelectGame = QGridLayout()
+        layoutSetSelectGame.setContentsMargins(0, 0, 0, 0)
+        layoutSetSelectGame.addWidget(self.button1v1, 0, 0)
+        layoutSetSelectGame.addWidget(self.button1vPC, 0, 1)
+        layoutSetSelectGame.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layoutSetSelectGame.setSpacing(50)
+
+        layoutSetSelectGameContainer = QWidget()
+        layoutSetSelectGameContainer.setLayout(layoutSetSelectGame)
+
         layout.addWidget(info, 0, 0, 1, 2)
-        layout.addWidget(textPlayer1, 1, 0)
-        layout.addWidget(self.inputPlayer1, 1, 1)
-        layout.addWidget(textPlayer2, 2, 0)
-        layout.addWidget(self.inputPlayer2, 2, 1)
+        layout.addWidget(layoutSetSelectGameContainer, 1, 0, 1, 2)
+        layout.addWidget(textPlayer1, 2, 0)
+        layout.addWidget(self.inputPlayer1, 2, 1)
+        layout.addWidget(textPlayer2, 3, 0)
+        layout.addWidget(self.inputPlayer2, 3, 1)
 
         container.setLayout(layout)
 
@@ -153,9 +181,11 @@ class BoxInfoWindow():
 
         if self.inputPlayer1.text() != "":
             self.gameLogic.layouts.labelPlayerWhite.setText(self.inputPlayer1.text())
+            self.gameLogic.nicknamePlayerWhite = self.inputPlayer1.text()
 
         if self.inputPlayer2.text() != "":
             self.gameLogic.layouts.labelPlayerBlack.setText(self.inputPlayer2.text())
+            self.gameLogic.nicknamePlayerBlack = self.inputPlayer2.text()
 
     def setPageBox(self, direction) -> None: 
         """Functia care schimba paginile din QFrame-ul destinat informatiilor de la inceputul jocului.\n
@@ -174,3 +204,19 @@ class BoxInfoWindow():
                 page = curentPage + 1
 
         self.topBoxContainerLayout.setCurrentIndex(page)
+
+    def setGameType(self, gameType) -> None:
+        if gameType == "1v1":
+            # a fost selectat jocul 1 vs 1
+            self.button1v1.setStyleSheet("image: url(images/activeButton.png); background-color: rgba(0, 0, 0, 0); outline: none; color: black;")
+            self.button1vPC.setStyleSheet("image: url(images/inactiveButton.png); background-color: rgba(0, 0, 0, 0); outline: none; color: black;")
+            self.gameLogic.setGameType("1v1")
+            self.button1v1.setEnabled(False)
+            self.button1vPC.setEnabled(True)
+        elif gameType == "1vPC":
+            # a fost selectat jocul 1 vs PC
+            self.button1v1.setStyleSheet("image: url(images/inactiveButton.png); background-color: rgba(0, 0, 0, 0); outline: none; color: black;")
+            self.button1vPC.setStyleSheet("image: url(images/activeButton.png); background-color: rgba(0, 0, 0, 0); outline: none; color: black;")
+            self.gameLogic.setGameType("1vPC")
+            self.button1v1.setEnabled(True)
+            self.button1vPC.setEnabled(False)

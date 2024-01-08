@@ -57,6 +57,9 @@ class GameLogic():
     # de ex, daca toate pozitiile sunt blocate in casa adversarului si doar pozitia 6 este libera, 
     # primesti zar 6 5 pentru a intra in casa, dupa plasarea piesei pe pozitia 6
     # jocul trece la jucatorul urmator considerand ca nu poti sa mai faci mutari
+
+    # TODO: BUG: In showPossibleMove, daca se doreste a realiza o mutare de pe o pozitie mai mica decat zarul disponibil, si pe o pozitie anterioara 
+    # sunt piese ale adversarului, nu se activeaza zona de scoatere a piesei.
     
 
     def __init__(self, parentWindow):
@@ -65,6 +68,10 @@ class GameLogic():
         self.layouts = UILayouts(self)
         self.messageWindow = None #se va initializa dupa pasarea butonului de setDefaultPosition in functia start pentru a fi siguri ca toate elementele grafice au fost incarcate dejaa
         self.parentWindow = parentWindow
+
+        # numele jucatorilor
+        self.nicknamePlayerWhite = "Player White"
+        self.nicknamePlayerBlack = "Player Black"
 
         self.dices = []
         self.lastClickedChecker = None # folosit pentru a stoca ultima piesa selectata
@@ -200,9 +207,9 @@ class GameLogic():
         # Conditia de win:
         # se verifica din nou pentru a incheia logica jocului in functia logic
         if self.winCondition():
-            print(f'Jucatorul {self.teamTurn} a castigat!')
+            print(f'Jucatorul {self.nicknamePlayerWhite if self.teamTurn == "white" else self.nicknamePlayerBlack} a castigat!')
             self.deleteDiceFromLayout(deleteAll = True)
-            self.messageWindow.messageBox(2, self.teamTurn)
+            self.messageWindow.messageBox(2, self.nicknamePlayerWhite if self.teamTurn == "white" else self.nicknamePlayerBlack)
             return
         
         # initial butonul de dice este dezactivat, dar devine activ dupa apasare btonului de start
@@ -234,6 +241,12 @@ class GameLogic():
 
         print("A iesit din functia logic")
         return
+
+    # TODO: aici se leaga logica de selectie a tipului de joc cu clasa gamelogic 
+    def setGameType(self, gameType) -> None:
+        print(gameType)
+        if gameType == "1vPV":
+            print("S-a optat pentru un meci cu calculatorul.")
         
     def disponibilityPlayerCheckers(self, team, disponibility) -> None:
         """Functia care face disponibile sau nu piesele jucatorului.\n

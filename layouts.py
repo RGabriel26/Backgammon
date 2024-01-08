@@ -204,6 +204,7 @@ class UILayouts():
                 positions[i].setContentsMargins(0, 0, 0, 0)
                     
         # DE TEST CAND TOATE PIESELE JUCATORILOR SUNT IN CASA 
+        # TODO: Cauzeaza bug la afisarea castigatorului
         # self.pos1.addWidget(Checkers(team="black", positionName=self.pos1.objectName(), gameLogic = self.gameLogic))
         # self.pos1.addWidget(Checkers(team="black", positionName=self.pos1.objectName(), gameLogic = self.gameLogic))
         # self.pos2.addWidget(Checkers(team="black", positionName=self.pos2.objectName(), gameLogic = self.gameLogic))
@@ -263,10 +264,10 @@ class UILayouts():
 
         # adaugarea de elemente in fiecare container
         # adaugarea elementelor din stanga
-        self.labelPlayerWhite = QLabel("Player W", objectName = "labelPlayer1")
+        self.labelPlayerWhite = QLabel("Player White", objectName = "labelPlayer1")
         leftLayout.addWidget(self.labelPlayerWhite)
         leftLayout.addWidget(diceContainer)
-        self.labelPlayerBlack = QLabel("Player B", objectName = "labelPlayer2")
+        self.labelPlayerBlack = QLabel("Player Black", objectName = "labelPlayer2")
         leftLayout.addWidget(self.labelPlayerBlack)
 
         # QTimer.singleShot(0, lambda: print(f"leftContainer: {leftContainer.size()}"))

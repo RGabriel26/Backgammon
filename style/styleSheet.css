@@ -259,4 +259,18 @@ QLabel {
   image: url("images/startButton.png");
   background-color: rgba(0, 0, 0, 0);
   outline: none;
+}
+
+#button1v1 {
+  image: url("images/activeButton.png");
+  background-color: rgba(0, 0, 0, 0);
+  color: black;
+  outline: none;
+}
+
+#button1vPC {
+  image: url("images/inactiveButton.png");
+  background-color: rgba(0, 0, 0, 0);
+  outline: none;
+  color: black;
 }/*# sourceMappingURL=styleSheet.css.map */

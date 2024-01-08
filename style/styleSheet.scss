@@ -22,6 +22,8 @@ $ghostChecker-image: "images/ghostChecker.png";
 $nextButton-image: "images/nextbutton.png";
 $preaviousButton-image: "images/previewButton.png";
 $startButton-image: "images/startButton.png";
+$activeButton-image: "images/activeButton.png";
+$inactiveButton-image: "images/inactiveButton.png";
 
 QMainWindow { 
     // image: url($background-image);
@@ -251,3 +253,18 @@ QLabel {
     background-color: rgba(0, 0, 0, 0);
     outline: none;
 }
+
+#button1v1{
+    image: url($activeButton-image);
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+    outline: none;
+}
+
+#button1vPC{
+    image: url($inactiveButton-image);
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
+    color: black;
+}
+
