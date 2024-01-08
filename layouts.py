@@ -202,12 +202,7 @@ class UILayouts():
                 positions[i].setSpacing(0)
                 positions[i].setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignCenter)
                 positions[i].setContentsMargins(0, 0, 0, 0)
-
-        #pozitionarea pe locurile default ale pieselor
-                # acum se seteaza pozitiile initiale pe tabla, la momentul apasarii butonului de start
-        # self.gameLogic.setDefaultPosition()
-                
-            
+                    
         # DE TEST CAND TOATE PIESELE JUCATORILOR SUNT IN CASA 
         # self.pos1.addWidget(Checkers(team="black", positionName=self.pos1.objectName(), gameLogic = self.gameLogic))
         # self.pos1.addWidget(Checkers(team="black", positionName=self.pos1.objectName(), gameLogic = self.gameLogic))

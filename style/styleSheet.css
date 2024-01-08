@@ -179,26 +179,31 @@ QLabel {
 #blackChecker {
   image: url("images/black-checker.png");
   background-color: rgba(0, 0, 0, 0);
+  outline: none;
 }
 
 #whiteChecker {
   image: url("images/white-checker.png");
   background-color: rgba(0, 0, 0, 0);
+  outline: none;
 }
 
 #ghostChecker {
   image: url("images/ghostChecker.png");
   background-color: rgba(0, 0, 0, 0);
+  outline: none;
 }
 
 #ghostFenceWhiteChecker {
   image: url("images/white-checker.png");
   background-color: rgba(0, 0, 0, 0);
+  outline: none;
 }
 
 #ghostFenceBlackChecker {
   image: url("images/black-checker.png");
   background-color: rgba(0, 0, 0, 0);
+  outline: none;
 }
 
 #rightContainer {
@@ -226,9 +231,8 @@ QLabel {
 
 #rollButton {
   image: url("images/rollButton.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 25%;
+  background-color: rgba(0, 0, 0, 0);
+  outline: none;
 }
 
 #infoBox {
@@ -242,15 +246,17 @@ QLabel {
 #nextButton {
   image: url("images/nextbutton.png");
   background-color: rgba(0, 0, 0, 0);
+  outline: none;
 }
 
 #previousButton {
   image: url("images/previewButton.png");
   background-color: rgba(0, 0, 0, 0);
+  outline: none;
 }
 
 #startButton {
   image: url("images/startButton.png");
   background-color: rgba(0, 0, 0, 0);
-  border: none;
+  outline: none;
 }/*# sourceMappingURL=styleSheet.css.map */

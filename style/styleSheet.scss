@@ -177,28 +177,32 @@ QLabel {
 #blackChecker{
     image: url($blackChecker-image);
     background-color: rgba(0, 0, 0, 0);
-
+    outline: none;
 }
 #whiteChecker{
     image: url($whiteChecker-image);
     background-color: rgba(0, 0, 0, 0);
+    outline: none;
 }
 #ghostChecker{
     image: url($ghostChecker-image);
     background-color: rgba(0, 0, 0, 0);
+    outline: none;
 }
 #ghostFenceWhiteChecker{
     image: url($whiteChecker-image);
     background-color: rgba(0, 0, 0, 0);
+    outline: none;
 }
 #ghostFenceBlackChecker{
     image: url($blackChecker-image);
     background-color: rgba(0, 0, 0, 0);
+    outline: none;
 }
 ////////////// DREAPTA FERESTREI /////////////////
 #rightContainer{    
     background-color: $mainContainerBColor;
-    image: url($backgroundRight-image)
+    image: url($backgroundRight-image);
 }
 #whiteCheckersContainer{
     background-color: $checkerOUTContainerBColor;
@@ -217,20 +221,10 @@ QLabel {
 ////////////// BUTONUL DE ROLL /////////////////
 #rollButton{
     image: url($rollButton-image);
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 25%;
-  
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
 } 
-
 ////////////// MESSAGE FRAME ////////////////////
-
-// #topFrameContainer{
-//     background-color: $frameElementsBColor;
-// }
-// #buttomFrameContainer{
-//     background-color: $frameElementsBColor;
-// }
 
 #infoBox{
     image: url($background-infoBoxWindow-image);
@@ -243,15 +237,17 @@ QLabel {
 #nextButton{
     image: url($nextButton-image);
     background-color: rgba(0, 0, 0, 0);
+    outline: none;
 }
 
 #previousButton{
     image: url($preaviousButton-image);
     background-color: rgba(0, 0, 0, 0);
+    outline: none;
 }
 
 #startButton{
     image: url($startButton-image);
     background-color: rgba(0, 0, 0, 0);
-    border: none;
+    outline: none;
 }
