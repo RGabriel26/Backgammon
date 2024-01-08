@@ -156,7 +156,7 @@ class Checkers(QPushButton):
                     if len(self.gameLogic.dices) > 0:
                         # cazul cand mai sunt zaruri disponibile dar nu se mai pot realiza mutari
                         self.gameLogic.messageWindow.messageBox(1)
-                        QTimer.singleShot(3500, lambda: self.gameLogic.actionAfterMessage())
+                        QTimer.singleShot(3000, lambda: self.gameLogic.actionAfterMessage())
                     else:
                         # czul cand nu mai sunt zaruri disponibile
                         self.gameLogic.isGlobalCheckerActive = False

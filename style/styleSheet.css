@@ -273,4 +273,8 @@ QLabel {
   background-color: rgba(0, 0, 0, 0);
   outline: none;
   color: black;
+}
+
+#inputPlayerNickname {
+  image: url("images/backgroundNicknameInput.png");
 }/*# sourceMappingURL=styleSheet.css.map */

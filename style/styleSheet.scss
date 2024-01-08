@@ -24,6 +24,7 @@ $preaviousButton-image: "images/previewButton.png";
 $startButton-image: "images/startButton.png";
 $activeButton-image: "images/activeButton.png";
 $inactiveButton-image: "images/inactiveButton.png";
+$backgroundPlayerNicknameInput-image: "images/backgroundNicknameInput.png";
 
 QMainWindow { 
     // image: url($background-image);
@@ -268,3 +269,6 @@ QLabel {
     color: black;
 }
 
+#inputPlayerNickname{
+    image: url($backgroundPlayerNicknameInput-image);
+}

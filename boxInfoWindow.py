@@ -105,16 +105,18 @@ class BoxInfoWindow():
         textPlayer2.setFont(QFont("Times", 10, QFont.Weight.Bold))
         textPlayer2.setContentsMargins(0, 0, 0, 0)
 
-        self.inputPlayer1 = QLineEdit()
+        self.inputPlayer1 = QLineEdit(objectName = "inputPlayerNickname")
         self.inputPlayer1.setPlaceholderText("Nickname-ul jucatorului White...")
+        self.inputPlayer1.setFixedSize(350, 20)
         self.inputPlayer1.setMaxLength(15)
-        self.inputPlayer1.setStyleSheet("border: none; background: none; padding: 0px; margin: 0px; background-color: rgba(0,0,0,0)")
+        self.inputPlayer1.setStyleSheet("border: none; padding: 0px; margin: 0px; background-color: rgba(0,0,0,0)")
 
 
-        self.inputPlayer2 = QLineEdit()
+        self.inputPlayer2 = QLineEdit(objectName = "inputPlayerNickname")
         self.inputPlayer2.setPlaceholderText("Nickname-ul jucatorului Black...")
         self.inputPlayer2.setMaxLength(10)
-        self.inputPlayer2.setStyleSheet("border: none; background: none; padding: 0px; margin: 0px; background-color: rgba(0,0,0,0)")
+        self.inputPlayer2.setStyleSheet("border: none; padding: 0px; margin: 0px; background-color: rgba(0,0,0,0)")
+        self.inputPlayer2.setFixedSize(350, 20)
 
         layoutSetSelectGame = QGridLayout()
         layoutSetSelectGame.setContentsMargins(0, 0, 0, 0)
@@ -144,9 +146,10 @@ class BoxInfoWindow():
         QLabel ce va fi adaugat in QFrame printr-un layout de tip QStackedLayout."""
         text = """
         Informatii despre joc:\n
-        Backgammon este un joc unde norocul unde si skill-ul conteaza.
-        Jocul se termina cand primul jucator reuseste sa-si scoata toate piesele de pe tabla.
-        Multa bafta tuturor!"""
+        - Backgammon este un joc unde norocul unde si skill-ul conteaza.
+        - Ai posibilitatea atat de a te juca cu un prieten, cat si cu calculatorul.
+        - Jocul se termina cand primul jucator reuseste sa-si scoata toate piesele de pe tabla.
+        - Multa bafta tuturor! Fie ca cel mai bun sa castige!"""
         infoLabel = QLabel(text, objectName = "infoLabel")
         infoLabel.setAlignment(Qt.AlignmentFlag.AlignLeft)
         infoLabel.setWordWrap(True)
@@ -164,6 +167,7 @@ class BoxInfoWindow():
         - Majoritatea restrictiilor clasice ale jocului sunt restrictionate de catre joc.
         - Doar de regulile bunului simt trebuie sa tina cont jucatorii. 
         - Dupa terminarea jocului, fereastra trebuie redeschisa pentru inca un joc nou.
+        - Fiecare jucator TREBUIE sa-si respecte randul si sa nu-si saboteze adversarul.
          """
         rules.setText(reguli)
         rules.setAlignment(Qt.AlignmentFlag.AlignLeft)

@@ -18,7 +18,7 @@ class MessageWindow():
         self.messageBoxLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.messageBoxLabel.setFont(QFont("Times", 12, QFont.Weight.Bold.value))
 
-        message_indisponibilMove = "Nu se pot realiza mutari cu zarurile disponibile!"
+        message_indisponibilMove = "Nu mai exista mutari posibile!"
         message_win = f"Felicitari jucatorului {playerWin}. Ai castigat jocul!"
 
         if needMessage == 1:

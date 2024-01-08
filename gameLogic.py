@@ -49,6 +49,9 @@ class GameLogic():
 
     # TODO: Task: DPentru mesajul de wim, sa fie folosit numele jucatorului introdus, nu cel default dictat de echipa.
 
+    # TODO: Task: Atunci cand casa unui jucator este blocata cu porti, iar celalalt jucator este blocat pe gard, at rebui evitat apasarea
+    # butonului de roll, si doar sa aapara mesajul ca nu mai sunt mutari posible.
+
     # TODO: BUG: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
     # implementeaza sistemul de pozitionare a pieselor de pe gard, asta genereaza probleme
     # !!! foarte rar se intampla !!!
@@ -161,7 +164,7 @@ class GameLogic():
                 # cazul cand mai sunt zaruri disponibile dar nu se mai pot realiza mutari
                 self.messageWindow.messageBox(1)
                 self.enableRollButton(False)
-                QTimer.singleShot(3500, lambda: self.actionAfterMessage())
+                QTimer.singleShot(3000, lambda: self.actionAfterMessage())
             else:
                 # czul cand nu mai sunt zaruri disponibile
                 self.isGlobalCheckerActive = False
