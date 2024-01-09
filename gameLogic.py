@@ -1,7 +1,8 @@
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QColor
 from random import randint
 
 from layouts import *
+from messageWindow import *
 
 class GameLogic():
     """Clasa care va gestiona toata logica jocului.\n
@@ -38,20 +39,44 @@ class GameLogic():
         - deleteDiceFromLayout(deleteDice=None, deleteAll=False) -> None
         - setDefaultPosition() -> None
         """
-    # TODO: Task: IMPORTANT: Daca dai roll si primesti un zar pe care nu l poti face, jucatorul at rebui informat, sa se mentina un timp piesele pe dice layout, si sa se primeasca mesajul de informare
+    # TODO: Task: De creat un sitem de inceput care sa determine ce jucator va incepe jocul primul, in functie de cine da zarul mai mare.
 
-    # TODO: Task: BUG MARE: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
-    # implementeaza sistemul de pozitionare a pieselor de pe gard, asta genereaza probleme
-    # CRED CA ESTE REZOLVAT - NU S-A MAI REPETAT
-    
     # TODO: Task: De implementat un sistem care sa afiseze toate pozitiile posibile de pe piesa selectata folosind 
     # zarurile sau zarul disponibil pe pozitiile care permit mutari si de adaugat piesele ghost in locurile corespunzatoare
 
-    def __init__(self):
+    # TODO: Task: De implementat un sistem de jucat cu calculatorul.
+    # buton de selectie a jocului cu calculatorului in box info de la inceputul jocului
+
+    # TODO: Task: DPentru mesajul de wim, sa fie folosit numele jucatorului introdus, nu cel default dictat de echipa.
+
+    # TODO: Task: Atunci cand casa unui jucator este blocata cu porti, iar celalalt jucator este blocat pe gard, at rebui evitat apasarea
+    # butonului de roll, si doar sa aapara mesajul ca nu mai sunt mutari posible.
+
+    # TODO: BUG: daca o piesa a fost scoasa pe gard, nu culoarea se schimba dar, team ul ramane la fel
+    # implementeaza sistemul de pozitionare a pieselor de pe gard, asta genereaza probleme
+    # !!! foarte rar se intampla !!!
+
+    # TODO: BUG: Inca este bug atunci cand intri cu piesele de pe gard si folosesti unul din zaruri
+    # de ex, daca toate pozitiile sunt blocate in casa adversarului si doar pozitia 6 este libera, 
+    # primesti zar 6 5 pentru a intra in casa, dupa plasarea piesei pe pozitia 6
+    # jocul trece la jucatorul urmator considerand ca nu poti sa mai faci mutari
+
+    # TODO: BUG: In showPossibleMove, daca se doreste a realiza o mutare de pe o pozitie mai mica decat zarul disponibil, si pe o pozitie anterioara 
+    # sunt piese ale adversarului, nu se activeaza zona de scoatere a piesei.
+    
+
+    def __init__(self, parentWindow):
         print("initializare gameLogic...")
         # folosit pentru a stoca zarurile generate in functia roll din RollFunctionalities
-        self.dices = []
         self.layouts = UILayouts(self)
+        self.messageWindow = None #se va initializa dupa pasarea butonului de setDefaultPosition in functia start pentru a fi siguri ca toate elementele grafice au fost incarcate dejaa
+        self.parentWindow = parentWindow
+
+        # numele jucatorilor
+        self.nicknamePlayerWhite = "Player White"
+        self.nicknamePlayerBlack = "Player Black"
+
+        self.dices = []
         self.lastClickedChecker = None # folosit pentru a stoca ultima piesa selectata
         self.usedDiceForOutCheckers = None # folosit pentru a stoca zarul folosit pentru a scoate piesa din joc
         self.fencedCheckers = [] # lista folosita pentru a stoca pozitiile de unde au fost aruncate piesele pe gard
@@ -135,16 +160,21 @@ class GameLogic():
         # Verificare daca jucatorul poate realiza mutari cu zarurile primite
         print(f"Jucatorul {self.teamTurn} a primit zarurile: {self.dices}")
         if self.canMakeMove() == False:
-            print('Nu se pot face mutari cu zarurile primite.\nSe va trece la jucatorul urmator')
-            self.dices.clear()
-            self.deleteDiceFromLayout(deleteAll = True)
-            self.isGlobalCheckerActive = False
-            self.logic()
-
-    def funcStartButton(self) -> None:  
-        """Functie apelata de butonul Start.\n
-        Aceasta ascunde butonul de start si apeleaza functia logic.\n"""
-        self.layouts.startButton.hide()
+            if len(self.dices) > 0 :
+                # cazul cand mai sunt zaruri disponibile dar nu se mai pot realiza mutari
+                self.messageWindow.messageBox(1)
+                self.enableRollButton(False)
+                QTimer.singleShot(3000, lambda: self.actionAfterMessage())
+            else:
+                # czul cand nu mai sunt zaruri disponibile
+                self.isGlobalCheckerActive = False
+                self.logic()
+    
+    def actionAfterMessage(self):
+        self.messageWindow.messageBoxLabel.deleteLater()
+        self.dices.clear()
+        self.deleteDiceFromLayout(deleteAll = True)
+        self.isGlobalCheckerActive = False
         self.logic()
 
     def enableRollButton(self, isEnable) -> None:
@@ -175,14 +205,14 @@ class GameLogic():
             - click() din checkers.py\n
 
         """
-        print("Start game!")
         print(f"Este randul jucatorului {self.teamTurn}!")
 
         # Conditia de win:
         # se verifica din nou pentru a incheia logica jocului in functia logic
         if self.winCondition():
-            print(f'Jucatorul {self.teamTurn} a castigat!')
+            print(f'Jucatorul {self.nicknamePlayerWhite if self.teamTurn == "white" else self.nicknamePlayerBlack} a castigat!')
             self.deleteDiceFromLayout(deleteAll = True)
+            self.messageWindow.messageBox(2, self.nicknamePlayerWhite if self.teamTurn == "white" else self.nicknamePlayerBlack)
             return
         
         # initial butonul de dice este dezactivat, dar devine activ dupa apasare btonului de start
@@ -198,6 +228,11 @@ class GameLogic():
                 self.disponibilityPlayerCheckers("white", False)
             else:
                 self.disponibilityPlayerCheckers("white", True)
+
+            # Daca este randul AI ului sa faca mutari:
+                # - se va apela functia roll care genereaza zarurile
+                # - se face o lista cu locurile unde AI ul are piese si se cauta daca acea pozitie este valida pentru a realiza mutari
+                # - dupa realizarea acestei liste, se alege RANDOM o mutare pentru a ca AI ul sa realizeze mutarea
             
         else:
             self.teamTurn = "black"
@@ -214,6 +249,12 @@ class GameLogic():
 
         print("A iesit din functia logic")
         return
+
+    # TODO: aici se leaga logica de selectie a tipului de joc cu clasa gamelogic 
+    def setGameType(self, gameType) -> None:
+        print(gameType)
+        if gameType == "1vPV":
+            print("S-a optat pentru un meci cu calculatorul.")
         
     def disponibilityPlayerCheckers(self, team, disponibility) -> None:
         """Functia care face disponibile sau nu piesele jucatorului.\n
@@ -578,6 +619,8 @@ class GameLogic():
         positions = []
         if self.dices:
             positions = self.getPositionsList()
+            # de test
+            # print(f'canMakeMove: lista de pozitii: {positions}')
             for pos in positions:
                 if pos.count() > 0:
                     if realizableMove == False: # daca se gaseste anterior o mutare posibila, realozableMove este True si nu se mai verifica daca mai sunt mutari posibile
@@ -694,3 +737,5 @@ class GameLogic():
             for position, numberOfPieces in posAndCaunt:
                 for i in range(numberOfPieces):
                     position.addWidget(Checkers(team = team, positionName = position.objectName(), gameLogic = self, usedDice = 0))
+
+        self.messageWindow = MessageWindow(parent = self.parentWindow, gameLogic = self)

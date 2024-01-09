@@ -1,6 +1,5 @@
-from PyQt6.QtWidgets import QWidget, QGridLayout, QVBoxLayout, QHBoxLayout, QLabel, QGraphicsDropShadowEffect
+from PyQt6.QtWidgets import QWidget, QGridLayout, QVBoxLayout, QHBoxLayout, QLabel, QFrame, QGraphicsDropShadowEffect, QStackedLayout
 from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QColor
 
 from checkers import *
 
@@ -12,7 +11,7 @@ class UILayouts():
         print("initializare layouts...")
 
     def middleLayout(self):
-        middleContainer = QWidget(objectName = "middleContainer")
+        middleContainer = QWidget(objectName = "middleContainer" )
         middlePrincipalLayout = QHBoxLayout()
         ############################################ zona din STANGA ###############################################################
         middleLeftLayoutContainer = QWidget(objectName = "middleLeftLayoutContainer")
@@ -203,12 +202,9 @@ class UILayouts():
                 positions[i].setSpacing(0)
                 positions[i].setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignCenter)
                 positions[i].setContentsMargins(0, 0, 0, 0)
-
-        #pozitionarea pe locurile default ale pieselor
-        self.gameLogic.setDefaultPosition()
-                
-            
+                    
         # DE TEST CAND TOATE PIESELE JUCATORILOR SUNT IN CASA 
+        # TODO: Cauzeaza bug la afisarea castigatorului
         # self.pos1.addWidget(Checkers(team="black", positionName=self.pos1.objectName(), gameLogic = self.gameLogic))
         # self.pos1.addWidget(Checkers(team="black", positionName=self.pos1.objectName(), gameLogic = self.gameLogic))
         # self.pos2.addWidget(Checkers(team="black", positionName=self.pos2.objectName(), gameLogic = self.gameLogic))
@@ -266,19 +262,12 @@ class UILayouts():
         self.diceLayout.setObjectName("diceLayout")
         diceContainer.setLayout(self.diceLayout)
 
-        #butonul de start
-        self.startButton = QPushButton("START", objectName = "startButton")
-        self.startButton.setFixedSize(50,50)
-        self.startButton.clicked.connect(lambda: self.gameLogic.funcStartButton())
-
-        self.diceLayout.addWidget(self.startButton)
-
         # adaugarea de elemente in fiecare container
         # adaugarea elementelor din stanga
-        self.labelPlayerWhite = QLabel("Player1", objectName = "labelPlayer1")
+        self.labelPlayerWhite = QLabel("Player White", objectName = "labelPlayer1")
         leftLayout.addWidget(self.labelPlayerWhite)
         leftLayout.addWidget(diceContainer)
-        self.labelPlayerBlack = QLabel("Player2", objectName = "labelPlayer2")
+        self.labelPlayerBlack = QLabel("Player Black", objectName = "labelPlayer2")
         leftLayout.addWidget(self.labelPlayerBlack)
 
         # QTimer.singleShot(0, lambda: print(f"leftContainer: {leftContainer.size()}"))

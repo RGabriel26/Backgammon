@@ -1,8 +1,10 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout
+from PyQt6.QtWidgets import QApplication, QMainWindow
 from PyQt6.QtGui import QIcon
 import sys
 
 from gameLogic import *
+from boxInfoWindow import *
+from messageWindow import *
 
 
 class UInterface(QMainWindow):
@@ -10,7 +12,7 @@ class UInterface(QMainWindow):
         super().__init__()
         self.setWindowTitle("BackGammon")
         self.setWindowIcon(QIcon("images/white-checker.png"))
-        self.gameLogic = GameLogic()
+        self.gameLogic = GameLogic(self)
         self.initGUI()
 
     def initGUI(self):
@@ -19,6 +21,8 @@ class UInterface(QMainWindow):
         # self.setGeometry(0, 0, self.width, self.height)
         # self.showFullScreen()
         self.setFixedSize(self.width, self.height)
+        # creat pentru a stoca coordonatele centru ferestrei
+        winCenter = self.geometry().center()
 
         # folosit pentru a grupa cele trei containere principala ale ferestrei intr-un mod de afisare orizolntala
         parentLayout = QHBoxLayout()
@@ -30,7 +34,7 @@ class UInterface(QMainWindow):
         # containerul elementelor din stanga
         rightLayoutContainer = self.gameLogic.layouts.rightContainer()
     
-        # folosit pentru a aduna    containerele intr un singur loc pentru a putea fi gestionate
+        # folosit pentru a aduna containerele intr un singur loc pentru a putea fi gestionate
         parentLayout.addWidget(leftLayoutContainer, 20)
         parentLayout.addWidget(middleLayoutContainer, 70)   
         parentLayout.addWidget(rightLayoutContainer, 10)
@@ -39,6 +43,9 @@ class UInterface(QMainWindow):
         centralWidget = QWidget()  
         centralWidget.setLayout(parentLayout)
         self.setCentralWidget(centralWidget)
+
+        # Initializarea ferestrei de informatii de la inceputul jocului
+        infoWindow = BoxInfoWindow(self, self.gameLogic)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

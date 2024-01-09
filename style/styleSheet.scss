@@ -13,9 +13,17 @@ $backgroundLeft-image: "images/leftBackground.png";
 $backgroundRight-image: "images/rightBackgroud.png";
 $backgroundDice-image: "images/diceLayoutBackground.png";
 $backgroundOutCheckers-image: "images/outCheckersBackground.png";
+$background-infoBoxWindow-image: "images/backgroundInfoWindow.png";
+$background-messageBoxWindow-image: "images/backgroundMessageWindow.png";
 $outWhiteCheckers-image: "images/outWhiteChecker.png";
 $outBlackCheckers-image: "images/outBlackChecker.png";
 $ghostChecker-image: "images/ghostChecker.png";
+$nextButton-image: "images/nextbutton.png";
+$preaviousButton-image: "images/previewButton.png";
+$startButton-image: "images/startButton.png";
+$activeButton-image: "images/activeButton.png";
+$inactiveButton-image: "images/inactiveButton.png";
+$backgroundPlayerNicknameInput-image: "images/backgroundNicknameInput.png";
 
 QMainWindow { 
     // image: url($background-image);
@@ -170,28 +178,33 @@ QLabel {
 ////////////////// CHECKERS ////////////////////
 #blackChecker{
     image: url($blackChecker-image);
-    border-radius: 25%;
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
 }
 #whiteChecker{
     image: url($whiteChecker-image);
-    border-radius: 25%;
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
 }
 #ghostChecker{
     image: url($ghostChecker-image);
     background-color: rgba(0, 0, 0, 0);
+    outline: none;
 }
 #ghostFenceWhiteChecker{
     image: url($whiteChecker-image);
     background-color: rgba(0, 0, 0, 0);
+    outline: none;
 }
 #ghostFenceBlackChecker{
     image: url($blackChecker-image);
     background-color: rgba(0, 0, 0, 0);
+    outline: none;
 }
 ////////////// DREAPTA FERESTREI /////////////////
 #rightContainer{    
     background-color: $mainContainerBColor;
-    image: url($backgroundRight-image)
+    image: url($backgroundRight-image);
 }
 #whiteCheckersContainer{
     background-color: $checkerOUTContainerBColor;
@@ -210,8 +223,51 @@ QLabel {
 ////////////// BUTONUL DE ROLL /////////////////
 #rollButton{
     image: url($rollButton-image);
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 25%;
-    
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
 } 
+////////////// MESSAGE FRAME ////////////////////
+
+#infoBox{
+    image: url($background-infoBoxWindow-image);
+}
+
+#messageBox{
+    image: url($background-messageBoxWindow-image);
+}
+
+#nextButton{
+    image: url($nextButton-image);
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
+}
+
+#previousButton{
+    image: url($preaviousButton-image);
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
+}
+
+#startButton{
+    image: url($startButton-image);
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
+}
+
+#button1v1{
+    image: url($activeButton-image);
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+    outline: none;
+}
+
+#button1vPC{
+    image: url($inactiveButton-image);
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
+    color: black;
+}
+
+#inputPlayerNickname{
+    image: url($backgroundPlayerNicknameInput-image);
+}
