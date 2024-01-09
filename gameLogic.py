@@ -228,6 +228,11 @@ class GameLogic():
                 self.disponibilityPlayerCheckers("white", False)
             else:
                 self.disponibilityPlayerCheckers("white", True)
+
+            # Daca este randul AI ului sa faca mutari:
+                # - se va apela functia roll care genereaza zarurile
+                # - se face o lista cu locurile unde AI ul are piese si se cauta daca acea pozitie este valida pentru a realiza mutari
+                # - dupa realizarea acestei liste, se alege RANDOM o mutare pentru a ca AI ul sa realizeze mutarea
             
         else:
             self.teamTurn = "black"

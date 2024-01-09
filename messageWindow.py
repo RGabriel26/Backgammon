@@ -14,7 +14,6 @@ class MessageWindow():
     def messageBox(self, needMessage, playerWin = None):
         self.messageBoxLabel = QLabel(self.parent, objectName = "messageBox")
         self.messageBoxLabel.setGeometry(self.centerX, self.centerY, 440, 80)
-        # self.messageBoxLabel.setFixedSize(450, 250)   
         self.messageBoxLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.messageBoxLabel.setFont(QFont("Times", 12, QFont.Weight.Bold.value))
 

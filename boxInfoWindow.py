@@ -1,7 +1,7 @@
-from PyQt6.QtWidgets import (QPushButton, QFrame, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QGridLayout,
-                             QStackedLayout, QLineEdit, QMainWindow)
+from PyQt6.QtWidgets import (QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QGridLayout,
+                             QStackedLayout, QLineEdit)
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont, QPixmap 
+from PyQt6.QtGui import QFont
 
 class BoxInfoWindow():
     def __init__(self, parent, gameLogic):
@@ -109,14 +109,18 @@ class BoxInfoWindow():
         self.inputPlayer1.setPlaceholderText("Nickname-ul jucatorului White...")
         self.inputPlayer1.setFixedSize(350, 20)
         self.inputPlayer1.setMaxLength(15)
-        self.inputPlayer1.setStyleSheet("border: none; padding: 0px; margin: 0px; background-color: rgba(0,0,0,0)")
+        self.inputPlayer1.setStyleSheet("border: none; margin: 0px; background-color: rgba(0,0,0,0); color: black")
+        self.inputPlayer1.setFont(QFont("Times", 10, QFont.Weight.Bold))
+        self.inputPlayer1.setContentsMargins(0, 0, 0, 0)
 
 
         self.inputPlayer2 = QLineEdit(objectName = "inputPlayerNickname")
         self.inputPlayer2.setPlaceholderText("Nickname-ul jucatorului Black...")
         self.inputPlayer2.setMaxLength(10)
-        self.inputPlayer2.setStyleSheet("border: none; padding: 0px; margin: 0px; background-color: rgba(0,0,0,0)")
+        self.inputPlayer2.setStyleSheet("border: none; padding: 0px; margin: 0px; background-color: rgba(0,0,0,0); color: black")
         self.inputPlayer2.setFixedSize(350, 20)
+        self.inputPlayer2.setFont(QFont("Times", 10, QFont.Weight.Bold))
+        self.inputPlayer2.setContentsMargins(0, 0, 0, 0)
 
         layoutSetSelectGame = QGridLayout()
         layoutSetSelectGame.setContentsMargins(0, 0, 0, 0)
@@ -217,6 +221,7 @@ class BoxInfoWindow():
             self.gameLogic.setGameType("1v1")
             self.button1v1.setEnabled(False)
             self.button1vPC.setEnabled(True)
+            self.inputPlayer1.setEnabled(True)
         elif gameType == "1vPC":
             # a fost selectat jocul 1 vs PC
             self.button1v1.setStyleSheet("image: url(images/inactiveButton.png); background-color: rgba(0, 0, 0, 0); outline: none; color: black;")
@@ -224,3 +229,5 @@ class BoxInfoWindow():
             self.gameLogic.setGameType("1vPC")
             self.button1v1.setEnabled(True)
             self.button1vPC.setEnabled(False)
+            self.inputPlayer1.setText("Computer")
+            self.inputPlayer1.setEnabled(False)
