@@ -98,6 +98,9 @@ class GameLogic():
         self.numberWhiteOutCheckers = 0
         self.numberBlackOutCheckers = 0
 
+        # variabila care stocheaza tipul de joc (1v1 sau 1vPC) / default este joc 1v1
+        self.gameType = '1v1'
+
     
     def saveDices(self,dices) -> None:
         self.dices = dices
@@ -219,42 +222,95 @@ class GameLogic():
         self.enableRollButton(True) # si se ve dezactiva dupa apasarea butonului de rollDice in functia roll
         self.isGlobalCheckerActive = False # ia valoare False pana cand se apasa din nou pe butonul de roll
 
-        if self.turnsCounter % 2 == 0:
-            self.teamTurn = "white"
-            self.isWhiteCheckerEnable = True
-            self.isBlackCheckerEnable = False
-            # verificare daca jucatorul are piese pe gard
-            if self.countFenceCheckers() > 0:
-                self.disponibilityPlayerCheckers("white", False)
-            else:
-                self.disponibilityPlayerCheckers("white", True)
-
             # Daca este randul AI ului sa faca mutari:
                 # - se va apela functia roll care genereaza zarurile
                 # - se face o lista cu locurile unde AI ul are piese si se cauta daca acea pozitie este valida pentru a realiza mutari
                 # - dupa realizarea acestei liste, se alege RANDOM o mutare pentru a ca AI ul sa realizeze mutarea
-            
-        else:
-            self.teamTurn = "black"
-            self.isWhiteCheckerEnable = False
-            self.isBlackCheckerEnable = True
-            # verificare daca jucatorul are piese pe gard
-            if self.countFenceCheckers() > 0: 
-                self.disponibilityPlayerCheckers("black", False)
+                # - IMPORTANT: CAND ESTE RANDUL AI-ULUI SA REALIZEZE MUTARI, INTERACTIUNEA DIN PARTEA UTILIZATORULUI CU JOCUL ESTE BLOCATA
+        
+        if self.gameType == "1vPC":
+            if self.turnsCounter % 2 == 0:
+                self.teamTurn = "white"
+                self.isWhiteCheckerEnable = False
+                self.isBlackCheckerEnable = False
+
+                # Ai da cu zarul:
+                self.roll(self.layouts.diceLayout)
+                self.aiMove()
+
+                # verificare daca jucatorul are piese pe gard
+                if self.countFenceCheckers() > 0:
+                    self.disponibilityPlayerCheckers("white", False)
+                else:
+                    self.disponibilityPlayerCheckers("white", True)
             else:
-                self.disponibilityPlayerCheckers("black", True)
+                self.teamTurn = "black"
+                self.isWhiteCheckerEnable = False
+                self.isBlackCheckerEnable = True
+                # verificare daca jucatorul are piese pe gard
+                if self.countFenceCheckers() > 0: 
+                    self.disponibilityPlayerCheckers("black", False)
+                else:
+                    self.disponibilityPlayerCheckers("black", True)
+
+
+        if self.gameType == "1v1":
+            if self.turnsCounter % 2 == 0:
+                self.teamTurn = "white"
+                self.isWhiteCheckerEnable = True
+                self.isBlackCheckerEnable = False
+                # verificare daca jucatorul are piese pe gard
+                if self.countFenceCheckers() > 0:
+                    self.disponibilityPlayerCheckers("white", False)
+                else:
+                    self.disponibilityPlayerCheckers("white", True)
+            else:
+                self.teamTurn = "black"
+                self.isWhiteCheckerEnable = False
+                self.isBlackCheckerEnable = True
+                # verificare daca jucatorul are piese pe gard
+                if self.countFenceCheckers() > 0: 
+                    self.disponibilityPlayerCheckers("black", False)
+                else:
+                    self.disponibilityPlayerCheckers("black", True)
             
         self.stylePlayerTurn()
         self.turnsCounter += 1
 
         print("A iesit din functia logic")
         return
+    
+    def aiMove(self) -> None:
+        # TODO: implementeaza sistemul de mutari pentru AI
+        # Cat timp exista zaruri, aceasta se va reapela
+        # aici se verifica daca se pot realiza mutari cu zarurile primite prin functia candMakeMove
+        # daca da, se face o lista cu seturi de pozitii posibilie
+            # set de pozitie posibila => (pozitia_unde_este_piesa_initial - pozitia_unde_se_va_muta_piesa, zarul_folosit)
+            # se va "muta piesa", adica se va sterge de pe pozitia anterioara si se va adauga pe pozitia noua
+            # si se va sterge zarul folosit atat din lista care il stocheaza cat si din layout zarurilor destinat afisarii
+        # daca mai exista zaruri, functia se va apela recursiv
+        # cand nu mai exista piese, sau functia canMakeMove returneaza False, se va apela functia logic pentru a trece la jucatorul urmator
+        # se va folosit si functia showPossibleMove pentru a afisa pozitiile posibile de pe pozitia de unde urmeaza sa se realizeze mutarea, pentru 
+        # ca celalalt jucator sa inteleaga ce se intampla
+        # Se va folosi un DELAY pentru a nu se intampla tot instant
+        print("AI-ul face mutari...")
+
+        if self.canMakeMove():
+            # inseamna ca undeva Ai-ul poate realiza mutari
+            # se face o lista cu seturile de pozitii posibile ale acestuia
+            print("AI-ul poate realiza mutari")
+
+
 
     # TODO: aici se leaga logica de selectie a tipului de joc cu clasa gamelogic 
     def setGameType(self, gameType) -> None:
         print(gameType)
-        if gameType == "1vPV":
+        if gameType == "1vPC":
             print("S-a optat pentru un meci cu calculatorul.")
+            self.gameType = "1vPC"
+        elif gameType == "1v1":
+            print("S-a optat pentru un meci 1v1.")
+            self.gameType = "1v1"
         
     def disponibilityPlayerCheckers(self, team, disponibility) -> None:
         """Functia care face disponibile sau nu piesele jucatorului.\n
@@ -567,7 +623,7 @@ class GameLogic():
                                 position = 25 - 6
                                 while position < 25:
                                     # restrictie in cazul in care pe o pozitie mai mare decat zarul primit, poti face mutari, nu va permite scoaterea pieselor de pe pozitii mai mici decat zarul curent
-                                    if getattr(self.layouts, f'pos{position}').count() > 0:
+                                    if getattr(self.layouts, f'pos{position}').count() > 0 and getattr(self.layouts, f'pos{position}').itemAt(0).widget().objectName() != f'{oponentTeam}Checker':
                                         break
                                     if posID == position + 1:
                                         # daca ai zarul 5, se verifica daca pe poztizia 20 nu sunt piese, asta inseamna ca pot fi scoase piese de pe pozitia urmatoare, adica pozitia 21
@@ -595,7 +651,7 @@ class GameLogic():
                                 position = 0 + 6
                                 while position > 0:
                                     # restrictie in cazul in care pe o pozitie mai mare decat zarul primit, poti face mutari, nu va permite scoaterea pieselor de pe pozitii mai mici decat zarul curent
-                                    if getattr(self.layouts, f'pos{position}').count() > 0:
+                                    if getattr(self.layouts, f'pos{position}').count() > 0 and getattr(self.layouts, f'pos{position}').itemAt(0).widget().objectName() != f'{oponentTeam}Checker':
                                         break
                                     if posID == position - 1:
                                         # daca ai zarul 5, se verifica daca pe poztizia 5 nu sunt piese, asta inseamna ca pot fi scoase piese de pe pozitia urmatoare, adica pozitia 4
@@ -613,11 +669,13 @@ class GameLogic():
             return self.layouts.positions
         
     def canMakeMove(self) -> bool:
-        oponentTeam = "black" if self.teamTurn == "white" else "white"
-        possibleMove = []
+        """Aceasta functie este folosita pentru a cauta pe fiecare pozitie unde jucatorul actual are piese si de unde poate realiza mutari.\n
+        Return True daca jucatorul poate realiza mutari.\n
+        Return False daca jucatorul nu mai poate realiza mutari.\n"""
         realizableMove = False
-        positions = []
         if self.dices:
+            oponentTeam = "black" if self.teamTurn == "white" else "white"
+            possibleMove = []
             positions = self.getPositionsList()
             # de test
             # print(f'canMakeMove: lista de pozitii: {positions}')

@@ -8,6 +8,8 @@ class MessageWindow():
         self.parent = parent
         self.gameLogic = gameLogic
         centerMainWindow = self.parent.geometry().center()
+        # TODO: Doar de test, este un bug cand centrul ferestrei main, uneori este altul.
+        print(centerMainWindow)
         self.centerX = centerMainWindow.x() - 430
         self.centerY = centerMainWindow.y() - 175
 
