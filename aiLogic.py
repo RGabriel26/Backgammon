@@ -22,9 +22,9 @@ class AILogic:
 
     def launchAI(self) -> None:
         if self.gameLogic.canMakeMove():
-            self.aiMove()
+            return self.aiMove()
         else:
-            self.gameLogic.actionCanMakeMove()
+            return self.gameLogic.actionCanMakeMove()
 
 
     def aiMove(self) -> None:
@@ -42,105 +42,6 @@ class AILogic:
         # Se va folosi un DELAY pentru a nu se intampla tot instant
         print("AI-ul face mutari...")
         oponentTeam = 'black' if self.teamAI == 'white' else 'white'
-        
-        # verificare daca ai ul are posibilitatea de a realiza mutari cu zarurile disponibile de undeva de pe tabla de joc
-        if self.gameLogic.canMakeMove():
-            print("AI-ul poate realiza mutari")
-            # se face o lista cu seturile de pozitii posibile ale acestuia
-            # crearea listei cu mutari posibile
-            # TODO
-            listMovePossibility = self.createMoveList(self.teamAI)
-            print(f"lista de mutari pe care le poate face AI-ul:")
-            # doar de test ########
-            for move in listMovePossibility:
-                print(f"pozitia initiala: {move[0].objectName()}, pozitia finala: {move[1][0]}, zarul folosit: {move[1][1]}")
-            #######################
-            # alegerea random a unei mutari din lista pe care Ai poate sa o faca
-            lengthList = len(listMovePossibility) - 1
-            indexMoveAi = randint(0, 0 if lengthList == 0 else lengthList)
-            # executarea mutarii
-            # extragerea detaliilor din listMovePossibility corespunzatoare indexului generat
-            initialPos = listMovePossibility[indexMoveAi][0].objectName() #id-ul pozitiei de unde se sterge piesa mutata
-            print(f'pozitia initiala: {listMovePossibility[indexMoveAi][0].objectName()}')
-            actualPos = f'pos{listMovePossibility[indexMoveAi][1][0]}' #pozitia unde se va muta piesa
-            usedDice = listMovePossibility[indexMoveAi][1][1]
-            # se va afisa o piesa ghost pentru a informa celalalt jucator cu privire la ce mutare va urma sa faca ai ul
-            self.gameLogic.addCheckerToPosition(actualPos, 'ghost')
-            print('inainte de delay 1')
-            self.delay(1000)
-            print('dupa delay 1')
-            # inainte de executia mutarii piesei, trebuie stearsa piesa ghost
-            self.gameLogic.deleteGhostCheckers(True)
-            # getattr(self.gameLogic.layouts, actualPos).itemAt(getattr(self.gameLogic.layouts, actualPos).count() - 1).widget().deleteLater()
-                # stergerea piesei de unde se muta piesa
-            if self.gameLogic.getPosID(initialPos) == 0:
-                self.gameLogic.layouts.fenceWhiteCheckersLayout.itemAt(0).widget().hide()
-                self.gameLogic.layouts.fenceWhiteCheckersLayout.itemAt(0).widget().deleteLater()
-                # TODO: cerd ca trebuie sa se stearga si din lista de piese de pe gard
-                self.gameLogic.numberWhiteFenceCheckers -= 1
-            elif self.gameLogic.getPosID(initialPos) == 25:
-                self.gameLogic.layouts.fenceBlackCheckersLayout.itemAt(0).widget().hide()
-                self.gameLogic.layouts.fenceBlackCheckersLayout.itemAt(0).widget().deleteLater()
-                self.gameLogic.numberBlackFenceCheckers -= 1
-            else:
-                self.gameLogic.deleteCheckerFromPosition(self.gameLogic.getPosID(initialPos))
-                # adaugarea piesei pe pozitia unde se muta piesa
-            # TODO: aici trebuie verificat daca nu cumva piesa adaugata nu arunca piesa adversarului pe gard
-            layoutPosition = getattr(self.gameLogic.layouts ,actualPos)
-            # verificam daca pe pozitia unde urmeaza sa fie adaugata piesa ai ului exista piese
-            if layoutPosition.count() > 0:
-                # verificam cate piese sunt
-                # daca este doar una, verificam daca aceasta este a adversarului
-                # TODO: Nu se sterg corect obiectele ghost
-                print(layoutPosition.count())
-                if layoutPosition.count() == 2:
-                    # daca este a adversarului, se arunca piesa acestuia pe gard
-                    if layoutPosition.itemAt(0).widget().objectName() == f'{oponentTeam}Checker' and layoutPosition.itemAt(layoutPosition.count() - 1).widget().objectName() == 'ghostChecker':
-                        print("conditia 1")
-                        # stergerea piesei adversarului 
-                        self.gameLogic.deleteCheckerFromPosition(self.gameLogic.getPosID(actualPos))
-                        # adaugarea sa pe gard
-                        self.gameLogic.addCheckerToFence(oponentTeam)
-                        if oponentTeam == "white":
-                            self.gameLogic.numberWhiteFenceCheckers += 1
-                        else:
-                            self.gameLogic.numberBlackFenceCheckers += 1 
-                        # adaugarea piesei ai ului
-                        self.gameLogic.addCheckerToPosition(actualPos, self.teamAI)
-                    # daca nu este piesa adversarului, inseamna ca este piesa ai ului si se poate adauga piesa
-                    else:
-                        self.gameLogic.addCheckerToPosition(actualPos, self.teamAI)
-                        print("conditia 2")
-                # daca sunt mai multe piese se verifica ca aceste sa nu fie ale adversarului
-                else:
-                    if layoutPosition.itemAt(0).widget().objectName() not in [f'{oponentTeam}Checker']:
-                        self.gameLogic.addCheckerToPosition(actualPos, self.teamAI)
-                        print("conditia 3")
-                # stergerea zarului din lista de zaruri
-            # daca nu sunt deloc piese pe pozitie, ai poate adauga piesa fara restrictii
-            else:
-                self.gameLogic.addCheckerToPosition(actualPos, self.teamAI)
-                print("conditia 4")
-
-            # stergera zarului folosit
-            print(f'moveAI - zarurile disponibile: {self.gameLogic.dices}')
-            print(f' moveaAI - zarul folosit pentru realizarea mutarii: {usedDice}')
-            self.gameLogic.dices.remove(usedDice)   
-            print(f'moveAI - zarurile disponibile: {self.gameLogic.dices}')
-            self.gameLogic.deleteDiceFromLayout(usedDice)
-            # ai nu mai poate face mutari
-        print("FINALIZARE FUNCTIE AIMOVE")
-        if self.gameLogic.dices:
-            self.launchAI()
-        else:
-            self.gameLogic.actionCanMakeMove()
-    
-    def deleteDices(self, usedDice) -> None:
-        print(f'moveAI - zarurile disponibile: {self.gameLogic.dices}')
-        print(f' moveaAI - zarul folosit pentru realizarea mutarii: {usedDice}')
-        self.gameLogic.dices.remove(usedDice)   
-        print(f'moveAI - zarurile disponibile: {self.gameLogic.dices}')
-        self.gameLogic.deleteDiceFromLayout(usedDice)
 
 
     def createMoveList(self, team) -> None:
