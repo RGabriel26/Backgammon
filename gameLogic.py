@@ -167,21 +167,24 @@ class GameLogic():
         print(f"Jucatorul {self.teamTurn} a primit zarurile: {self.dices}")
         self.actionCanMakeMove()
 
-    def actionCanMakeMove(self):
-        if self.canMakeMove() == False:
+    def actionCanMakeMove(self) -> bool:
+        print("actionCanMakeMove - called")
+        canMakeMove = self.canMakeMove()
+        if canMakeMove == False:
             if len(self.dices) > 0 :
                 # cazul cand mai sunt zaruri disponibile dar nu se mai pot realiza mutari
                 self.messageWindow.messageBox(1)
                 self.enableRollButton(False)
                 QTimer.singleShot(3000, lambda: self.actionAfterMessage())
             else:
-                # czul cand nu mai sunt zaruri disponibile
+                # cazul cand nu mai sunt zaruri disponibile
                 self.isGlobalCheckerActive = False
                 self.logic()
+        return canMakeMove
     
     def actionAfterMessage(self):
-        print("actionAfterMessage - a intrat in functie")
-        self.messageWindow.messageBoxLabel.deleteLater()
+        print(f"actionAfterMessage - a intrat in functie\n GAME TURN {self.turnsCounter}")
+        self.messageWindow.messageBoxLabel.hide()
         self.dices.clear()
         self.deleteDiceFromLayout(deleteAll = True)
         self.isGlobalCheckerActive = False
@@ -216,6 +219,8 @@ class GameLogic():
 
         """
         print("########### LOGIC 1 ###########")
+        # DE TEST:
+        print(f'logic - turn: {self.turnsCounter}')
 
         # Conditia de win:
         # se verifica din nou pentru a incheia logica jocului in functia logic
@@ -235,19 +240,22 @@ class GameLogic():
                 # - dupa realizarea acestei liste, se alege RANDOM o mutare pentru a ca AI ul sa realizeze mutarea
                 # - IMPORTANT: CAND ESTE RANDUL AI-ULUI SA REALIZEZE MUTARI, INTERACTIUNEA DIN PARTEA UTILIZATORULUI CU JOCUL ESTE BLOCATA
         
+        if self.gameType == "1vPC" and self.turnsCounter % 2 == 0:
+            # Ai da cu zarul:
+            self.roll(self.layouts.diceLayout)
+        
         if self.gameType == "1vPC":
             if self.turnsCounter % 2 == 0:
+                print('11')
+                self.turnsCounter += 1
                 self.teamTurn = "white"
                 self.isWhiteCheckerEnable = False
                 self.isBlackCheckerEnable = False
-
-                # Ai da cu zarul:
-                self.roll(self.layouts.diceLayout)
                 # folosin qtimer pentru a astepta finalizarea tuturor proceselor din partea grafica
-
-                # return QTimer.singleShot(0, lambda: self.ai.aiMove())
                 QTimer.singleShot(0, lambda: self.ai.launchAI())
             else:
+                print('12')
+                self.turnsCounter += 1
                 self.teamTurn = "black"
                 self.isWhiteCheckerEnable = False
                 self.isBlackCheckerEnable = True
@@ -257,9 +265,10 @@ class GameLogic():
                 else:
                     self.disponibilityPlayerCheckers("black", True)
 
-
         if self.gameType == "1v1":
             if self.turnsCounter % 2 == 0:
+                print('21')
+                self.turnsCounter += 1
                 self.teamTurn = "white"
                 self.isWhiteCheckerEnable = True
                 self.isBlackCheckerEnable = False
@@ -269,7 +278,9 @@ class GameLogic():
                 else:
                     self.disponibilityPlayerCheckers("white", True)
             else:
+                print('22')
                 self.teamTurn = "black"
+                self.turnsCounter += 1
                 self.isWhiteCheckerEnable = False
                 self.isBlackCheckerEnable = True
                 # verificare daca jucatorul are piese pe gard
@@ -278,12 +289,8 @@ class GameLogic():
                 else:
                     self.disponibilityPlayerCheckers("black", True)
         
-        print(f"Este randul jucatorului {self.teamTurn}!")
-            
         self.stylePlayerTurn()
-        print(f'logic - actual turn: {self.turnsCounter}')
-        self.turnsCounter += 1
-        print(f'logic - next turn: {self.turnsCounter}')
+        print(f"Este randul jucatorului {self.teamTurn}!")
 
         print("A iesit din functia logic")
         print("########### LOGIC 2 ###########")
@@ -611,7 +618,7 @@ class GameLogic():
                                 position = 25 - 6
                                 while position < 25:
                                     # restrictie in cazul in care pe o pozitie mai mare decat zarul primit, poti face mutari, nu va permite scoaterea pieselor de pe pozitii mai mici decat zarul curent
-                                    if getattr(self.layouts, f'pos{position}').count() > 0 and getattr(self.layouts, f'pos{position}').itemAt(0).widget().objectName() != f'{oponentTeam}Checker':
+                                    if getattr(self.layouts, f'pos{position}').count() > 0:
                                         break
                                     if posID == position + 1:
                                         # daca ai zarul 5, se verifica daca pe poztizia 20 nu sunt piese, asta inseamna ca pot fi scoase piese de pe pozitia urmatoare, adica pozitia 21
@@ -639,7 +646,7 @@ class GameLogic():
                                 position = 0 + 6
                                 while position > 0:
                                     # restrictie in cazul in care pe o pozitie mai mare decat zarul primit, poti face mutari, nu va permite scoaterea pieselor de pe pozitii mai mici decat zarul curent
-                                    if getattr(self.layouts, f'pos{position}').count() > 0 and getattr(self.layouts, f'pos{position}').itemAt(0).widget().objectName() != f'{oponentTeam}Checker':
+                                    if getattr(self.layouts, f'pos{position}').count() > 0:
                                         break
                                     if posID == position - 1:
                                         # daca ai zarul 5, se verifica daca pe poztizia 5 nu sunt piese, asta inseamna ca pot fi scoase piese de pe pozitia urmatoare, adica pozitia 4
@@ -664,7 +671,7 @@ class GameLogic():
         if self.dices:
             positions = self.getPositionsList()
             # de test
-            # print(f'canMakeMove: lista de pozitii: {positions}')
+            print(f'canMakeMove: lista de pozitii: {" ".join(pos.objectName() for pos in positions)}')
             for pos in positions:
                 if pos.count() > 0:
                     if realizableMove == False: # daca se gaseste anterior o mutare posibila, realozableMove este True si nu se mai verifica daca mai sunt mutari posibile
@@ -679,7 +686,7 @@ class GameLogic():
                                 for dice in self.getDices():
                                     possibleMove.append(posID - dice)
                             # verificarea fiecarei mutari daca este posibila
-                            # print(f'canMakeMove: realizarea mutarilor posibile pentru pozitia {posID} sunt: {possibleMove}')
+                            print(f'canMakeMove: realizarea mutarilor posibile pentru pozitia {posID} sunt: {possibleMove}')
                             for move in possibleMove:
                                 if move >= 1 and move <= 24:
                                     layoutPosition = getattr(self.layouts, f'pos{move}')
@@ -688,11 +695,19 @@ class GameLogic():
                                         # daca exista alte piese - verificam daca nu este piesa adversarului
                                         if layoutPosition.count() == 1:
                                             # daca este piesa adversarului, atunci se poate muta pe pozitia respectiva si se arunca piesa adversarului pe gard
-                                            if layoutPosition.itemAt(0).widget().objectName() == f'{oponentTeam}Checker':
+                                            if layoutPosition.itemAt(0).widget().objectName() in [f'{oponentTeam}Checker', 'ghostChecker']:
                                                 realizableMove = True
                                                 return realizableMove
                                             else:
                                                 # daca nu e pozitia adversarului, inseamna ca este piesa jucatorului actual si se poate muta peste ea
+                                                realizableMove = True
+                                                return realizableMove
+                                        elif (layoutPosition.count() == 2 
+                                              and
+                                                (layoutPosition.itemAt(0).widget().objectName() == f'{oponentTeam}Checker' and 
+                                                    layoutPosition.itemAt(1).widget().objectName() == 'ghostChecker')
+                                              ):
+                                            # canz in care nu sunt sterse corect piesele ghost
                                                 realizableMove = True
                                                 return realizableMove
                                         else:
@@ -711,6 +726,7 @@ class GameLogic():
         # print(f"canMakeMove - Jucatorul {self.teamTurn} poate face mutari: {realizableMove}")
         else:
             print("canMakeMove - Nu mai exista zaruri pentru a se realiza mutari.")
+        print(f'canMakeMove - {realizableMove}')
         return realizableMove
 
     # TODO: schimba denumirea functiei in ceva mai intuitiv
@@ -787,4 +803,5 @@ class GameLogic():
                     position.addWidget(Checkers(team = team, positionName = position.objectName(), gameLogic = self, usedDice = 0))
 
         self.messageWindow = MessageWindow(parent = self.parentWindow, gameLogic = self)
+
 

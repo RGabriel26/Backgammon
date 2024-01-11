@@ -24,8 +24,8 @@ class AILogic:
         if len(self.gameLogic.dices) > 0:
             return self.aiMove()
         else:
-            print('launchAI - NU SE MAI POT REALIZA MUTARI')
-            return self.gameLogic.actionCanMakeMove()
+            print('launchAI - NU SE MAI POT REALIZA MUTARI PENTRU CA NU MAI EXISTA ZARURI')
+            return QTimer.singleShot(0, lambda: self.gameLogic.actionCanMakeMove())
 
 
     def aiMove(self) -> None:
@@ -67,21 +67,63 @@ class AILogic:
 
             print(f'informatiile extrase din pozitia aleasa: pozitia initiala: {initialPosition.objectName()}, pozitia finala: {moveToPositionID}, zarul folosit: {usedDice}')
 
+            # LOGICA DE MUTARE A PIESILOR
+
             # pozitionarea unei piese ghost pe pozitia unde AI urmeaza sa mute piesa
             self.gameLogic.addCheckerToPosition(f'pos{moveToPositionID}', 'ghost')
             # aplicarea unui delay pentru a se vedea piesa ghost
             self.delay(500)
             # stergerea piesei ghost
-            
-            # getLastChecker = getattr(self.layouts, f'pos{moveToPositionID}').count() - 1
-            # getLastChecker = getattr(self.layouts, f'pos{moveToPositionID}').itemAt(getLastChecker).widget().deleteLater()
             self.gameLogic.deleteGhostCheckers(True)
-            # self.gameLogic.deleteCheckerFromPosition(moveToPositionID)
 
-            # mutarea piesei pe pozitia respectiva
-            self.gameLogic.addCheckerToPosition(f'pos{moveToPositionID}', self.teamAI)
             # stergerea piesei de pe pozitia initiala
-            self.gameLogic.deleteCheckerFromPosition(initialPositionID)
+            # daca piesa initial se afla pe gard, atunci aceasta se sterge din layout-ul respectiv, nu din pos
+            if initialPositionID == 0:
+                self.gameLogic.layouts.fenceWhiteCheckersLayout.itemAt(0).widget().hide()
+                self.gameLogic.layouts.fenceWhiteCheckersLayout.itemAt(0).widget().deleteLater()
+                self.gameLogic.numberWhiteFenceCheckers -= 1
+            elif initialPositionID == 25:
+                self.gameLogic.layouts.fenceBlackCheckersLayout.itemAt(0).widget().hide()
+                self.gameLogic.layouts.fenceBlackCheckersLayout.itemAt(0).widget().deleteLater()
+                self.gameLogic.numberBlackFenceCheckers -= 1
+            else:
+                self.gameLogic.deleteCheckerFromPosition(initialPositionID)
+
+            # adaugarea piesei pe pozitia mutata a piesei
+            layoutPosition = getattr(self.layouts, f'pos{moveToPositionID}')
+            # se verifica daca pe pozitia unde urmeaza sa fie mutata piesa exista alte piese
+            if layoutPosition.count() > 0:
+                # daca exista
+                # se verifica daca este o singura piesa pe pozitia respectiva
+                # IMPORTANT: datorita piesei ghost, cauzeaza o problema la verificarea acestui caz, deoarece piesa ghost nu se sterge din memorie pana cand toata functia nu este finalizata
+                # deci verificam daca exista 2 piese pe pozitie
+                # care ar trebui sa insemne ca pe pozitia 0 este o piesa a adversarului si pe pozitia 1 este piesa ghost
+                if layoutPosition.count() == 2:
+                    if (layoutPosition.itemAt(0).widget().objectName() == f'{oponentTeam}Checker' and 
+                        layoutPosition.itemAt(1).widget().objectName() == 'ghostChecker'):
+                        # se sterge piesa adversarului si se adauga pe gard
+                        layoutPosition.itemAt(0).widget().hide()
+                        layoutPosition.itemAt(0).widget().deleteLater()
+                        # se adauga piesa adversarului pe gard
+                        self.gameLogic.addCheckerToFence(oponentTeam)
+                        # se adauga piesa AI-ului pe pozitia mutata
+                        self.gameLogic.addCheckerToPosition(f'pos{moveToPositionID}', self.teamAI)
+                        print(f'aiMove - conditia 1: exista o piesa a adversarului pe pozitia: {moveToPositionID}')
+                    # exista piesa doar a AI-ului teoretic
+                    # practic sunt 2 piese pe pozitia respectiva, deoarece piesa ghost nu este stearsa din memorie
+                    else:
+                        # se adauga piesa AI-ului pe pozitia mutata
+                        self.gameLogic.addCheckerToPosition(f'pos{moveToPositionID}', self.teamAI)
+                        print(f'aiMove - conditia 2: exista o piesa a AI-ului pe pozitia: {moveToPositionID}')
+                # cazul in care piesa trebuie adaugata deoarece pozitia a fost verificate daca este permisa in functia createMoveList
+                else:
+                    self.gameLogic.addCheckerToPosition(f'pos{moveToPositionID}', self.teamAI)
+                    print(f'aiMove - conditia 3: exista o piesa a AI-ului pe pozitia: {moveToPositionID}')
+            # daca nu sunt alte piese, inseamna ca AI ul poate muta fara probleme 
+            # acest caz nu este posibil, deoarece piesa ghost nu este stearsa din memorie si mereu va exista o piesa pe pozitia unde se muta
+            else:
+                self.gameLogic.addCheckerToPosition(f'pos{moveToPositionID}', self.teamAI)
+                print(f'aiMove - conditia 4: nu au fost alte piese pe pozitia: {moveToPositionID}')
 
             # stergerea zarului folosit din lista de zaruri
             self.gameLogic.dices.remove(usedDice)
@@ -92,7 +134,7 @@ class AILogic:
         else:
             print("AI-ul nu poate face mutari!")
             print('######################### AIMOVE 2 ########################')
-            return self.gameLogic.actionCanMakeMove()
+            return QTimer.singleShot(0, lambda: self.gameLogic.actionCanMakeMove())
 
     def createMoveList(self, team) -> None:
         # lista care va fi returnata cu mutarile posibile de unde ai poate realiza mutari
@@ -136,17 +178,17 @@ class AILogic:
                                         # se ia in considerare ca AI ul poate face o mutare peste piesa adversarului
                                         # scotand piesa adversarului pe gard
                                         listMovePossibility.append((pos, (move, useDice)))
-                                        # break
+                                        break
                                 # excluderea pozitiilor unde exista piese ale opentului si sunt mai mult de 1 piese
                                 lastChecker = layoutPosition.count() - 1
                                 if layoutPosition.itemAt(lastChecker).widget().objectName() not in [f'{oponentTeam}Checker']:
                                     # DACA NU SUNT PIESE ALE OPONENTELOR, INSEAMNA CA PE POZITIA RESPECTIVA EXISTA MAI MULT DE 1 PIESA A JUCATORULUI ACTUAL
                                     listMovePossibility.append((pos, (move, useDice)))
-                                    # break
+                                    break
                             else:
                                 #CAZUL CAND PE POZITIA POSIBILA DE MUTARE NU EXISTA ALTE PIESE
                                 listMovePossibility.append((pos, (move, useDice)))
-                                # break
+                                break
                         else:
                             # RESTRICTII
                             # se verifica daca jucatorul poate face mutari de scoatere a pieselor din joc
@@ -165,7 +207,7 @@ class AILogic:
                                             usedDiceForOutCheckers = useDice
                                         foundOutMove = True
                                         listMovePossibility.append(pos, (move, usedDiceForOutCheckers))
-                                        # break
+                                        break
                                     # pentru poztitiile corespunzatoare zarurilor unde nu sunt piese, se activeaza zona de out a pieselor
                                     # pentru a folosi zarul ramas pentru a scoate ultima piesa disponobila
                                     else:
@@ -181,7 +223,7 @@ class AILogic:
                                                     foundOutMove = True
                                                     usedDiceForOutCheckers = useDice
                                                     listMovePossibility.append(pos, (move, usedDiceForOutCheckers))
-                                                    # break
+                                                    break
                                             position += 1
                                 else:
                                     position = 0 + useDice
@@ -193,7 +235,7 @@ class AILogic:
                                             usedDiceForOutCheckers = useDice
                                         listMovePossibility.append(pos, (move, usedDiceForOutCheckers))
                                         foundOutMove = True
-                                        # break
+                                        break
                                     # pentru poztitiile corespunzatoare zarurilor unde nu sunt piese, se activeaza zona de out a pieselor
                                     # pentru a folosi zarul ramas pentru a scoate ultima piesa disponobila
                                     else:
@@ -209,7 +251,7 @@ class AILogic:
                                                     foundOutMove = True
                                                     usedDiceForOutCheckers = useDice
                                                     listMovePossibility.append(pos, (move, usedDiceForOutCheckers))
-                                                    # break
+                                                    break
                                             position -= 1
             
         return listMovePossibility
