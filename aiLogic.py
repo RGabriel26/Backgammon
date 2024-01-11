@@ -21,9 +21,10 @@ class AILogic:
             QCoreApplication.processEvents()
 
     def launchAI(self) -> None:
-        if self.gameLogic.canMakeMove():
+        if len(self.gameLogic.dices) > 0:
             return self.aiMove()
         else:
+            print('launchAI - NU SE MAI POT REALIZA MUTARI')
             return self.gameLogic.actionCanMakeMove()
 
 
@@ -40,9 +41,58 @@ class AILogic:
         # se va folosit si functia showPossibleMove pentru a afisa pozitiile posibile de pe pozitia de unde urmeaza sa se realizeze mutarea, pentru 
         # ca celalalt jucator sa inteleaga ce se intampla
         # Se va folosi un DELAY pentru a nu se intampla tot instant
+        print('######################### AIMOVE 1 ########################')
         print("AI-ul face mutari...")
         oponentTeam = 'black' if self.teamAI == 'white' else 'white'
+        print(f"Zarurile AI-ului: {self.gameLogic.getDices()}")
 
+        if self.gameLogic.canMakeMove():
+            print("AI-ul poate face mutari!")
+            self.delay(1000)
+
+            # lista de mutari posibile
+            listMovePossibility = self.createMoveList(self.teamAI)
+            # doar de test - afisarea listei de mutari posibile
+            for move in listMovePossibility:
+                print(f"pozitia initiala: {move[0].objectName()}, pozitia finala: {move[1][0]}, zarul folosit: {move[1][1]}")
+
+            # alegerea unei mutari random din lista de mutari posibile
+            move = listMovePossibility[randint(0, len(listMovePossibility) - 1)]
+
+            # extragerea pozitiilor din mutarea aleasa
+            initialPosition = move[0]
+            initialPositionID = self.gameLogic.getPosID(initialPosition.objectName())
+            moveToPositionID = move[1][0]
+            usedDice = move[1][1]
+
+            print(f'informatiile extrase din pozitia aleasa: pozitia initiala: {initialPosition.objectName()}, pozitia finala: {moveToPositionID}, zarul folosit: {usedDice}')
+
+            # pozitionarea unei piese ghost pe pozitia unde AI urmeaza sa mute piesa
+            self.gameLogic.addCheckerToPosition(f'pos{moveToPositionID}', 'ghost')
+            # aplicarea unui delay pentru a se vedea piesa ghost
+            self.delay(500)
+            # stergerea piesei ghost
+            
+            # getLastChecker = getattr(self.layouts, f'pos{moveToPositionID}').count() - 1
+            # getLastChecker = getattr(self.layouts, f'pos{moveToPositionID}').itemAt(getLastChecker).widget().deleteLater()
+            self.gameLogic.deleteGhostCheckers(True)
+            # self.gameLogic.deleteCheckerFromPosition(moveToPositionID)
+
+            # mutarea piesei pe pozitia respectiva
+            self.gameLogic.addCheckerToPosition(f'pos{moveToPositionID}', self.teamAI)
+            # stergerea piesei de pe pozitia initiala
+            self.gameLogic.deleteCheckerFromPosition(initialPositionID)
+
+            # stergerea zarului folosit din lista de zaruri
+            self.gameLogic.dices.remove(usedDice)
+            # stergerea zarului folosit din layoutul zarurilor
+            self.gameLogic.deleteDiceFromLayout(usedDice)
+            print('######################### AIMOVE 2 ########################')
+            return QTimer.singleShot(0, lambda: self.launchAI())
+        else:
+            print("AI-ul nu poate face mutari!")
+            print('######################### AIMOVE 2 ########################')
+            return self.gameLogic.actionCanMakeMove()
 
     def createMoveList(self, team) -> None:
         # lista care va fi returnata cu mutarile posibile de unde ai poate realiza mutari

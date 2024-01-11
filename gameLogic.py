@@ -215,8 +215,7 @@ class GameLogic():
             - click() din checkers.py\n
 
         """
-        self.deleteDiceFromLayout(deleteAll = True)
-        print(f"Este randul jucatorului {self.teamTurn}!")
+        print("########### LOGIC 1 ###########")
 
         # Conditia de win:
         # se verifica din nou pentru a incheia logica jocului in functia logic
@@ -278,13 +277,17 @@ class GameLogic():
                     self.disponibilityPlayerCheckers("black", False)
                 else:
                     self.disponibilityPlayerCheckers("black", True)
+        
+        print(f"Este randul jucatorului {self.teamTurn}!")
             
         self.stylePlayerTurn()
+        print(f'logic - actual turn: {self.turnsCounter}')
         self.turnsCounter += 1
         print(f'logic - next turn: {self.turnsCounter}')
 
         print("A iesit din functia logic")
-        return
+        print("########### LOGIC 2 ###########")
+        # return
 
     # TODO: aici se leaga logica de selectie a tipului de joc cu clasa gamelogic 
     def setGameType(self, gameType) -> None:
@@ -707,7 +710,7 @@ class GameLogic():
                                         return realizableMove
         # print(f"canMakeMove - Jucatorul {self.teamTurn} poate face mutari: {realizableMove}")
         else:
-            print("Nu mai exista zaruri pentru a se realiza mutari.")
+            print("canMakeMove - Nu mai exista zaruri pentru a se realiza mutari.")
         return realizableMove
 
     # TODO: schimba denumirea functiei in ceva mai intuitiv
@@ -764,12 +767,12 @@ class GameLogic():
             countDiceObject = self.layouts.diceLayout.count()
             if countDiceObject > 0:
                 for index in range(countDiceObject):
-                    self.layouts.diceLayout.itemAt(index).widget().hide()
                     self.layouts.diceLayout.itemAt(index).widget().deleteLater()
         if deleteDice:
             for index in range(self.layouts.diceLayout.count()):
                 diceForDelete = self.layouts.diceLayout.itemAt(index).widget()
                 if diceForDelete.objectName() == f"dice{deleteDice}":
+                    diceForDelete.hide()
                     diceForDelete.deleteLater()
                     break
 
