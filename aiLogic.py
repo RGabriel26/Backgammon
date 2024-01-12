@@ -2,11 +2,6 @@ from PyQt6.QtCore import QTimer, QCoreApplication, QElapsedTimer
 
 from random import randint
 
-from checkers import Checkers
-
-from time import sleep
-
-
 class AILogic:
     def __init__(self, gameLogic):
         print('Initializare AI Logic')
@@ -15,12 +10,15 @@ class AILogic:
         self.layouts = self.gameLogic.layouts
 
     def delay(self, milliseconds) -> None:
+        """Ofera posibilitatea de a crea un delay pentru folosind QCoreApplication.processEvents() pentru a nu creea bloccarea interfetei grafice.\n 
+        I-a ca parametru milisecunde = reprezentand timpul dorit pentru delay.\n"""
         timer = QElapsedTimer()
         timer.start()
         while timer.elapsed() < milliseconds:
             QCoreApplication.processEvents()
 
     def launchAI(self) -> None:
+        """Gestioneaza mutarile AI-ului aplicand restrictia cauzata de de lipsa zarurilor.\n"""
         if len(self.gameLogic.dices) > 0:
             return self.aiMove()
         else:
@@ -29,6 +27,12 @@ class AILogic:
 
 
     def aiMove(self) -> None:
+        """Functia care gestioneaza mutarile AI-ului.\n
+        Mutarea pe care AI o realizeaza este aleasa randoom din lista de mutari posibile.\n
+        Lista de mutari posibile este creata in functia createMoveList.\n
+        Lista de mutari posibile este o tupla de forma:\n
+        (pozitie_piesa_initiala, (pozitie_piesa_finala, zarul_folosit))\n\n
+        Tot aici este gestionata restrictiile cand nu se pot realiza mutari."""
         # TODO: implementeaza sistemul de mutari pentru AI
         # Cat timp exista zaruri, aceasta se va reapela
         # aici se verifica daca se pot realiza mutari cu zarurile primite prin functia candMakeMove
@@ -68,26 +72,6 @@ class AILogic:
             print(f'informatiile extrase din pozitia aleasa: pozitia initiala: {initialPosition.objectName()}, pozitia finala: {moveToPositionID}, zarul folosit: {usedDice}')
 
             # LOGICA DE MUTARE A PIESILOR
-
-            # # pozitionarea unei piese ghost pe pozitia unde AI urmeaza sa mute piesa
-            # self.gameLogic.addCheckerToPosition(f'pos{moveToPositionID}', 'ghost')
-            # # aplicarea unui delay pentru a se vedea piesa ghost
-            # self.delay(500)
-            # # stergerea piesei ghost
-            # self.gameLogic.deleteGhostCheckers(True)
-
-            # # stergerea piesei de pe pozitia initiala
-            # # daca piesa initial se afla pe gard, atunci aceasta se sterge din layout-ul respectiv, nu din pos
-            # if initialPositionID == 0:
-            #     self.gameLogic.layouts.fenceWhiteCheckersLayout.itemAt(0).widget().hide()
-            #     self.gameLogic.layouts.fenceWhiteCheckersLayout.itemAt(0).widget().deleteLater()
-            #     self.gameLogic.numberWhiteFenceCheckers -= 1
-            # elif initialPositionID == 25:
-            #     self.gameLogic.layouts.fenceBlackCheckersLayout.itemAt(0).widget().hide()
-            #     self.gameLogic.layouts.fenceBlackCheckersLayout.itemAt(0).widget().deleteLater()
-            #     self.gameLogic.numberBlackFenceCheckers -= 1
-            # else:
-            #     self.gameLogic.deleteCheckerFromPosition(initialPositionID)
 
             # adaugarea piesei pe pozitia mutata a piesei
             # verificare intervalului unde urmeaza sa fie mutata piesa
@@ -159,8 +143,6 @@ class AILogic:
                 # se verifica daca Ai a castigat jocul
                 QTimer.singleShot(0, lambda: self.gameLogic.winConditionFromOutCheckersLayoutClick())
 
-
-
             # stergerea zarului folosit din lista de zaruri
             self.gameLogic.dices.remove(usedDice)
             # stergerea zarului folosit din layoutul zarurilor
@@ -173,6 +155,7 @@ class AILogic:
             return QTimer.singleShot(0, lambda: self.gameLogic.actionCanMakeMove())
 
     def createMoveList(self, team) -> None:
+        """Functia care creeaza lista cu mutari posibile tinand cont de toate restrictiile."""
         # lista care va fi returnata cu mutarile posibile de unde ai poate realiza mutari
         # forma listei: 
         # [pozitie_piesa_initiala, (pozitie_piesa_finala, zarul_folosit)]

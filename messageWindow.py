@@ -3,6 +3,9 @@ from PyQt6.QtCore import Qt, QPoint
 from PyQt6.QtGui import QFont
 
 class MessageWindow():
+    """Clasa care ofera ferestrele cu mesaje din timpul jocului:
+    - mesaj pentru cand nu se poate realiza mutarea cu zarurile disponibile;
+    - mesaj cand castiga unul din jucatori."""
     def __init__(self, parent, gameLogic):
         super().__init__()
         self.parent = parent

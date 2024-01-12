@@ -4,6 +4,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont
 
 class BoxInfoWindow():
+    """Clasa care creeaza fereastra de la inceputul jocului."""
     def __init__(self, parent, gameLogic):
         super().__init__()
         self.parent = parent
@@ -15,6 +16,7 @@ class BoxInfoWindow():
         self.initInfoBox()
         
     def initInfoBox(self):
+        """Functia care inglobeaza ferestrele si gestioneaza paginile de informatii."""
         # Adăugarea QFrame-ului in care vor fi adaugate toate elementele ce contin informatiile
         # de la inceputul jocului
         self.infoBox = QWidget(self.parent, objectName = "infoBox")
@@ -214,6 +216,7 @@ class BoxInfoWindow():
         self.topBoxContainerLayout.setCurrentIndex(page)
 
     def setGameType(self, gameType) -> None:
+        """Functia care seteaza tipul de joc."""
         if gameType == "1v1":
             # a fost selectat jocul 1 vs 1
             self.button1v1.setStyleSheet("image: url(images/activeButton.png); background-color: rgba(0, 0, 0, 0); outline: none; color: black;")
