@@ -22,7 +22,7 @@ class UInterface(QMainWindow):
         # self.showFullScreen()
         self.setFixedSize(self.width, self.height)
         # creat pentru a stoca coordonatele centru ferestrei
-        winCenter = self.geometry().center()
+        # winCenter = self.geometry().center()
 
         # folosit pentru a grupa cele trei containere principala ale ferestrei intr-un mod de afisare orizolntala
         parentLayout = QHBoxLayout()

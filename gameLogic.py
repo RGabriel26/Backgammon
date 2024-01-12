@@ -104,7 +104,6 @@ class GameLogic():
         self.ai = None #crearea variabilei care va stoca instanta clasei AILogic daca este nevoie
         # va fi initializata cu obiectul functie AiLogic din functia setGameType cand se doreste un joc cu calculatorul
 
-    
     def saveDices(self,dices) -> None:
         self.dices = dices
 
