@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QLabel
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QPoint
 from PyQt6.QtGui import QFont
 
 class MessageWindow():
@@ -7,7 +7,15 @@ class MessageWindow():
         super().__init__()
         self.parent = parent
         self.gameLogic = gameLogic
-        centerMainWindow = self.parent.geometry().center()
+        # centerMainWindow = self.parent.geometry().center()
+        # TODO: Doar de test, este un bug cand centrul ferestrei main, uneori este altul.
+        # TODO: BUG
+        centerMainWindow = QPoint(960, 540)
+        # normal ia rezolutia monitorului
+        # metoade de rezolvare: 
+        #  - sa se seteze rezolutia widgetului la rezolutia jocului
+        #  - sa se realizeze link-uirea ferestrelor astfel incat sa se foloseasca dimensiunile ferestrei main
+        print(centerMainWindow)
         self.centerX = centerMainWindow.x() - 430
         self.centerY = centerMainWindow.y() - 175
 

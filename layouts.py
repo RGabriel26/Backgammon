@@ -5,12 +5,45 @@ from checkers import *
 
 # clasa este apelata de clasa gameLogic
 class UILayouts():
+    """Clasa responsabila de crearea layout-urilor pentru ferestra MainWindow."""
     def __init__(self, gameLogic_instance) -> None:
         super().__init__()
         self.gameLogic = gameLogic_instance
         print("initializare layouts...")
 
     def middleLayout(self):
+        """Functia responsabila de toate obiectele grafice din mijlocul ferestrei MainWindow.
+        Ofera legatura cu leyout-urile secundare din mijlocul ferestrei cum ar fi:
+        - self.pos1
+        - self.pos2
+        - self.pos3
+        - self.pos4
+        - self.pos5
+        - self.pos6
+        - self.pos7
+        - self.pos8
+        - self.pos9
+        - self.pos10
+        - self.pos11
+        - self.pos12
+        - self.pos13
+        - self.pos14
+        - self.pos15
+        - self.pos16
+        - self.pos17
+        - self.pos18
+        - self.pos19
+        - self.pos20
+        - self.pos21
+        - self.pos22
+        - self.pos23
+        - self.pos24
+        - self.fenceWhiteCheckersLayout
+        - self.fenceBlackCheckersLayout\n
+        Dar si accesul la liste specifice cu aceste layout-uri, precum:
+        - self.positions -> care ofera o lista cu toate pozitiile enumerate mai sus.
+        - self.buttonPositions -> ofera o lista cu pozitiile din partea de jos a ferestre, pozitiile intre self.pos1 si self.pos12
+        """
         middleContainer = QWidget(objectName = "middleContainer" )
         middlePrincipalLayout = QHBoxLayout()
         ############################################ zona din STANGA ###############################################################
@@ -249,7 +282,11 @@ class UILayouts():
         return middleContainer
 
     def leftContainer(self):
-
+        """Functia responsabila de toate obiectele grafice din partea stanga a ferestrei MainWindow.
+        Ofera legatura cu leyout-urile secundare din partea stanga a ferestrei cum ar fi:
+        - self.diceLayout
+        - self.labelPlayerWhite
+        - self.labelPlayerBlack"""
         leftContainer = QWidget()
         leftContainer.setObjectName("leftContainer")
         leftLayout = QVBoxLayout()
@@ -274,6 +311,14 @@ class UILayouts():
         return leftContainer
 
     def rightContainer(self):
+        """Functia responsabila de toate obiectele grafice din partea dreapta a ferestrei MainWindow.
+        Ofera legatura cu leyout-urile secundare din partea dreapta a ferestrei cum ar fi:
+        - self.outWhiteCheckersLayout
+        - self.outBlackCheckersLayout
+        - self.rollButton
+        - self.outWhiteCheckersContainer
+        - self.outBlackCheckersContainer
+        """
         # piesele scoase de jucatori
             #creara containerului in care se fa crea layout-ul din partea dreapta
         rightContainer = QWidget()

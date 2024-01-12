@@ -152,15 +152,7 @@ class Checkers(QPushButton):
                 # RESTRICTII:
                 # Verificare daca jucatorul poate realiza mutari cu zarurile primite
                 # Tot aici este tratat si cazul cand jucatorul nu mai are zaruri disponibile pentru a realiza mutari
-                if self.gameLogic.canMakeMove() == False:
-                    if len(self.gameLogic.dices) > 0:
-                        # cazul cand mai sunt zaruri disponibile dar nu se mai pot realiza mutari
-                        self.gameLogic.messageWindow.messageBox(1)
-                        QTimer.singleShot(3000, lambda: self.gameLogic.actionAfterMessage())
-                    else:
-                        # czul cand nu mai sunt zaruri disponibile
-                        self.gameLogic.isGlobalCheckerActive = False
-                        self.gameLogic.logic()
+                self.gameLogic.actionCanMakeMove()
 
             # Event de click pentru piesele reale ale jucatorilo
             if self.team != "ghost":

@@ -222,6 +222,7 @@ class BoxInfoWindow():
             self.button1v1.setEnabled(False)
             self.button1vPC.setEnabled(True)
             self.inputPlayer1.setEnabled(True)
+            self.inputPlayer1.setText("")
         elif gameType == "1vPC":
             # a fost selectat jocul 1 vs PC
             self.button1v1.setStyleSheet("image: url(images/inactiveButton.png); background-color: rgba(0, 0, 0, 0); outline: none; color: black;")
