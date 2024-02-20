@@ -46,11 +46,6 @@ class GameLogic():
     # TODO: Task: De implementat un sistem care sa afiseze toate pozitiile posibile de pe piesa selectata folosind 
     # zarurile sau zarul disponibil pe pozitiile care permit mutari si de adaugat piesele ghost in locurile corespunzatoare
 
-    # TODO: Task: De implementat un sistem de jucat cu calculatorul.
-    # buton de selectie a jocului cu calculatorului in box info de la inceputul jocului
-
-    # TODO: Task: DPentru mesajul de wim, sa fie folosit numele jucatorului introdus, nu cel default dictat de echipa.
-
     # TODO: Task: Atunci cand casa unui jucator este blocata cu porti, iar celalalt jucator este blocat pe gard, at rebui evitat apasarea
     # butonului de roll, si doar sa aapara mesajul ca nu mai sunt mutari posible.
 
