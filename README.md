@@ -3,14 +3,13 @@
 
 <p>🚧 The project is about 80% complete, but it's the final touches that truly make it shine. Here's what's left on my to-do list:</p>
 
-🔧<b>Implementing Turn Rotation:</b>
+🔧<b>Implementing Turn Rotation</b>
 
-🏁<b>Visualizing All Possible Moves:</b> 
+🏁<b>Visualizing All Possible Moves</b> 
 
-🎲<b>Determining the First Player:</b>
+🎲<b>Determining the First Player</b>
 
-
-
+</br>
 
 <div alight = "center"> 🎥Here's a quick video guide to my backgammon game!🎥</div>
 
