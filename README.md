@@ -1,4 +1,4 @@
-<center>🎲 Welcome to my first significant Python project! I've delved into the world of PyQt6 to create a simple yet engaging backgammon game.</center>
+<center>🎲 Welcome to my first significant Python project!</br> I've delved into the world of PyQt6 to create a simple yet engaging backgammon game.</center>
 
 🚧 The project is about 80% complete, but it's the final touches that truly make it shine. Here's what's left on my to-do list:
 
