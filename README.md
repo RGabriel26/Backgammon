@@ -1,10 +1,11 @@
-<center>🎲 Welcome to my first significant Python project!</br> I've delved into the world of PyQt6 to create a simple yet engaging backgammon game.</center>
+<div align = "center">🎲 Welcome to my first significant Python project!</br> I've delved into the world of PyQt6 to create a simple yet engaging backgammon game.</div>
+<br>
 
-🚧 The project is about 80% complete, but it's the final touches that truly make it shine. Here's what's left on my to-do list:
+<p>🚧 The project is about 80% complete, but it's the final touches that truly make it shine. Here's what's left on my to-do list:</p>
 
-Implementing Turn Rotation: When players exhaust all possible moves with their current dice roll, it's vital to switch turns to the player who has the right of action. This keeps the game flowing smoothly and ensures fairness.
+🔧 <b>Implementing Turn Rotation:</b> When players exhaust all possible moves with their current dice roll, it's vital to switch turns to the player who has the right of action. This keeps the game flowing smoothly and ensures fairness.
 
-Visualizing All Possible Moves: I aim to enhance user experience by making all potential moves visible, highlighting positions where players can utilize their available dice. This feature adds clarity and excitement to the gameplay.
+<b>Visualizing All Possible Moves:</b> I aim to enhance user experience by making all potential moves visible, highlighting positions where players can utilize their available dice. This feature adds clarity and excitement to the gameplay.
 
 Determining the First Player: Every game needs to start somewhere! I'll be adding a system to determine the starting player, setting the stage for an epic backgammon showdown.
 
