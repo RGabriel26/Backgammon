@@ -13,8 +13,8 @@
 
 
 <div alight = "center"> 🎥Here's a quick video guide to my backgammon game!🎥</div>
-<p alight = "center">[CLICK HERE FOR VIDEO!](https://youtu.be/bGbWQd3Wc18)</p>
 
-In this video, I'll walk you through the features and mechanics of the game, demonstrating how players can strategize, roll the dice, and make their moves on the board.
+[Click here for video](https://youtu.be/bGbWQd3Wc18)
 
-With clear explanations and engaging visuals, you'll quickly grasp the rules and dynamics of backgammon, whether you're a seasoned player or new to the game.
+
+<div alight = "center">With clear explanations and engaging visuals, you'll quickly grasp the rules and dynamics of backgammon, whether you're a seasoned player or new to the game.</div>
