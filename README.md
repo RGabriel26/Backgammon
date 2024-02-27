@@ -1,5 +1,4 @@
-<center>
-  🎲 Welcome to my first significant Python project! I've delved into the world of PyQt6 to create a simple yet engaging backgammon game.
+<center>🎲 Welcome to my first significant Python project! I've delved into the world of PyQt6 to create a simple yet engaging backgammon game.</center>
 
 🚧 The project is about 80% complete, but it's the final touches that truly make it shine. Here's what's left on my to-do list:
 
@@ -18,4 +17,3 @@ With these final touches, my backgammon game will be ready to delight players wi
 In this video, I'll walk you through the features and mechanics of the game, demonstrating how players can strategize, roll the dice, and make their moves on the board.
 
 With clear explanations and engaging visuals, you'll quickly grasp the rules and dynamics of backgammon, whether you're a seasoned player or new to the game.
-</center>
