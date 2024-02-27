@@ -3,17 +3,17 @@
 
 <p>🚧 The project is about 80% complete, but it's the final touches that truly make it shine. Here's what's left on my to-do list:</p>
 
-🔧 <b>Implementing Turn Rotation:</b> When players exhaust all possible moves with their current dice roll, it's vital to switch turns to the player who has the right of action. This keeps the game flowing smoothly and ensures fairness.
+🔧<b>Implementing Turn Rotation:</b>
 
-<b>Visualizing All Possible Moves:</b> I aim to enhance user experience by making all potential moves visible, highlighting positions where players can utilize their available dice. This feature adds clarity and excitement to the gameplay.
+🏁<b>Visualizing All Possible Moves:</b> 
 
-Determining the First Player: Every game needs to start somewhere! I'll be adding a system to determine the starting player, setting the stage for an epic backgammon showdown.
+🎲<b>Determining the First Player:</b>
 
-Squashing Minor Bugs: While the game is already enjoyable, there are a few pesky bugs that need fixing. Nothing major, just minor tweaks to ensure a seamless gaming experience.
 
-With these final touches, my backgammon game will be ready to delight players with its smooth gameplay and polished interface. Let's roll the dice and make this project a winner! 🎲✨
 
-🎥 Check out this explanatory video showcasing the gameplay of my backgammon project!
+
+<div alight = "center"> 🎥Here's a quick video guide to my backgammon game!🎥</div>
+<p alight = "center">[CLICK HERE FOR VIDEO!](https://youtu.be/bGbWQd3Wc18)</p>
 
 In this video, I'll walk you through the features and mechanics of the game, demonstrating how players can strategize, roll the dice, and make their moves on the board.
 
